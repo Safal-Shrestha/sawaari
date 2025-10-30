@@ -35,11 +35,12 @@ public class Parking {
 
     @Column(nullable = false)
     private boolean is_active = true;
+    private String image_link;
 
     public Parking() {}
 
     public Parking(Long owner_id, String owner_name, String location, String address,
-                   int two_wheeler_space_count, int four_wheeler_space_count, boolean is_active) {
+                   int two_wheeler_space_count, int four_wheeler_space_count, boolean is_active, String image_link) {
         this.owner_id = owner_id;
         this.owner_name = owner_name;
         this.location = location;
@@ -47,6 +48,7 @@ public class Parking {
         this.two_wheeler_space_count = two_wheeler_space_count;
         this.four_wheeler_space_count = four_wheeler_space_count;
         this.is_active = is_active;
+        this.image_link = image_link;
     }
 
     // Getters and Setters
@@ -112,5 +114,13 @@ public class Parking {
 
     public void setActive(boolean is_active) {
         this.is_active = is_active;
+    }
+
+    public String getImageLink() {
+        return image_link;
+    }
+
+    public void setImageLink(String image_link) {
+        this.image_link = image_link;
     }
 }

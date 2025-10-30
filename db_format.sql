@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2025 at 09:13 AM
+-- Generation Time: Oct 30, 2025 at 05:07 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -92,7 +92,8 @@ CREATE TABLE `parking` (
   `address` text NOT NULL,
   `two_wheeler_space_count` int(11) DEFAULT 0,
   `is_active` tinyint(1) DEFAULT 1,
-  `four_wheeler_space_count` int(11) DEFAULT 0
+  `four_wheeler_space_count` int(11) DEFAULT 0,
+  `image_link` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

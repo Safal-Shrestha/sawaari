@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ParkEasy - Login</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-color: #1380ec;
+        --secondary-color: #e0effc;
+        --background-color: #f8faff;
+        --text-primary: #1a202c;
+        --text-secondary: #4a5568;
+        --accent-color: #137fec;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-primary);
+      }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-[var(--background-color)]">
+<main class="w-full max-w-md p-6 sm:p-8 lg:p-10">
+<div class="text-center mb-8">
+<a class="flex items-center justify-center gap-2 text-2xl font-bold text-[var(--text-primary)]" href="#">
+<svg class="h-8 w-8 text-[var(--primary-color)]" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M18.92 2.001H5.08C3.38 2.001 2 3.381 2 5.081V18.92c0 1.7 1.38 3.08 3.08 3.08H18.92c1.7 0 3.08-1.38 3.08-3.08V5.081C22 3.381 20.62 2.001 18.92 2.001ZM12 18a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm6-11h-2V5h2v2Z"></path>
+</svg>
+<span>ParkEasy</span>
+</a>
+</div>
+<div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+<div class="text-center mb-6">
+<h1 class="text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-2">Welcome back!</h1>
+<p class="text-base text-[var(--text-secondary)] leading-relaxed">Please enter your details to sign in.</p>
+</div>
+<form class="space-y-6">
+<div>
+<label class="sr-only" for="email">Email</label>
+<input autocomplete="email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition duration-200 ease-in-out text-[var(--text-primary)] placeholder-[var(--text-secondary)]" id="email" name="email" placeholder="Email" required="" type="email"/>
+</div>
+<div>
+<label class="sr-only" for="password">Password</label>
+<input autocomplete="current-password" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition duration-200 ease-in-out text-[var(--text-primary)] placeholder-[var(--text-secondary)]" id="password" name="password" placeholder="Password" required="" type="password"/>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<input class="h-4 w-4 text-[var(--primary-color)] focus:ring-[var(--primary-color)] border-gray-300 rounded" id="remember-me" name="remember-me" type="checkbox"/>
+<label class="ml-2 block text-sm text-[var(--text-secondary)]" for="remember-me"> Remember me </label>
+</div>
+<div class="text-sm">
+<a class="font-medium text-[var(--primary-color)] hover:text-[var(--accent-color)]" href="#"> Forgot your password? </a>
+</div>
+</div>
+<div>
+<button class="w-full bg-[var(--primary-color)] text-white py-3 px-4 rounded-md hover:bg-[var(--accent-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50 transition duration-200 ease-in-out font-semibold" type="submit">
+              Login
+            </button>
+</div>
+</form>
+<div class="mt-6 text-center">
+<p class="text-sm text-[var(--text-secondary)]">
+            Don't have an account?
+            <a class="font-medium text-[var(--primary-color)] hover:text-[var(--accent-color)]" href="#"> Sign up </a>
+</p>
+</div>
+</div>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.querySelector('form'); // Selects your login form
+    if (loginForm) {
+        loginForm.onsubmit = function(e) {
+            e.preventDefault();
+            window.location.href = 'dashboard.html'; // Redirects to dashboard.html
+        };
+    }
+});
+</script>
+</body></html>

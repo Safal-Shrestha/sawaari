@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ParkEasy - Admin Dashboard</title>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope:wght@400;500;700;800" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              display: ["Manrope"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "1rem",
+              xl: "1.5rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* thin, simple scrollbars for dashboard lists */
+      .scrollable { scrollbar-width: thin; scrollbar-color: rgba(99,102,241,0.4) transparent; }
+      .scrollable::-webkit-scrollbar { width: 8px; }
+      .scrollable::-webkit-scrollbar-track { background: transparent; }
+      .scrollable::-webkit-scrollbar-thumb { background-color: rgba(99,102,241,0.4); border-radius: 9999px; }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-[#2C3E50] dark:text-[#E0E0E0]">
+<div class="flex h-screen">
+<aside class="w-64 flex-shrink-0 bg-white dark:bg-[#182431] p-6 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-3 mb-10">
+<div class="p-2 bg-primary rounded">
+<span class="material-symbols-outlined text-white"> local_parking </span>
+</div>
+<h1 class="text-xl font-bold text-[#182431] dark:text-white">ParkEasy</h1>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-primary/10 text-primary font-bold" href="#">
+<span class="material-symbols-outlined"> dashboard </span>
+<span>Dashboard</span>
+</a>
+<!-- Locations option removed -->
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20 dark:hover:text-primary transition-colors duration-200" href="bookings.html">
+<span class="material-symbols-outlined"> confirmation_number </span>
+<span>Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20 dark:hover:text-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined"> group </span>
+<span>Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20 dark:hover:text-primary transition-colors duration-200" href="#">
+<span class="material-symbols-outlined"> assessment </span>
+<span>Reports</span>
+</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDeX_3cBjJELEaMW7lBncdqcQVrQAxRNhdQKFJiawjtMF7oFjWLdHcwHvCcpHMBkJZgw9idz_hb1X9uivgMeR4SNNERgXQo8xwYxV5lLH3H20t1E322NO7tpCLTsGo6jsWbGKmWYG-L2nA2fyV3vO-027XFN5fpmLjDqBB3kwZwgCNCDaXw3idp1xrLUAKrFB_LRFq_i1t_rVFMkL0Iqo93WnS8aKCFabUH1i0JMN8_PVYHP0gS80-NM3bKGWEcR4wnGZMvtSQUzUw");'></div>
+<div>
+<p class="font-bold text-sm text-[#182431] dark:text-white">Admin User</p>
+<p class="text-xs text-[#617589] dark:text-[#9AAFB6]">admin@parkeasy.com</p>
+</div>
+</div>
+</aside>
+<main class="flex-1 overflow-y-auto">
+<div class="p-8 lg:p-12">
+<header class="mb-10">
+<h2 class="text-3xl font-bold text-[#182431] dark:text-white">Dashboard</h2>
+<p class="text-md text-[#617589] dark:text-[#9AAFB6] mt-1">Welcome back, here's an overview of the parking system.</p>
+</header>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<div class="bg-white dark:bg-[#182431] rounded-lg p-6 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-semibold text-[#617589] dark:text-[#9AAFB6]">Total Locations</h3>
+<span class="material-symbols-outlined text-[#617589] dark:text-[#9AAFB6]"> corporate_fare </span>
+</div>
+<p class="text-3xl font-bold text-[#182431] dark:text-white">150</p>
+</div>
+<p class="text-sm text-green-500 flex items-center mt-4">
+<span class="material-symbols-outlined text-base mr-1"> trending_up </span>
+                +10% from last month
+              </p>
+</div>
+<div class="bg-white dark:bg-[#182431] rounded-lg p-6 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-semibold text-[#617589] dark:text-[#9AAFB6]">Occupancy Rate</h3>
+<span class="material-symbols-outlined text-[#617589] dark:text-[#9AAFB6]"> pie_chart </span>
+</div>
+<p class="text-3xl font-bold text-[#182431] dark:text-white">75%</p>
+</div>
+<p class="text-sm text-red-500 flex items-center mt-4">
+<span class="material-symbols-outlined text-base mr-1"> trending_down </span>
+                -5% from last month
+              </p>
+</div>
+<div class="bg-white dark:bg-[#182431] rounded-lg p-6 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-semibold text-[#617589] dark:text-[#9AAFB6]">Total Revenue</h3>
+<span class="material-symbols-outlined text-[#617589] dark:text-[#9AAFB6]"> payments </span>
+</div>
+<p class="text-3xl font-bold text-[#182431] dark:text-white">$12,500</p>
+</div>
+<p class="text-sm text-green-500 flex items-center mt-4">
+<span class="material-symbols-outlined text-base mr-1"> trending_up </span>
+                +15% from last month
+              </p>
+</div>
+<div class="bg-white dark:bg-[#182431] rounded-lg p-6 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-semibold text-[#617589] dark:text-[#9AAFB6]">Active Bookings</h3>
+<span class="material-symbols-outlined text-[#617589] dark:text-[#9AAFB6]"> event_available </span>
+</div>
+<p class="text-3xl font-bold text-[#182431] dark:text-white">300</p>
+</div>
+<p class="text-sm text-green-500 flex items-center mt-4">
+<span class="material-symbols-outlined text-base mr-1"> trending_up </span>
+                +8% from last month
+              </p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+<div class="lg:col-span-1">
+  <h3 class="text-xl font-bold text-[#182431] dark:text-white mb-4">Map</h3>
+  <div class="bg-white dark:bg-[#182431] rounded-lg p-4 flex items-center justify-center">
+    <!-- Inline SVG map placeholder with a red pin. Replace with real map iframe or embed as needed. -->
+    <div class="w-full h-48 max-w-sm rounded overflow-hidden shadow-inner relative">
+      <svg viewBox="0 0 200 120" preserveAspectRatio="xMidYMid slice" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+        <!-- background -->
+        <rect width="100%" height="100%" fill="#e6eef8" />
+        <!-- green park -->
+        <rect x="10" y="70" width="60" height="30" rx="4" fill="#c6f6d5" />
+        <!-- roads -->
+        <rect x="0" y="50" width="200" height="6" fill="#d1d5db" />
+        <rect x="90" y="0" width="6" height="120" fill="#d1d5db" />
+        <!-- buildings -->
+        <rect x="120" y="10" width="60" height="40" rx="3" fill="#f8fafc" stroke="#cbd5e1" />
+        <rect x="20" y="10" width="40" height="30" rx="3" fill="#f8fafc" stroke="#cbd5e1" />
+        <!-- parking lot markers -->
+        <circle cx="150" cy="80" r="3.5" fill="#9CA3AF" />
+        <circle cx="140" cy="85" r="3.5" fill="#9CA3AF" />
+        <circle cx="30" cy="85" r="3.5" fill="#9CA3AF" />
+        <!-- red pin (pin center at 110,40) -->
+        <g transform="translate(110,40)">
+          <path d="M0 -8 C5 -8 8 -4 8 0 C8 7 0 18 0 18 C0 18 -8 7 -8 0 C-8 -4 -5 -8 0 -8 Z" fill="#ef4444" />
+          <circle cx="0" cy="0" r="3" fill="white" />
+        </g>
+      </svg>
+      <div class="absolute left-3 bottom-2 text-xs text-[#617589] dark:text-[#9AAFB6]">Random location</div>
+    </div>
+  </div>
+</div>
+<div class="lg:col-span-2 bg-white dark:bg-[#182431] rounded-lg p-6">
+  <h3 class="text-xl font-bold text-[#182431] dark:text-white mb-4">Recent Activity</h3>
+  <ul class="space-y-4 max-h-56 overflow-y-auto pr-2 scrollable">
+    <li class="flex items-center gap-4">
+      <div class="p-2 bg-green-500/20 rounded-full"><span class="material-symbols-outlined text-green-500"> add_task </span></div>
+      <div><span class="font-bold">New Booking</span> at Downtown Garage by Ethan Carter.</div>
+      <div class="ml-auto text-sm text-[#617589] dark:text-[#9AAFB6]">15m ago</div>
+    </li>
+    <li class="flex items-center gap-4">
+      <div class="p-2 bg-red-500/20 rounded-full"><span class="material-symbols-outlined text-red-500"> cancel </span></div>
+      <div><span class="font-bold">Cancellation</span> for Airport Parking by Olivia Bennett.</div>
+      <div class="ml-auto text-sm text-[#617589] dark:text-[#9AAFB6]">1h ago</div>
+    </li>
+    <li class="flex items-center gap-4">
+      <div class="p-2 bg-blue-500/20 rounded-full"><span class="material-symbols-outlined text-blue-500"> add_business </span></div>
+      <div><span class="font-bold">New Location</span> "Stadium Parking" has been added.</div>
+      <div class="ml-auto text-sm text-[#617589] dark:text-[#9AAFB6]">3h ago</div>
+    </li>
+    <li class="flex items-center gap-4">
+      <div class="p-2 bg-yellow-400/20 rounded-full"><span class="material-symbols-outlined text-yellow-600"> schedule </span></div>
+      <div><span class="font-bold">Schedule Update</span> for Uptown Lot maintenance.</div>
+      <div class="ml-auto text-sm text-[#617589] dark:text-[#9AAFB6]">6h ago</div>
+    </li>
+    <li class="flex items-center gap-4">
+      <div class="p-2 bg-green-500/20 rounded-full"><span class="material-symbols-outlined text-green-500"> verified </span></div>
+      <div><span class="font-bold">Payment Received</span> for BK12345 (Ethan Carter).</div>
+      <div class="ml-auto text-sm text-[#617589] dark:text-[#9AAFB6]">8h ago</div>
+    </li>
+    <li class="flex items-center gap-4">
+      <div class="p-2 bg-red-500/20 rounded-full"><span class="material-symbols-outlined text-red-500"> report_problem </span></div>
+      <div><span class="font-bold">Issue Reported</span> - Gate sensor fault at Downtown Garage.</div>
+      <div class="ml-auto text-sm text-[#617589] dark:text-[#9AAFB6]">1d ago</div>
+    </li>
+  </ul>
+</div>
+</div>
+<div>
+  <h3 class="text-xl font-bold text-[#182431] dark:text-white mb-4">Recent Bookings</h3>
+  <div class="bg-white dark:bg-[#182431] rounded-lg overflow-hidden">
+    <div class="max-h-56 overflow-y-auto scrollable">
+      <table class="w-full text-left">
+        <thead class="bg-background-light dark:bg-background-dark sticky top-0">
+          <tr>
+            <th class="p-4 font-semibold text-sm">Booking ID</th>
+            <th class="p-4 font-semibold text-sm">User</th>
+            <th class="p-4 font-semibold text-sm">Location</th>
+            <th class="p-4 font-semibold text-sm">Date</th>
+            <th class="p-4 font-semibold text-sm text-center">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t border-[#EDF2F7] dark:border-[#2C3E50]">
+            <td class="p-4 font-medium">BK12345</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">Ethan Carter</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">Downtown Garage</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">2024-03-15</td>
+            <td class="p-4 text-center"><span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-green-500/20 text-green-600">Confirmed</span></td>
+          </tr>
+          <tr class="border-t border-[#EDF2F7] dark:border-[#2C3E50]">
+            <td class="p-4 font-medium">BK12346</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">Olivia Bennett</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">Airport Parking</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">2024-03-16</td>
+            <td class="p-4 text-center"><span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-blue-500/20 text-blue-600">Completed</span></td>
+          </tr>
+          <tr class="border-t border-[#EDF2F7] dark:border-[#2C3E50]">
+            <td class="p-4 font-medium">BK12347</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">Noah Thompson</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">Uptown Lot</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">2024-03-17</td>
+            <td class="p-4 text-center"><span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-red-500/20 text-red-600">Cancelled</span></td>
+          </tr>
+          <tr class="border-t border-[#EDF2F7] dark:border-[#2C3E50]">
+            <td class="p-4 font-medium">BK12348</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">Ava Martinez</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">Central Park Lot</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">2024-03-18</td>
+            <td class="p-4 text-center"><span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-green-500/20 text-green-600">Confirmed</span></td>
+          </tr>
+          <tr class="border-t border-[#EDF2F7] dark:border-[#2C3E50]">
+            <td class="p-4 font-medium">BK12349</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">Liam Garcia</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">Harbor Parking</td>
+            <td class="p-4 text-[#617589] dark:text-[#9AAFB6]">2024-03-19</td>
+            <td class="p-4 text-center"><span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-blue-500/20 text-blue-600">Completed</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

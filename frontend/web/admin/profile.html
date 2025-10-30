@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Profile - ParkEasy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0d7ff2",
+            "background-light": "#f5f7f8",
+            "background-dark": "#101922",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-800 px-4 sm:px-6 lg:px-10 py-3 bg-white dark:bg-background-dark sticky top-0 z-10">
+<div class="flex items-center gap-4 text-gray-900 dark:text-white">
+<div class="size-6 text-primary">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">ParkEasy</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-sm font-medium leading-normal text-gray-800 dark:text-gray-300" href="#">Dashboard</a>
+<a class="text-sm font-medium leading-normal text-gray-800 dark:text-gray-300" href="#">Bookings</a>
+<a class="text-sm font-medium leading-normal text-primary dark:text-primary" href="#">Profile</a>
+</nav>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Admin profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCf95yJiUKlVb6yRZUn7q7YfBVb3d2qNsR0Jr2n1YLshaNDNvNFj8rRLKzJBtYKnJ43XWhsLgR_lydIZUg65NFtMEgvXCRbUzXgbki_CzqrmffMbh8F21UwQoYhvpgsGJuWiDW5D_0u-jd28eJHOHFMtM80ADz38gg0K0iIcfSxT1mvR_ttAD0SXruCLPM5G1J2iYKVJD3OZLm_c6fgIAkipYf3uUrxpBfBOUbEYz5ZEV4tcEqD05SGxMeLb6ZckjZb2TWNAxFoaWI");'></div>
+</div>
+</header>
+<main class="flex-1 px-4 sm:px-6 lg:px-10 py-8">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-wrap justify-between gap-4 mb-8">
+<p class="text-4xl font-black leading-tight tracking-[-0.033em] text-gray-900 dark:text-white min-w-72">Admin Profile</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<div class="lg:col-span-1 space-y-6">
+<div class="bg-white dark:bg-gray-900/50 rounded-xl shadow-sm p-6">
+<div class="flex w-full flex-col gap-6">
+<div class="flex flex-col items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-28 w-28 flex-shrink-0" data-alt="Admin profile picture large" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBJRUC-n6qHz52B5ybITxbqSkIFmqYpJR-JG5ImjvP9tvxnNLqofi-DclOxQdmcYBdNRGIC5spMJatX7EZClKQmmLDyV3IbezA6E2lUsbkPpxXUMCllFxwUWGPsKgYhtxsAxFQvg_K97YlKxtzBhK218TGkUbYqbs11gA66Vj7FbgLzczPwHnNjJMkUehlXemZFkOdBSnOVvUaz6Ov6rgzeHj69ZTkXR9rX7WWBsmj7cFbe5L9DCjgR4INcNZqOTorwg-bLjzZF800");'></div>
+<div class="flex flex-col justify-center text-center">
+<p class="text-gray-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">Alex Doe</p>
+<p class="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal">admin@parkeasy.com</p>
+</div>
+</div>
+<div class="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-800">
+<div>
+<label class="text-xs font-medium text-gray-500 dark:text-gray-400">Full Name</label>
+<p class="text-base text-gray-900 dark:text-white">Alexander Doe</p>
+</div>
+<div>
+<label class="text-xs font-medium text-gray-500 dark:text-gray-400">Company</label>
+<p class="text-base text-gray-900 dark:text-white">Doe Parking Solutions</p>
+</div>
+<div>
+<label class="text-xs font-medium text-gray-500 dark:text-gray-400">Phone Number</label>
+<p class="text-base text-gray-900 dark:text-white">+1 234-567-8901</p>
+</div>
+<div>
+<label class="text-xs font-medium text-gray-500 dark:text-gray-400">Bio</label>
+<p class="text-base text-gray-600 dark:text-gray-300">Overseeing all parking lot operations and ensuring a seamless experience for our customers across all ParkEasy locations.</p>
+</div>
+</div>
+<button class="flex w-full min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] mt-2">
+<span class="truncate">Edit Details</span>
+</button>
+</div>
+</div>
+</div>
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-white dark:bg-gray-900/50 rounded-xl shadow-sm">
+<div class="p-6 border-b border-gray-200 dark:border-gray-800">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div>
+<h2 class="text-gray-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">My Parking Lots</h2>
+<p class="text-gray-500 dark:text-gray-400 text-sm font-normal leading-normal pt-1">You currently manage 5 parking lots.</p>
+</div>
+<button class="flex items-center justify-center gap-2 min-w-[84px] cursor-pointer overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] w-full sm:w-auto">
+<span class="material-symbols-outlined text-base">add</span>
+<span class="truncate">Add New Lot</span>
+</button>
+</div>
+</div>
+<div class="p-6 space-y-4">
+<div class="space-y-4">
+<div class="p-4 border border-gray-200 dark:border-gray-800 rounded-lg">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div>
+<p class="font-bold text-gray-900 dark:text-white">Downtown Central Lot</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">123 Main St, Metropolis</p>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300">Open</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-800">
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400">Active Bookings</p>
+<p class="font-semibold text-gray-900 dark:text-white">85</p>
+</div>
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400">Total Capacity</p>
+<p class="font-semibold text-gray-900 dark:text-white">150</p>
+</div>
+</div>
+</div>
+<div class="p-4 border border-gray-200 dark:border-gray-800 rounded-lg">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div>
+<p class="font-bold text-gray-900 dark:text-white">Uptown Garage</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">456 Oak Ave, Gotham</p>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300">Full</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-800">
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400">Active Bookings</p>
+<p class="font-semibold text-gray-900 dark:text-white">200</p>
+</div>
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400">Total Capacity</p>
+<p class="font-semibold text-gray-900 dark:text-white">200</p>
+</div>
+</div>
+</div>
+<div class="p-4 border border-gray-200 dark:border-gray-800 rounded-lg">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div>
+<p class="font-bold text-gray-900 dark:text-white">Riverfront Parking</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">789 Pine Ln, Star City</p>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300">Open</span>
+</div>
+<div class="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-800">
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400">Active Bookings</p>
+<p class="font-semibold text-gray-900 dark:text-white">30</p>
+</div>
+<div>
+<p class="text-xs text-gray-500 dark:text-gray-400">Total Capacity</p>
+<p class="font-semibold text-gray-900 dark:text-white">75</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-800 text-center">
+<button class="w-full sm:w-auto flex items-center justify-center gap-2 min-w-[84px] cursor-pointer overflow-hidden rounded-lg h-10 px-4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-200 dark:hover:bg-gray-700">
+<span>View All 5 Lots</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>

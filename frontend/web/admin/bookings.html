@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ParkEasy - Locations &amp; Bookings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-gray-200">
+<div class="relative flex min-h-screen w-full">
+<!-- SideNavBar -->
+<aside class="flex w-64 flex-col bg-white dark:bg-background-dark dark:border-r dark:border-gray-700 p-4">
+<div class="flex items-center gap-2 px-2 py-4">
+<span class="material-symbols-outlined text-primary text-3xl">local_parking</span>
+<h1 class="text-xl font-bold text-[#111418] dark:text-white">ParkEasy</h1>
+</div>
+<div class="flex h-full flex-col justify-between">
+<div class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="dashbaord.html">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg bg-primary/10 dark:bg-primary/20 px-3 py-2 text-primary dark:text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">pin_drop</span>
+<p class="text-sm font-medium leading-normal">Locations</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<p class="text-sm font-medium leading-normal">Bookings</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">Users</p>
+</a>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Log out</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-6 lg:p-10">
+<div class="mx-auto max-w-4xl">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between gap-3 p-4 mb-6">
+<p class="text-[#111418] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Parking Locations Overview</p>
+</div>
+<!-- Accordions for Locations -->
+<div class="flex flex-col gap-4">
+<!-- Location 1 -->
+<details class="flex flex-col rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm group" open="">
+<summary class="flex cursor-pointer list-none items-center justify-between gap-6 p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">apartment</span>
+<p class="text-[#111418] dark:text-white text-base font-medium leading-normal">City Center Plaza</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm text-gray-500 dark:text-gray-400">3 Active Bookings</span>
+<span class="material-symbols-outlined text-[#111418] dark:text-white transition-transform duration-300 group-open:rotate-180">expand_more</span>
+</div>
+</summary>
+<div class="border-t border-gray-200 dark:border-gray-700 px-4 py-2">
+<!-- Booking List -->
+<div class="flex items-center justify-between gap-4 py-3">
+<div class="flex items-center gap-4">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-primary/20 text-primary">
+<span class="material-symbols-outlined">directions_car</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-base font-medium leading-normal text-[#111418] dark:text-white">Booking ID: #8A4B1C</p>
+<p class="text-sm leading-normal text-[#617589] dark:text-gray-400">User: Alex Johnson</p>
+</div>
+</div>
+<div class="shrink-0"><p class="text-sm font-normal leading-normal text-[#617589] dark:text-gray-400">2 hours</p></div>
+</div>
+<div class="flex items-center justify-between gap-4 py-3">
+<div class="flex items-center gap-4">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-primary/20 text-primary">
+<span class="material-symbols-outlined">directions_car</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-base font-medium leading-normal text-[#111418] dark:text-white">Booking ID: #9F2D5E</p>
+<p class="text-sm leading-normal text-[#617589] dark:text-gray-400">User: Brenda Smith</p>
+</div>
+</div>
+<div class="shrink-0"><p class="text-sm font-normal leading-normal text-[#617589] dark:text-gray-400">45 mins</p></div>
+</div>
+<div class="flex items-center justify-between gap-4 py-3">
+<div class="flex items-center gap-4">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-primary/20 text-primary">
+<span class="material-symbols-outlined">directions_car</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-base font-medium leading-normal text-[#111418] dark:text-white">Booking ID: #7C6E3A</p>
+<p class="text-sm leading-normal text-[#617589] dark:text-gray-400">User: Carl Davis</p>
+</div>
+</div>
+<div class="shrink-0"><p class="text-sm font-normal leading-normal text-[#617589] dark:text-gray-400">5 hours</p></div>
+</div>
+</div>
+</details>
+<!-- Location 2 -->
+<details class="flex flex-col rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm group">
+<summary class="flex cursor-pointer list-none items-center justify-between gap-6 p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">store</span>
+<p class="text-[#111418] dark:text-white text-base font-medium leading-normal">Northside Mall Garage</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm text-gray-500 dark:text-gray-400">1 Active Booking</span>
+<span class="material-symbols-outlined text-[#111418] dark:text-white transition-transform duration-300 group-open:rotate-180">expand_more</span>
+</div>
+</summary>
+<div class="border-t border-gray-200 dark:border-gray-700 px-4 py-2">
+<div class="flex items-center justify-between gap-4 py-3">
+<div class="flex items-center gap-4">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-primary/20 text-primary">
+<span class="material-symbols-outlined">directions_car</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-base font-medium leading-normal text-[#111418] dark:text-white">Booking ID: #B3A1F9</p>
+<p class="text-sm leading-normal text-[#617589] dark:text-gray-400">User: Diana Evans</p>
+</div>
+</div>
+<div class="shrink-0"><p class="text-sm font-normal leading-normal text-[#617589] dark:text-gray-400">1 hour 30 mins</p></div>
+</div>
+</div>
+</details>
+<!-- Location 3 -->
+<details class="flex flex-col rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm group">
+<summary class="flex cursor-pointer list-none items-center justify-between gap-6 p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">flight</span>
+<p class="text-[#111418] dark:text-white text-base font-medium leading-normal">Airport Lot B</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm text-gray-500 dark:text-gray-400">2 Active Bookings</span>
+<span class="material-symbols-outlined text-[#111418] dark:text-white transition-transform duration-300 group-open:rotate-180">expand_more</span>
+</div>
+</summary>
+<div class="border-t border-gray-200 dark:border-gray-700 px-4 py-2">
+<div class="flex items-center justify-between gap-4 py-3">
+<div class="flex items-center gap-4">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-primary/20 text-primary">
+<span class="material-symbols-outlined">directions_car</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-base font-medium leading-normal text-[#111418] dark:text-white">Booking ID: #C8E7D2</p>
+<p class="text-sm leading-normal text-[#617589] dark:text-gray-400">User: Frank Green</p>
+</div>
+</div>
+<div class="shrink-0"><p class="text-sm font-normal leading-normal text-[#617589] dark:text-gray-400">3 days</p></div>
+</div>
+<div class="flex items-center justify-between gap-4 py-3">
+<div class="flex items-center gap-4">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-primary/20 text-primary">
+<span class="material-symbols-outlined">directions_car</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-base font-medium leading-normal text-[#111418] dark:text-white">Booking ID: #D1B9A5</p>
+<p class="text-sm leading-normal text-[#617589] dark:text-gray-400">User: Grace Hill</p>
+</div>
+</div>
+<div class="shrink-0"><p class="text-sm font-normal leading-normal text-[#617589] dark:text-gray-400">1 day</p></div>
+</div>
+</div>
+</details>
+<!-- Location 4 -->
+<details class="flex flex-col rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm group">
+<summary class="flex cursor-pointer list-none items-center justify-between gap-6 p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">corporate_fare</span>
+<p class="text-[#111418] dark:text-white text-base font-medium leading-normal">Downtown Garage</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm text-gray-500 dark:text-gray-400">0 Active Bookings</span>
+<span class="material-symbols-outlined text-[#111418] dark:text-white transition-transform duration-300 group-open:rotate-180">expand_more</span>
+</div>
+</summary>
+<div class="border-t border-gray-200 dark:border-gray-700 px-4 py-4 text-center">
+<p class="text-sm text-gray-500 dark:text-gray-400">No active bookings for this location.</p>
+</div>
+</details>
+<!-- Location 5 -->
+<details class="flex flex-col rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm group">
+<summary class="flex cursor-pointer list-none items-center justify-between gap-6 p-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">train</span>
+<p class="text-[#111418] dark:text-white text-base font-medium leading-normal">West End Station</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm text-gray-500 dark:text-gray-400">1 Active Booking</span>
+<span class="material-symbols-outlined text-[#111418] dark:text-white transition-transform duration-300 group-open:rotate-180">expand_more</span>
+</div>
+</summary>
+<div class="border-t border-gray-200 dark:border-gray-700 px-4 py-2">
+<div class="flex items-center justify-between gap-4 py-3">
+<div class="flex items-center gap-4">
+<div class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-primary/20 text-primary">
+<span class="material-symbols-outlined">directions_car</span>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-base font-medium leading-normal text-[#111418] dark:text-white">Booking ID: #E5F4C3</p>
+<p class="text-sm leading-normal text-[#617589] dark:text-gray-400">User: Henry Ivy</p>
+</div>
+</div>
+<div class="shrink-0"><p class="text-sm font-normal leading-normal text-[#617589] dark:text-gray-400">6 hours</p></div>
+</div>
+</div>
+</details>
+</div>
+<!-- More Button -->
+<div class="mt-8 flex justify-center">
+<button class="flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary/90">
+<span>More...</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+</body></html>

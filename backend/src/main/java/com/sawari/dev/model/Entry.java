@@ -60,7 +60,7 @@ public class Entry {
         this.entry_time = entry_time;
     }
 
-    public boolean isQrVerified() {
+    public boolean getQrVerified() {
         return qr_verified;
     }
 

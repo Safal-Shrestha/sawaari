@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2025 at 05:07 PM
+-- Generation Time: Nov 18, 2025 at 03:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -87,14 +87,22 @@ CREATE TABLE `entry` (
 CREATE TABLE `parking` (
   `parking_id` bigint(20) NOT NULL,
   `owner_id` bigint(20) NOT NULL,
-  `owner_name` varchar(200) NOT NULL,
   `location` varchar(350) NOT NULL,
   `address` text NOT NULL,
   `two_wheeler_space_count` int(11) DEFAULT 0,
   `is_active` tinyint(1) DEFAULT 1,
   `four_wheeler_space_count` int(11) DEFAULT 0,
-  `image_link` longtext NOT NULL
+  `image_link` varchar(255) DEFAULT NULL,
+  `owner_name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `parking`
+--
+
+INSERT INTO `parking` (`parking_id`, `owner_id`, `location`, `address`, `two_wheeler_space_count`, `is_active`, `four_wheeler_space_count`, `image_link`, `owner_name`) VALUES
+(1, 2, 'Dhumbarahi', 'Dhumbarahi, Kathmandu', 20, 1, 10, 'https://images.squarespace-cdn.com/content/v1/5e2f2c9ca1e8e420307e5fb0/4e84ed7f-69fb-4bab-acec-1f53f99f0bdb/Parking+lot+full+of+cars+1893843900-Web.jpg?format=1500w', ''),
+(2, 6, 'Bungamati', 'Bungamati, Lalitpur-22', 15, 1, 5, 'https://platform.vox.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/24641249/GettyImages_1354859135__1_.jpg?quality=90&strip=all&crop=0.036603221083453%2C0%2C99.926793557833%2C100&w=1920', '');
 
 -- --------------------------------------------------------
 
@@ -106,9 +114,9 @@ CREATE TABLE `payment` (
   `payment_id` bigint(20) NOT NULL,
   `booking_id` bigint(20) NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `base_price` decimal(10,2) DEFAULT 0.00,
-  `fine_amount` decimal(10,2) DEFAULT 0.00,
-  `total_amount` decimal(10,2) DEFAULT 0.00,
+  `base_price` double NOT NULL,
+  `fine_amount` double NOT NULL,
+  `total_amount` double NOT NULL,
   `payment_method` enum('esewa') NOT NULL,
   `payment_status` enum('PENDING','COMPLETED','FAILED','REFUNDED') DEFAULT 'PENDING',
   `payment_date` datetime DEFAULT NULL,
@@ -125,9 +133,9 @@ CREATE TABLE `payment` (
 CREATE TABLE `pricing` (
   `price_id` bigint(20) NOT NULL,
   `parking_id` bigint(20) NOT NULL,
-  `vehicle_type` enum('TWO_WHEELER','FOUR_WHEELER') NOT NULL,
-  `rate_per_hour` decimal(10,2) NOT NULL,
-  `overtime_rate_per_hour` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `vehicle_type` varchar(255) DEFAULT NULL,
+  `rate_per_hour` double DEFAULT NULL,
+  `overtime_rate_per_hour` double DEFAULT NULL,
   `grace_period_minutes` int(11) DEFAULT 15
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -140,8 +148,8 @@ CREATE TABLE `pricing` (
 CREATE TABLE `slot` (
   `slot_id` bigint(20) NOT NULL,
   `parking_id` bigint(20) NOT NULL,
-  `slot_number` varchar(10) NOT NULL,
-  `slot_type` enum('TWO_WHEELER','FOUR_WHEELER') NOT NULL,
+  `slot_number` bigint(20) DEFAULT NULL,
+  `slot_type` varchar(255) DEFAULT NULL,
   `is_occupied` tinyint(1) DEFAULT 0,
   `is_reserved` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -170,7 +178,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `full_name`, `dob`, `gender`, `contact`, `country`, `role`, `email`, `password`) VALUES
-(2, 'sarthak3051', 'sarthak kafle', '2005-10-20', 'male', 9861135804, 'Nepal', 'GENERAL_USER', 'sarthakkafle8@gmail.com', 'coXIncGoLtxWZjjhxhnMLA==');
+(2, 'sarthak3051', 'sarthak kafle', '2005-10-20', 'male', 9861135804, 'Nepal', 'GENERAL_USER', 'sarthakkafle8@gmail.com', 'coXIncGoLtxWZjjhxhnMLA=='),
+(6, 'safal05', 'Safal Shrestha', '2005-06-19', 'male', 9861135804, 'Nepal', 'ADMIN', 'shressafal05@gmail.com', 'safal05');
 
 -- --------------------------------------------------------
 
@@ -180,7 +189,7 @@ INSERT INTO `users` (`user_id`, `user_name`, `full_name`, `dob`, `gender`, `cont
 
 CREATE TABLE `vehicle` (
   `v_id` varchar(50) NOT NULL,
-  `v_model` enum('CAR','BIKE') NOT NULL,
+  `v_model` varchar(255) NOT NULL,
   `user_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -289,7 +298,7 @@ ALTER TABLE `entry`
 -- AUTO_INCREMENT for table `parking`
 --
 ALTER TABLE `parking`
-  MODIFY `parking_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `parking_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `payment`
@@ -313,7 +322,7 @@ ALTER TABLE `slot`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

@@ -34,14 +34,14 @@ public class AddNewParking {
         @RequestParam("two_wheeler_space_count") int twoWheelerSpaceCount,
         @RequestParam("is_active") boolean isActive,
         @RequestParam("four_wheeler_space_count") int fourWheelerSpaceCount,
-        @RequestParam("image_link") MultipartFile parkingImage
+        @RequestParam("image") MultipartFile parkingImage
     ) throws IOException {
         if(parkingImage.isEmpty()) {
             throw new RuntimeException("Image is empty");
         }
 
         String imageName = UUID.randomUUID() + "_" + parkingImage.getOriginalFilename();
-        String uploadDir = new File("src/main/resources/static/parking_lot_image").getAbsolutePath();
+        String uploadDir = new File("src/main/resources/static/parking_lot_images").getAbsolutePath();
         File destinationFile = new File(uploadDir + File.separator + imageName);
         parkingImage.transferTo(destinationFile);
 
@@ -49,7 +49,7 @@ public class AddNewParking {
         parking.setActive(isActive);
         parking.setAddress(paddress);
         parking.setFourWheelerSpaceCount(fourWheelerSpaceCount);
-        parking.setImageLink("http://localhost:8080/parking_lot_images" + imageName);
+        parking.setImageLink("http://localhost:8080/parking_lot_images/" + imageName);
         parking.setTwoWheelerSpaceCount(twoWheelerSpaceCount);
         parking.setLocation(plocation);
         parking.setOwnerId(ownerId);

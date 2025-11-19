@@ -10,16 +10,12 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "parking")
 public class Parking {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long parking_id;
 
     @Column(nullable = false)
     private Long owner_id;
-
-    @Column(nullable = false, length = 200)
-    private String owner_name;
 
     @Column(nullable = false, length = 350)
     private String location;
@@ -39,10 +35,9 @@ public class Parking {
 
     public Parking() {}
 
-    public Parking(Long owner_id, String owner_name, String location, String address,
+    public Parking(Long owner_id, String location, String address,
                    int two_wheeler_space_count, int four_wheeler_space_count, boolean is_active, String image_link) {
         this.owner_id = owner_id;
-        this.owner_name = owner_name;
         this.location = location;
         this.address = address;
         this.two_wheeler_space_count = two_wheeler_space_count;
@@ -66,14 +61,6 @@ public class Parking {
 
     public void setOwnerId(Long owner_id) {
         this.owner_id = owner_id;
-    }
-
-    public String getOwnerName() {
-        return owner_name;
-    }
-
-    public void setOwnerName(String owner_name) {
-        this.owner_name = owner_name;
     }
 
     public String getLocation() {

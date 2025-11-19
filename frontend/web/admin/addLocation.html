@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add New Parking Location - ParkEasy Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<div class="flex-shrink-0 w-64 bg-white dark:bg-background-dark border-r border-[#dbe0e6] dark:border-gray-700">
+<div class="flex h-full min-h-[700px] flex-col justify-between p-4">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 px-3 py-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="ParkEasy company logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAL7pVoW9TBuKufVApfW26teI38tPqlLJ9pjDnxmwFv-E8AkSxkKVj1-tTBGD13MTo7-QZ2mCzxe6HHKm5VgiI4DJrS8F66yjME3e7aiObTPSxMAcVvRv0xw6Mc0tDPPFJvS8ROO2PzHbFOS8bwJO-NPBfYfQ23YxNE8HcnBep3iIU3NRy27DowQ5DUqFD62SAGMAZZsejU8Xemf1DeWAyqIOY1yqsrcbp1JwgZy1XQyEy1K3wB_Iz6Hyd7zktYMlQwxZvGCIdckxk");'></div>
+<div class="flex flex-col">
+<h1 class="text-[#111418] dark:text-white text-base font-bold leading-normal">ParkEasy</h1>
+<p class="text-[#617589] dark:text-gray-400 text-sm font-normal leading-normal">Admin Panel</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20" href="dashbaord.html">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20" href="#">
+<span class="material-symbols-outlined">place</span>
+<p class="text-sm font-medium leading-normal">Manage Locations</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary dark:bg-primary/20" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_location_alt</span>
+<p class="text-sm font-medium leading-normal">Add Location</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20" href="#">
+<span class="material-symbols-outlined">group</span>
+<p class="text-sm font-medium leading-normal">Users</p>
+</a>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Log out</p>
+</a>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<main class="flex-1 p-8">
+<div class="max-w-4xl mx-auto">
+<!-- Page Heading -->
+<div class="flex flex-wrap justify-between gap-3 pb-6">
+<p class="text-[#111418] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] min-w-72">Add New Parking Location</p>
+</div>
+<!-- Form Container -->
+<div class="bg-white dark:bg-background-dark/50 rounded-xl p-6 md:p-8">
+<form action="#" method="POST">
+<!-- Location Details Section -->
+<div>
+<h2 class="text-[#111418] dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-5">Location Details</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="flex flex-col col-span-1">
+<p class="text-[#111418] dark:text-gray-200 text-base font-medium leading-normal pb-2">Location Name</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-background-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-700 bg-white focus:border-primary h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal" placeholder="e.g., Downtown Central Garage" required="" type="text" value=""/>
+</label>
+<label class="flex flex-col col-span-1">
+<p class="text-[#111418] dark:text-gray-200 text-base font-medium leading-normal pb-2">Full Address</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-background-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-700 bg-white focus:border-primary h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal" placeholder="e.g., 123 Main St, Anytown, USA" required="" type="text" value=""/>
+</label>
+</div>
+</div>
+<!-- Divider -->
+<hr class="my-8 border-t border-[#dbe0e6] dark:border-gray-700"/>
+<!-- Slot Allocation Section -->
+<div>
+<h2 class="text-[#111418] dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-5">Slot Allocation</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<label class="flex flex-col col-span-1">
+<p class="text-[#111418] dark:text-gray-200 text-base font-medium leading-normal pb-2">Available Car Slots</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-background-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-700 bg-white focus:border-primary h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal" placeholder="e.g., 450" required="" type="number" value=""/>
+</label>
+<label class="flex flex-col col-span-1">
+<p class="text-[#111418] dark:text-gray-200 text-base font-medium leading-normal pb-2">Available Bike Slots</p>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-background-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-700 bg-white focus:border-primary h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal" placeholder="e.g., 50" required="" type="number" value=""/>
+</label>
+</div>
+</div>
+<!-- Form Actions -->
+<div class="flex justify-end gap-4 mt-10">
+<button class="flex items-center justify-center rounded-lg px-6 py-3.5 text-base font-semibold leading-normal text-[#111418] dark:text-white bg-[#f0f2f4] dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors" type="button">Cancel</button>
+<button class="flex items-center justify-center rounded-lg px-6 py-3.5 text-base font-semibold leading-normal text-white bg-primary hover:bg-primary/90 transition-colors" type="submit">Add Location</button>
+</div>
+</form>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

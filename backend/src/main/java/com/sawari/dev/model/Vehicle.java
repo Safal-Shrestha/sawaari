@@ -1,7 +1,11 @@
 package com.sawari.dev.model;
 
+import com.sawari.dev.dbtypes.VehicleModel;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,13 +19,15 @@ public class Vehicle {
     private String v_id;
 
     @Column(nullable = false)
-    private String v_model;
     private Long user_id;
+
+    @Enumerated(EnumType.STRING)
+    private VehicleModel v_model;
 
     // Constructors
     public Vehicle() {}
 
-    public Vehicle(String v_model, Long user_id) {
+    public Vehicle(VehicleModel v_model, Long user_id) {
         this.v_model = v_model;
         this.user_id = user_id;
     }
@@ -31,11 +37,11 @@ public class Vehicle {
         return v_id;
     }
 
-    public String getVehicleModel() {
+    public VehicleModel getVehicleModel() {
         return v_model;
     }
 
-    public void setVehicleModel(String v_model) {
+    public void setVehicleModel(VehicleModel v_model) {
         this.v_model = v_model;
     }
 

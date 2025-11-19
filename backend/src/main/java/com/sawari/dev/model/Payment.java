@@ -1,5 +1,8 @@
 package com.sawari.dev.model;
 
+import com.sawari.dev.dbtypes.PaymentMethod;
+import com.sawari.dev.dbtypes.PaymentStatus;
+
 import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
@@ -47,17 +50,6 @@ public class Payment {
 
     @Column(nullable = false)
     private boolean fine_payment = false;
-
-
-    public enum PaymentMethod {
-        esewa
-    }
-
-  
-    public enum PaymentStatus {
-        PENDING, COMPLETED, FAILED, REFUNDED
-    }
-
 
     public Payment() {}
 

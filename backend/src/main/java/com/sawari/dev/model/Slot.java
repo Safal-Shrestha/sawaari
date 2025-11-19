@@ -1,7 +1,11 @@
 package com.sawari.dev.model;
 
+import com.sawari.dev.dbtypes.VehicleModel;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,14 +21,16 @@ public class Slot {
     @Column(nullable = false)
     private Long parking_id;
     private Long slot_number;
-    private String slot_type;
     private Boolean is_occupied;
     private Boolean is_reserved;
+
+    @Enumerated(EnumType.STRING)
+    private VehicleModel slot_type;
 
     // Constructors
     public Slot() {}
 
-    public Slot(Long parking_id, Long slot_number, String slot_type, Boolean is_occupied, Boolean is_reserved) {
+    public Slot(Long parking_id, Long slot_number, VehicleModel slot_type, Boolean is_occupied, Boolean is_reserved) {
         this.parking_id = parking_id;
         this.slot_number = slot_number;
         this.slot_type = slot_type;
@@ -53,11 +59,11 @@ public class Slot {
         this.slot_number = slot_number;
     }
 
-    public String getSlotType() {
+    public VehicleModel getSlotType() {
         return slot_type;
     }
 
-    public void setSlotType(String slot_type) {
+    public void setSlotType(VehicleModel slot_type) {
         this.slot_type = slot_type;
     }
 

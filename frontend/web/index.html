@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>ParkEasy - Login</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <style type="text/tailwindcss">
       :root {
@@ -38,14 +39,27 @@
 <h1 class="text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-2">Welcome back!</h1>
 <p class="text-base text-[var(--text-secondary)] leading-relaxed">Please enter your details to sign in.</p>
 </div>
-<form class="space-y-6">
+
+<!-- Error/Success Message Display -->
+<div id="messageBox" class="hidden mt-4 p-4 rounded-lg"></div>
+
+<form id="loginForm" class="space-y-6">
 <div>
 <label class="sr-only" for="email">Email</label>
-<input autocomplete="email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition duration-200 ease-in-out text-[var(--text-primary)] placeholder-[var(--text-secondary)]" id="email" name="email" placeholder="Email" required="" type="email"/>
+<input autocomplete="email" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition duration-200 ease-in-out text-[var(--text-primary)] placeholder-[var(--text-secondary)]" id="email" name="email" placeholder="Email" type="email"/>
 </div>
 <div>
 <label class="sr-only" for="password">Password</label>
-<input autocomplete="current-password" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition duration-200 ease-in-out text-[var(--text-primary)] placeholder-[var(--text-secondary)]" id="password" name="password" placeholder="Password" required="" type="password"/>
+<div class="relative">
+<input autocomplete="current-password" class="w-full p-3 pr-12 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition duration-200 ease-in-out text-[var(--text-primary)] placeholder-[var(--text-secondary)]" id="password" name="password" placeholder="Password" type="password"/>
+<button type="button" onclick="togglePassword('password', 'eyeIcon')" 
+    class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700">
+    <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+    </svg>
+</button>
+</div>
 </div>
 <div class="flex items-center justify-between">
 <div class="flex items-center">
@@ -70,15 +84,7 @@
 </div>
 </div>
 </main>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.querySelector('form'); // Selects your login form
-    if (loginForm) {
-        loginForm.onsubmit = function(e) {
-            e.preventDefault();
-            window.location.href = 'dashboard.html'; // Redirects to dashboard.html
-        };
-    }
-});
-</script>
-</body></html>
+
+<script src="login.js"></script>
+</body>
+</html>

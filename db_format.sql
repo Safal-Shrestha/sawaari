@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2025 at 03:47 PM
+-- Generation Time: Nov 18, 2025 at 05:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -92,17 +92,16 @@ CREATE TABLE `parking` (
   `two_wheeler_space_count` int(11) DEFAULT 0,
   `is_active` tinyint(1) DEFAULT 1,
   `four_wheeler_space_count` int(11) DEFAULT 0,
-  `image_link` varchar(255) DEFAULT NULL,
-  `owner_name` varchar(200) NOT NULL
+  `image_link` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `parking`
 --
 
-INSERT INTO `parking` (`parking_id`, `owner_id`, `location`, `address`, `two_wheeler_space_count`, `is_active`, `four_wheeler_space_count`, `image_link`, `owner_name`) VALUES
-(1, 2, 'Dhumbarahi', 'Dhumbarahi, Kathmandu', 20, 1, 10, 'https://images.squarespace-cdn.com/content/v1/5e2f2c9ca1e8e420307e5fb0/4e84ed7f-69fb-4bab-acec-1f53f99f0bdb/Parking+lot+full+of+cars+1893843900-Web.jpg?format=1500w', ''),
-(2, 6, 'Bungamati', 'Bungamati, Lalitpur-22', 15, 1, 5, 'https://platform.vox.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/24641249/GettyImages_1354859135__1_.jpg?quality=90&strip=all&crop=0.036603221083453%2C0%2C99.926793557833%2C100&w=1920', '');
+INSERT INTO `parking` (`parking_id`, `owner_id`, `location`, `address`, `two_wheeler_space_count`, `is_active`, `four_wheeler_space_count`, `image_link`) VALUES
+(1, 2, 'Dhumbarahi', 'Dhumbarahi, Kathmandu', 20, 1, 10, 'https://images.squarespace-cdn.com/content/v1/5e2f2c9ca1e8e420307e5fb0/4e84ed7f-69fb-4bab-acec-1f53f99f0bdb/Parking+lot+full+of+cars+1893843900-Web.jpg?format=1500w'),
+(2, 6, 'Bungamati', 'Bungamati, Lalitpur-22', 15, 1, 5, 'https://platform.vox.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/24641249/GettyImages_1354859135__1_.jpg?quality=90&strip=all&crop=0.036603221083453%2C0%2C99.926793557833%2C100&w=1920');
 
 -- --------------------------------------------------------
 
@@ -165,10 +164,10 @@ CREATE TABLE `users` (
   `user_name` varchar(255) NOT NULL,
   `full_name` varchar(255) DEFAULT NULL,
   `dob` date DEFAULT NULL,
-  `gender` varchar(255) DEFAULT NULL,
+  `gender` enum('male','female') DEFAULT NULL,
   `contact` bigint(20) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
-  `role` varchar(255) DEFAULT NULL,
+  `role` enum('GENERAL_USER','ADMIN','PARKING_OWNER') DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

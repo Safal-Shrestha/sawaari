@@ -2,8 +2,13 @@ package com.sawari.dev.model;
 
 import java.sql.Date;
 
+import com.sawari.dev.dbtypes.Gender;
+import com.sawari.dev.dbtypes.UserRole;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,7 +17,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "users")
 public class Users {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -25,17 +29,21 @@ public class Users {
     private String fullName;
     
     private Date dob; 
-    private String gender;
     private Long contact;
     private String country;
-    private String role;
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     // Constructors
     public Users() {}
 
-    public Users(String userName, String fullName, Date dob, String gender, Long contact, String country, String role, String email, String password) {
+    public Users(String userName, String fullName, Date dob, Gender gender, Long contact, String country, UserRole role, String email, String password) {
         this.userName = userName;
         this.fullName = fullName;
         this.dob = dob;
@@ -80,11 +88,11 @@ public class Users {
         this.dob = dob;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -104,11 +112,11 @@ public class Users {
         this.country = country;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

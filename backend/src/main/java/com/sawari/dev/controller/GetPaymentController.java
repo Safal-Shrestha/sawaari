@@ -19,7 +19,7 @@ public class GetPaymentController {
         this.paymentRepository = paymentRepository;
     }
 
-    // GET
+   
     @GetMapping("/paymentInfo")
     public List<Payment> getAllPayments() {
         return paymentRepository.findAll();

@@ -15,11 +15,15 @@ public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @Column(nullable = false)
-    private String user_name;
-    private String full_name;
+    @Column(name = "user_name", nullable = false)  // Maps to database column user_name
+    private String userName;  // Java field name in camelCase
+    
+    @Column(name = "full_name")
+    private String fullName;
+    
     private Date dob; 
     private String gender;
     private Long contact;
@@ -28,13 +32,12 @@ public class Users {
     private String email;
     private String password;
 
-
     // Constructors
     public Users() {}
 
-    public Users(String user_name, String full_name, Date dob, String gender, Long contact, String country, String role, String email, String password) {
-        this.user_name = user_name;
-        this.full_name = full_name;
+    public Users(String userName, String fullName, Date dob, String gender, Long contact, String country, String role, String email, String password) {
+        this.userName = userName;
+        this.fullName = fullName;
         this.dob = dob;
         this.gender = gender;
         this.contact = contact;
@@ -45,24 +48,28 @@ public class Users {
     }
 
     // Getters and Setters
-    public Long getId() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
-        return user_name;
+        return userName;
     }
 
-    public void setUserName(String user_name) {
-        this.user_name = user_name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getFullName() {
-        return full_name;
+        return fullName;
     }
 
-    public void setFullName(String full_name) {
-        this.full_name = full_name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Date getDob() {

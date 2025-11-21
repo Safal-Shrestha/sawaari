@@ -1,4 +1,4 @@
-package com.sawari.dev.controller;
+package com.sawari.dev.Auth;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +36,7 @@ public class LoginController {
             
             Users user = userRepository.findByEmail(loginUser.getEmail());
        
-            if (user != null && user.getPassword().equals(loginUser.getPassword())) {
+            if (user != null && EncryptinAndDecryption.decrypt(user.getPassword()).equals(loginUser.getPassword())) {
                 // Login successful
                 return ResponseEntity.ok("success");
             } 

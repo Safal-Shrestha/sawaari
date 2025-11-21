@@ -1,4 +1,4 @@
-package com.sawari.dev.controller;
+package com.sawari.dev.Auth;
 
 import java.util.List;
 
@@ -89,6 +89,8 @@ public class UsersController {
                 return ResponseEntity.badRequest()
                         .body("Password must be 8+ chars, contain uppercase, number and special char");
             }
+             
+            newUser.setPassword(EncryptinAndDecryption.encryption(newUser.getPassword()));
 
             userRepository.save(newUser);
 

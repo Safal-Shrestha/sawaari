@@ -1,4 +1,5 @@
-package com.sawari.dev.Auth;
+package com.sawari.dev.auth;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,10 +13,10 @@ import com.sawari.dev.repository.UsersRepository;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
-public class LoginController {
+public class Login {
     private final UsersRepository userRepository;
 
-    public LoginController(UsersRepository usersRepository){
+    public Login(UsersRepository usersRepository){
         this.userRepository = usersRepository;
     }
     

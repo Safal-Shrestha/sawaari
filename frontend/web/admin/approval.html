@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ParkEasy - Manage Owners</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0d7ff2",
+              "background-light": "#f5f7f8",
+              "background-dark": "#101922",
+              "success": "#28a745",
+              "warning": "#ffc107",
+              "danger": "#dc3545",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.25rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex min-h-screen w-full">
+<!-- Side Navigation -->
+<aside class="flex w-64 flex-col bg-white dark:bg-background-dark dark:border-r dark:border-gray-700 p-4">
+<div class="flex h-full flex-col justify-between">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 bg-primary" data-alt="ParkEasy Logo"></div>
+<div class="flex flex-col">
+<h1 class="text-[#111418] dark:text-white text-base font-medium leading-normal">ParkEasy</h1>
+<p class="text-[#60758a] dark:text-gray-400 text-sm font-normal leading-normal">Admin Panel</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 text-[#60758a] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<p class="text-sm font-medium leading-normal">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 dark:bg-primary/20 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+<p class="text-sm font-medium leading-normal">Manage Owners</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-[#60758a] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">local_parking</span>
+<p class="text-sm font-medium leading-normal">Parking Lots</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-[#60758a] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<p class="text-sm font-medium leading-normal">Analytics</p>
+</a>
+</nav>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-[#60758a] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<p class="text-sm font-medium leading-normal">Settings</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-[#60758a] dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg" href="#">
+<span class="material-symbols-outlined">logout</span>
+<p class="text-sm font-medium leading-normal">Logout</p>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-6 lg:p-10">
+<div class="flex flex-col w-full max-w-7xl mx-auto gap-6">
+<!-- Page Heading -->
+<header>
+<div class="flex flex-wrap justify-between gap-4 items-center">
+<div class="flex min-w-72 flex-col gap-2">
+<h1 class="text-[#111418] dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">Owner Management</h1>
+<p class="text-[#60758a] dark:text-gray-400 text-base font-normal leading-normal">Approve new registrations and manage existing parking lot owners.</p>
+</div>
+<button class="flex h-12 items-center justify-center gap-x-2 rounded-lg bg-primary px-6 text-base font-bold text-white">
+<span class="material-symbols-outlined">add</span>
+<span>Add New Owner</span>
+</button>
+</div>
+</header>
+<!-- Tabs Navigation -->
+<div class="pb-3 border-b border-[#dbe0e6] dark:border-gray-700">
+<div class="flex gap-8">
+<a class="relative flex items-center justify-center text-primary pb-3.5 pt-4" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Pending Approvals</p>
+<div class="absolute bottom-0 h-1 w-full bg-primary rounded-t-full"></div>
+</a>
+<a class="flex items-center justify-center text-[#60758a] dark:text-gray-400 pb-3.5 pt-4" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">All Owners</p>
+</a>
+</div>
+</div>
+<!-- Search and Filters -->
+<div class="flex flex-wrap items-center gap-4">
+<div class="flex-grow">
+<label class="flex flex-col min-w-40 h-12 w-full">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-[#60758a] dark:text-gray-400 flex bg-white dark:bg-background-dark items-center justify-center pl-4 rounded-l-lg border border-gray-200 dark:border-gray-700 border-r-0">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-[#111418] dark:text-white focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-gray-200 dark:border-gray-700 bg-white dark:bg-background-dark h-full placeholder:text-[#60758a] px-4 border-l-0 text-base font-normal leading-normal" placeholder="Search by owner name or ID..."/>
+</div>
+</label>
+</div>
+<div class="flex gap-3">
+<button class="flex h-12 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 px-4">
+<p class="text-[#111418] dark:text-white text-sm font-medium leading-normal">Status: All</p>
+<span class="material-symbols-outlined text-[#60758a] dark:text-gray-400">expand_more</span>
+</button>
+<button class="flex h-12 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 px-4">
+<span class="material-symbols-outlined text-[#60758a] dark:text-gray-400">filter_list</span>
+<p class="text-[#111418] dark:text-white text-sm font-medium leading-normal">Filters</p>
+</button>
+</div>
+</div>
+<!-- Pending Approvals Content -->
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Owner Card 1 -->
+<div class="flex flex-col rounded-xl bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+<div class="p-6">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12" data-alt="Profile picture of Sarah Johnson" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA-Z5aE8057m6ZQFaBIyYnIGQ4fIk88CbPFvK5nNiiWF6AmXjldGrI-4EdqYqht1_LhG1CNIe5SpG75uqfh3KwIBuw9bngSuT97VsC07hpSEf_9kkYjMc5YV4DCoX4awcUEcDTedNcGlt5lbGOW6UNzHRN73RaZ6JQMvcOBAp7et4KGvFul8kpg_y_v1hNhTcowet3HaWuTB963x3apqfMrNQ9V3Bdw5OcGzF_MBjbsh6CXfxsXiMllzJ0S2JT0il83dPLMA500MyU');"></div>
+<div class="flex-1">
+<h3 class="text-lg font-bold text-[#111418] dark:text-white">Sarah Johnson</h3>
+<p class="text-sm text-[#60758a] dark:text-gray-400">sarah.j@innovateparking.com</p>
+</div>
+</div>
+<div class="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4 space-y-2">
+<p class="text-sm text-[#60758a] dark:text-gray-400">Company: <span class="font-medium text-[#111418] dark:text-white">Innovate Parking Solutions</span></p>
+<p class="text-sm text-[#60758a] dark:text-gray-400">Applied on: <span class="font-medium text-[#111418] dark:text-white">Oct 26, 2023</span></p>
+<a class="text-sm text-primary hover:underline" href="#">View Documents</a>
+</div>
+</div>
+<div class="grid grid-cols-2 border-t border-gray-200 dark:border-gray-700">
+<button class="flex h-14 items-center justify-center gap-x-2 font-bold text-danger hover:bg-danger/10">
+<span class="material-symbols-outlined">close</span>
+<span>Reject</span>
+</button>
+<button class="flex h-14 items-center justify-center gap-x-2 font-bold text-success hover:bg-success/10 border-l border-gray-200 dark:border-gray-700">
+<span class="material-symbols-outlined">check</span>
+<span>Approve</span>
+</button>
+</div>
+</div>
+<!-- Owner Card 2 -->
+<div class="flex flex-col rounded-xl bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+<div class="p-6">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12" data-alt="Profile picture of David Chen" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDGY6cGesGstMEhOXxdEaKVFtlNLdlP0VVCpYqo9oIfPETVUus_wWAeH0AOFEnOXTvaDJYrTEgSgeCQC0y97-aNzmOfh3ss6-lKtOhSbanWtPg5fBz6bmn6b0vO3o1i7QyWeT4w1ZpYzI2zEfhblHu2EmBu7cROYzi2kxnWGp7twG5oAof2F1_Iuc5slNiOWimSHLEOq_obuRHOKQ6l-1glt3hUNBJ755C2L809-jOOwdvJjkJae6vAnhdv-njAugWTzkfYARPpsgQ');"></div>
+<div class="flex-1">
+<h3 class="text-lg font-bold text-[#111418] dark:text-white">David Chen</h3>
+<p class="text-sm text-[#60758a] dark:text-gray-400">david.chen@citypark.co</p>
+</div>
+</div>
+<div class="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4 space-y-2">
+<p class="text-sm text-[#60758a] dark:text-gray-400">Company: <span class="font-medium text-[#111418] dark:text-white">CityPark Inc.</span></p>
+<p class="text-sm text-[#60758a] dark:text-gray-400">Applied on: <span class="font-medium text-[#111418] dark:text-white">Oct 25, 2023</span></p>
+<a class="text-sm text-primary hover:underline" href="#">View Documents</a>
+</div>
+</div>
+<div class="grid grid-cols-2 border-t border-gray-200 dark:border-gray-700">
+<button class="flex h-14 items-center justify-center gap-x-2 font-bold text-danger hover:bg-danger/10">
+<span class="material-symbols-outlined">close</span>
+<span>Reject</span>
+</button>
+<button class="flex h-14 items-center justify-center gap-x-2 font-bold text-success hover:bg-success/10 border-l border-gray-200 dark:border-gray-700">
+<span class="material-symbols-outlined">check</span>
+<span>Approve</span>
+</button>
+</div>
+</div>
+<!-- Owner Card 3 -->
+<div class="flex flex-col rounded-xl bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+<div class="p-6">
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12" data-alt="Profile picture of Maria Garcia" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD9scyMFVTJ46H85Ew9C-M06RvHEACrbu5chtasTT66W_U122eMHAdiQDJAt_cTh34mcwdNiN5uiVeYP9zuXGy0ClDbVlQ1EgcyszFVUjbnsLCJEM2o9gNNXWlzXpseJZAYQqIPRt_pS42iswDEg4zvxwK9x7-RJ7eVwh2TUmeUZlw_nUGUDksTCikmK6bWXNW25r3Fqi5GFrNBnsSh3bDe7n6a95l_Iaz_BBb0tAeeM0Q-sPLgZRiGWJDTFiQhPrifn4lIsXJvfeI');"></div>
+<div class="flex-1">
+<h3 class="text-lg font-bold text-[#111418] dark:text-white">Maria Garcia</h3>
+<p class="text-sm text-[#60758a] dark:text-gray-400">m.garcia@securelots.net</p>
+</div>
+</div>
+<div class="mt-4 border-t border-gray-200 dark:border-gray-700 pt-4 space-y-2">
+<p class="text-sm text-[#60758a] dark:text-gray-400">Company: <span class="font-medium text-[#111418] dark:text-white">SecureLots LLC</span></p>
+<p class="text-sm text-[#60758a] dark:text-gray-400">Applied on: <span class="font-medium text-[#111418] dark:text-white">Oct 24, 2023</span></p>
+<a class="text-sm text-primary hover:underline" href="#">View Documents</a>
+</div>
+</div>
+<div class="grid grid-cols-2 border-t border-gray-200 dark:border-gray-700">
+<button class="flex h-14 items-center justify-center gap-x-2 font-bold text-danger hover:bg-danger/10">
+<span class="material-symbols-outlined">close</span>
+<span>Reject</span>
+</button>
+<button class="flex h-14 items-center justify-center gap-x-2 font-bold text-success hover:bg-success/10 border-l border-gray-200 dark:border-gray-700">
+<span class="material-symbols-outlined">check</span>
+<span>Approve</span>
+</button>
+</div>
+</div>
+</section>
+<!-- All Owners Table -->
+<section class="mt-6 hidden">
+<div class="bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-xl overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-gray-50 dark:bg-gray-800">
+<tr>
+<th class="p-4"><input class="form-checkbox rounded text-primary" type="checkbox"/></th>
+<th class="p-4 text-sm font-bold text-[#111418] dark:text-white tracking-wider">Owner Name</th>
+<th class="p-4 text-sm font-bold text-[#111418] dark:text-white tracking-wider">Status</th>
+<th class="p-4 text-sm font-bold text-[#111418] dark:text-white tracking-wider">Lots</th>
+<th class="p-4 text-sm font-bold text-[#111418] dark:text-white tracking-wider">Date Joined</th>
+<th class="p-4 text-sm font-bold text-[#111418] dark:text-white tracking-wider">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+<tr>
+<td class="p-4"><input class="form-checkbox rounded text-primary" type="checkbox"/></td>
+<td class="p-4 text-[#111418] dark:text-white font-medium">John Doe</td>
+<td class="p-4">
+<span class="inline-flex items-center rounded-full bg-success/20 px-3 py-1 text-sm font-medium text-success">Active</span>
+</td>
+<td class="p-4 text-[#60758a] dark:text-gray-400">5</td>
+<td class="p-4 text-[#60758a] dark:text-gray-400">Sep 12, 2023</td>
+<td class="p-4">
+<button class="text-[#60758a] dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
+<button class="text-[#60758a] dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">visibility</span></button>
+<button class="text-[#60758a] dark:text-gray-400 hover:text-danger"><span class="material-symbols-outlined">toggle_off</span></button>
+</td>
+</tr>
+<tr>
+<td class="p-4"><input class="form-checkbox rounded text-primary" type="checkbox"/></td>
+<td class="p-4 text-[#111418] dark:text-white font-medium">Jane Smith</td>
+<td class="p-4">
+<span class="inline-flex items-center rounded-full bg-danger/20 px-3 py-1 text-sm font-medium text-danger">Suspended</span>
+</td>
+<td class="p-4 text-[#60758a] dark:text-gray-400">2</td>
+<td class="p-4 text-[#60758a] dark:text-gray-400">Aug 01, 2023</td>
+<td class="p-4">
+<button class="text-[#60758a] dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
+<button class="text-[#60758a] dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">visibility</span></button>
+<button class="text-[#60758a] dark:text-gray-400 hover:text-success"><span class="material-symbols-outlined">toggle_on</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

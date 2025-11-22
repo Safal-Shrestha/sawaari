@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verify Your Account - ParkEasy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0d7ff2",
+            "background-light": "#f5f7f8",
+            "background-dark": "#101922",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#333333] dark:text-gray-200">
+<div class="relative flex min-h-screen w-full flex-col items-center justify-center p-4">
+<div class="w-full max-w-md">
+<!-- TopNavBar -->
+<header class="flex items-center justify-center whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-700 pb-6 mb-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-6">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h1 class="text-2xl font-bold tracking-tight">ParkEasy</h1>
+</div>
+</header>
+<main class="flex flex-col items-center text-center">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-center gap-3 p-4">
+<p class="text-4xl font-black leading-tight tracking-[-0.033em] min-w-72 text-gray-800 dark:text-white">Verify Your Account</p>
+</div>
+<!-- BodyText -->
+<p class="text-base font-normal leading-normal pb-6 pt-2 px-4 text-gray-600 dark:text-gray-400">A verification OTP has been sent to your email at <span class="font-medium text-gray-800 dark:text-white">us***@example.com</span></p>
+<!-- ConfirmationCode (Modified) -->
+<div class="flex justify-center px-4 py-3 w-full">
+<fieldset class="relative flex gap-3 sm:gap-4">
+<input class="flex h-16 w-12 sm:h-20 sm:w-14 text-center text-3xl font-bold bg-background-light dark:bg-background-dark border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-primary focus:ring-primary text-gray-800 dark:text-white [appearance:textfield] [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" inputmode="numeric" maxlength="1" oninput="this.value=this.value.replace(/[^0-9]/g,''); if (this.value.length &gt;= 1) { this.nextElementSibling?.focus(); }" type="text"/>
+<input class="flex h-16 w-12 sm:h-20 sm:w-14 text-center text-3xl font-bold bg-background-light dark:bg-background-dark border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-primary focus:ring-primary text-gray-800 dark:text-white [appearance:textfield] [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" inputmode="numeric" maxlength="1" oninput="this.value=this.value.replace(/[^0-9]/g,''); if (this.value.length &gt;= 1) { this.nextElementSibling?.focus(); } else if (this.value.length === 0) { this.previousElementSibling?.focus(); }" onkeydown="if (event.key === 'Backspace' &amp;&amp; this.value === '') { this.previousElementSibling?.focus(); }" type="text"/>
+<input class="flex h-16 w-12 sm:h-20 sm:w-14 text-center text-3xl font-bold bg-background-light dark:bg-background-dark border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-primary focus:ring-primary text-gray-800 dark:text-white [appearance:textfield] [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" inputmode="numeric" maxlength="1" oninput="this.value=this.value.replace(/[^0-9]/g,''); if (this.value.length &gt;= 1) { this.nextElementSibling?.focus(); } else if (this.value.length === 0) { this.previousElementSibling?.focus(); }" onkeydown="if (event.key === 'Backspace' &amp;&amp; this.value === '') { this.previousElementSibling?.focus(); }" type="text"/>
+<input class="flex h-16 w-12 sm:h-20 sm:w-14 text-center text-3xl font-bold bg-background-light dark:bg-background-dark border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-primary focus:ring-primary text-gray-800 dark:text-white [appearance:textfield] [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" inputmode="numeric" maxlength="1" oninput="this.value=this.value.replace(/[^0-9]/g,''); if (this.value.length &gt;= 1) { this.nextElementSibling?.focus(); } else if (this.value.length === 0) { this.previousElementSibling?.focus(); }" onkeydown="if (event.key === 'Backspace' &amp;&amp; this.value === '') { this.previousElementSibling?.focus(); }" type="text"/>
+<input class="flex h-16 w-12 sm:h-20 sm:w-14 text-center text-3xl font-bold bg-background-light dark:bg-background-dark border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-primary focus:ring-primary text-gray-800 dark:text-white [appearance:textfield] [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" inputmode="numeric" maxlength="1" oninput="this.value=this.value.replace(/[^0-9]/g,''); if (this.value.length &gt;= 1) { this.nextElementSibling?.focus(); } else if (this.value.length === 0) { this.previousElementSibling?.focus(); }" onkeydown="if (event.key === 'Backspace' &amp;&amp; this.value === '') { this.previousElementSibling?.focus(); }" type="text"/>
+<input class="flex h-16 w-12 sm:h-20 sm:w-14 text-center text-3xl font-bold bg-background-light dark:bg-background-dark border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-primary focus:ring-primary text-gray-800 dark:text-white [appearance:textfield] [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" inputmode="numeric" maxlength="1" oninput="this.value=this.value.replace(/[^0-9]/g,''); if (this.value.length === 0) { this.previousElementSibling?.focus(); }" onkeydown="if (event.key === 'Backspace' &amp;&amp; this.value === '') { this.previousElementSibling?.focus(); }" type="text"/>
+</fieldset>
+</div>
+<!-- SingleButton -->
+<div class="flex w-full px-4 pt-6 pb-3 justify-center">
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background-light dark:focus:ring-offset-background-dark disabled:bg-primary/40 disabled:cursor-not-allowed">
+<span class="truncate">Verify OTP</span>
+</button>
+</div>
+<!-- Resend Link and Timer -->
+<div class="flex items-center justify-center pt-4 text-sm text-gray-600 dark:text-gray-400">
+<p>Didn't receive the code?</p>
+<a class="ml-1 font-semibold text-primary/70 hover:text-primary pointer-events-none" href="#">Resend OTP in 00:59</a>
+</div>
+</main>
+</div>
+</div>
+
+<!-- Go Back button (bottom-right) -->
+<a href="forgetpassword.html" aria-label="Go back to Forget Password" class="fixed bottom-6 right-6 z-50 flex items-center justify-center h-12 w-12 rounded-full bg-primary text-white shadow-lg hover:opacity-90">
+  <span class="material-symbols-outlined">arrow_back</span>
+</a>
+
+</body></html>

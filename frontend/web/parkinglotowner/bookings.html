@@ -38,42 +38,46 @@
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-[#111418] dark:text-gray-200">
 <div class="relative flex min-h-screen w-full">
-<!-- SideNavBar -->
-<aside class="flex w-64 flex-col bg-white dark:bg-background-dark dark:border-r dark:border-gray-700 p-4">
-<div class="flex items-center gap-2 px-2 py-4">
-<span class="material-symbols-outlined text-primary text-3xl">local_parking</span>
-<h1 class="text-xl font-bold text-[#111418] dark:text-white">ParkEasy</h1>
-</div>
-<div class="flex h-full flex-col justify-between">
-<div class="flex flex-col gap-2 mt-4">
-<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="dashbaord.html">
-<span class="material-symbols-outlined">dashboard</span>
-<p class="text-sm font-medium leading-normal">Dashboard</p>
-</a>
-<a class="flex items-center gap-3 rounded-lg bg-primary/10 dark:bg-primary/20 px-3 py-2 text-primary dark:text-primary" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">pin_drop</span>
-<p class="text-sm font-medium leading-normal">Locations</p>
-</a>
-<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
-<span class="material-symbols-outlined">calendar_month</span>
-<p class="text-sm font-medium leading-normal">Bookings</p>
-</a>
-<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
-<span class="material-symbols-outlined">group</span>
-<p class="text-sm font-medium leading-normal">Users</p>
-</a>
-</div>
-<div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
-<span class="material-symbols-outlined">settings</span>
-<p class="text-sm font-medium leading-normal">Settings</p>
-</a>
-<a class="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" href="#">
-<span class="material-symbols-outlined">logout</span>
-<p class="text-sm font-medium leading-normal">Log out</p>
-</a>
-</div>
-</div>
+<!-- SideNavBar (Unified) -->
+<aside class="flex-shrink-0 w-64 bg-white dark:bg-background-dark border-r border-[#dbe0e6] dark:border-gray-700">
+    <div class="flex h-full min-h-[700px] flex-col justify-between p-4">
+        <div>
+            <div class="flex items-center gap-3 px-3 py-2">
+                <div class="h-8 w-8 text-primary">
+                    <svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill-rule="evenodd"></path></svg>
+                </div>
+                <h1 class="text-xl font-bold text-[#111418] dark:text-white">ParkEasy</h1>
+            </div>
+            <nav class="flex flex-col gap-2 mt-4">
+                <a href="dashbaord.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <p class="text-sm font-medium leading-normal">Dashboard</p>
+                </a>
+                <a href="bookings.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20">
+                    <span class="material-symbols-outlined">calendar_month</span>
+                    <p class="text-sm font-medium leading-normal">Bookings</p>
+                </a>
+                <a href="addLocation.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_location_alt</span>
+                    <p class="text-sm font-medium leading-normal">Add Location</p>
+                </a>
+                <a href="users.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20">
+                    <span class="material-symbols-outlined">group</span>
+                    <p class="text-sm font-medium leading-normal">Users</p>
+                </a>
+                <a href="profile.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20">
+                    <span class="material-symbols-outlined">person</span>
+                    <p class="text-sm font-medium leading-normal">Profile</p>
+                </a>
+            </nav>
+        </div>
+        <div class="flex flex-col gap-1">
+            <a href="index.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20">
+                <span class="material-symbols-outlined">logout</span>
+                <p class="text-sm font-medium leading-normal">Log out</p>
+            </a>
+        </div>
+    </div>
 </aside>
 <!-- Main Content -->
 <main class="flex-1 p-6 lg:p-10">

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -46,7 +45,6 @@
 </head>
 <body class="font-display bg-background-light dark:bg-background-dark">
 <div class="relative flex min-h-screen w-full">
-<!-- Side Navigation -->
 <aside class="flex w-64 flex-col bg-white dark:bg-background-dark dark:border-r dark:border-gray-700 p-4">
 <div class="flex h-full flex-col justify-between">
 <div class="flex flex-col gap-4">
@@ -71,10 +69,8 @@
 <!-- footer actions removed per requirements -->
 </div>
 </aside>
-<!-- Main Content -->
 <main class="flex-1 p-6 lg:p-10">
 <div class="flex flex-col w-full max-w-7xl mx-auto gap-6">
-<!-- Page Heading -->
 <header>
 <div class="flex flex-wrap justify-between gap-4 items-center">
 <div class="flex min-w-72 flex-col gap-2">
@@ -87,19 +83,17 @@
 </button>
 </div>
 </header>
-<!-- Tabs Navigation -->
 <div class="pb-3 border-b border-[#dbe0e6] dark:border-gray-700">
 <div class="flex gap-8">
-<a class="relative flex items-center justify-center text-primary pb-3.5 pt-4" href="#">
+<a class="flex items-center justify-center text-[#60758a] dark:text-gray-400 pb-3.5 pt-4" href="approval.html">
 <p class="text-sm font-bold leading-normal tracking-[0.015em]">Pending Approvals</p>
+</a>
+<a class="relative flex items-center justify-center text-primary pb-3.5 pt-4" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">All Owners</p>
 <div class="absolute bottom-0 h-1 w-full bg-primary rounded-t-full"></div>
 </a>
-  <a class="flex items-center justify-center text-[#60758a] dark:text-gray-400 pb-3.5 pt-4" href="allowners.html">
-<p class="text-sm font-bold leading-normal tracking-[0.015em]">All Owners</p>
-</a>
 </div>
 </div>
-<!-- Search and Filters -->
 <div class="flex flex-wrap items-center gap-4">
 <div class="flex-grow">
 <label class="flex flex-col min-w-40 h-12 w-full">
@@ -122,9 +116,7 @@
 </button>
 </div>
 </div>
-<!-- Pending Approvals Content -->
-<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-<!-- Owner Card 1 -->
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 hidden">
 <div class="flex flex-col rounded-xl bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
 <div class="p-6">
 <div class="flex items-center gap-4">
@@ -151,7 +143,6 @@
 </button>
 </div>
 </div>
-<!-- Owner Card 2 -->
 <div class="flex flex-col rounded-xl bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
 <div class="p-6">
 <div class="flex items-center gap-4">
@@ -178,7 +169,6 @@
 </button>
 </div>
 </div>
-<!-- Owner Card 3 -->
 <div class="flex flex-col rounded-xl bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
 <div class="p-6">
 <div class="flex items-center gap-4">
@@ -206,47 +196,114 @@
 </div>
 </div>
 </section>
-<!-- All Owners Table -->
-<section class="mt-6 hidden">
+<section class="w-full">
 <div class="bg-white dark:bg-background-dark border border-gray-200 dark:border-gray-700 rounded-xl overflow-x-auto">
 <table class="w-full text-left">
-<thead class="bg-gray-50 dark:bg-gray-800">
+<thead class="bg-gray-50 dark:bg-gray-900/50">
 <tr>
-<th class="p-4"><input class="form-checkbox rounded text-primary" type="checkbox"/></th>
-<th class="p-4 text-sm font-bold text-[#111418] dark:text-white tracking-wider">Owner Name</th>
-<th class="p-4 text-sm font-bold text-[#111418] dark:text-white tracking-wider">Status</th>
-<th class="p-4 text-sm font-bold text-[#111418] dark:text-white tracking-wider">Lots</th>
-<th class="p-4 text-sm font-bold text-[#111418] dark:text-white tracking-wider">Date Joined</th>
-<th class="p-4 text-sm font-bold text-[#111418] dark:text-white tracking-wider">Actions</th>
+<th class="p-4 whitespace-nowrap text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Owner / Company</th>
+<th class="p-4 whitespace-nowrap text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+<th class="p-4 whitespace-nowrap text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">Total Revenue</th>
+<th class="p-4 whitespace-nowrap text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">Commission Paid</th>
+<th class="p-4 whitespace-nowrap text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">Commission Due</th>
+<th class="p-4 whitespace-nowrap text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
 </tr>
 </thead>
 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
 <tr>
-<td class="p-4"><input class="form-checkbox rounded text-primary" type="checkbox"/></td>
-<td class="p-4 text-[#111418] dark:text-white font-medium">John Doe</td>
-<td class="p-4">
+<td class="p-4 align-top">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Profile picture of Michael Brown" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBocBDPW5wlRcY9OYzBG87pwE7Vyd_7xczCX7TPlPE6GATZT5CiA5iemSTEUS7QbnW5nrEy0NdJu6U1QnEPED3EYngcSo-mGe_sVDIqUBx8bLndx4plJrOZotkS2pBHFUm_WDZI1eGFuxEILmcxjnUOaVoHKEa1AbyEwGW00EPunFm85UKYzwdJq7QhlJiVuRfBZpevWQerXgZKiucNxp_qpBoXgWUsCfFm1s6ZjaPn8pnNEZvIRC3l7o3s_FzevkcSOlnGL82VDMY');"></div>
+<div>
+<div class="font-bold text-[#111418] dark:text-white">Michael Brown</div>
+<div class="text-sm text-[#60758a] dark:text-gray-400">Urban Parking Group</div>
+</div>
+</div>
+</td>
+<td class="p-4 align-top">
 <span class="inline-flex items-center rounded-full bg-success/20 px-3 py-1 text-sm font-medium text-success">Active</span>
 </td>
-<td class="p-4 text-[#60758a] dark:text-gray-400">5</td>
-<td class="p-4 text-[#60758a] dark:text-gray-400">Sep 12, 2023</td>
-<td class="p-4">
+<td class="p-4 align-top text-right font-medium text-[#111418] dark:text-white">$24,580.00</td>
+<td class="p-4 align-top text-right font-medium text-gray-500 dark:text-gray-400">$18,435.00</td>
+<td class="p-4 align-top text-right font-medium text-warning">$6,145.00</td>
+<td class="p-4 align-top whitespace-nowrap">
+<div class="flex items-center gap-2">
 <button class="text-[#60758a] dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
 <button class="text-[#60758a] dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">visibility</span></button>
 <button class="text-[#60758a] dark:text-gray-400 hover:text-danger"><span class="material-symbols-outlined">toggle_off</span></button>
+</div>
 </td>
 </tr>
 <tr>
-<td class="p-4"><input class="form-checkbox rounded text-primary" type="checkbox"/></td>
-<td class="p-4 text-[#111418] dark:text-white font-medium">Jane Smith</td>
-<td class="p-4">
+<td class="p-4 align-top">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Profile picture of Emily Carter" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCoqy9_ZTJ1UOlx561hZuKkKL7kD53q0wed2X5ojkpys3Te6ATCnP_um4kgbyhEMYMtE8siDlrWo5EJmA-G2i1-gFRlj5FhBB8R0sYcP3uO_q_BGQDS2XpY7859E59DZ2xFe7p1JgOqWSz6cwl7jdLhN-ven1n3q0BwtLkduW0gD1iwVgVgRC32OQPrG4u-sid7mAFtUOm7nGr4kxgy97q5WINWqD2ZfUc94BAadV-oCexKTdi8F6IBjgvoxr4fRr90mrtiuNtKC4Q');"></div>
+<div>
+<div class="font-bold text-[#111418] dark:text-white">Emily Carter</div>
+<div class="text-sm text-[#60758a] dark:text-gray-400">MetroPark Solutions</div>
+</div>
+</div>
+</td>
+<td class="p-4 align-top">
+<span class="inline-flex items-center rounded-full bg-success/20 px-3 py-1 text-sm font-medium text-success">Active</span>
+</td>
+<td class="p-4 align-top text-right font-medium text-[#111418] dark:text-white">$19,230.50</td>
+<td class="p-4 align-top text-right font-medium text-gray-500 dark:text-gray-400">$14,422.88</td>
+<td class="p-4 align-top text-right font-medium text-warning">$4,807.62</td>
+<td class="p-4 align-top whitespace-nowrap">
+<div class="flex items-center gap-2">
+<button class="text-[#60758a] dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
+<button class="text-[#60758a] dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">visibility</span></button>
+<button class="text-[#60758a] dark:text-gray-400 hover:text-danger"><span class="material-symbols-outlined">toggle_off</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="p-4 align-top">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Profile picture of Alex Rodriguez" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCUJ6rjQWAUGB11V86FZSoDYkEs4LdKuX4Seu_oHsEHDRdLz820oQH-MU2TX0u1S9o7Plov2qasH390yt-QXs8lMRYcu0IrwhlmRvo55iVInHov4CZGcECSCGICO3Cv6ybVBGmj703la41GaxFy7yh6axLCyz-C3OpZprASly0sKPq6i1B6dXHmTTtD7YIou3pATqc4bapLov1ufXdO1cD0t3xo-4tYzbK8SsDrLuNK9etIA8tf43dbZ8hHb977M3bZ5zAe3TNtwa0');"></div>
+<div>
+<div class="font-bold text-[#111418] dark:text-white">Alex Rodriguez</div>
+<div class="text-sm text-[#60758a] dark:text-gray-400">First Choice Parking</div>
+</div>
+</div>
+</td>
+<td class="p-4 align-top">
 <span class="inline-flex items-center rounded-full bg-danger/20 px-3 py-1 text-sm font-medium text-danger">Suspended</span>
 </td>
-<td class="p-4 text-[#60758a] dark:text-gray-400">2</td>
-<td class="p-4 text-[#60758a] dark:text-gray-400">Aug 01, 2023</td>
-<td class="p-4">
+<td class="p-4 align-top text-right font-medium text-[#111418] dark:text-white">$8,150.00</td>
+<td class="p-4 align-top text-right font-medium text-gray-500 dark:text-gray-400">$8,150.00</td>
+<td class="p-4 align-top text-right font-medium text-gray-500 dark:text-gray-400">$0.00</td>
+<td class="p-4 align-top whitespace-nowrap">
+<div class="flex items-center gap-2">
 <button class="text-[#60758a] dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
 <button class="text-[#60758a] dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">visibility</span></button>
 <button class="text-[#60758a] dark:text-gray-400 hover:text-success"><span class="material-symbols-outlined">toggle_on</span></button>
+</div>
+</td>
+</tr>
+<tr>
+<td class="p-4 align-top">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Profile picture of Olivia Nguyen" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB33lmERtSB4cCdpo8BUJx769ixk_LepbKXwGTlwQFcsKTP28OqFqcO-e2z75i5j-c7guamOj8CCPCMDkFW7WO6OdMg6kv5MRgJDhMX27OchftOQUCei2TrFXFs4ft7Fj1Ho1GvcTX81st86NyvvX5Fq_lbGH_3tjF_gke9eHofH6wqnlxwWai0MQ9mU3eYyI11L7UPi803SohJzacjTmuh210Nn58czWFs8dmJFE73Hpcqy_rQUudGPx7je_eOa3QbvKdpcPTRrf8');"></div>
+<div>
+<div class="font-bold text-[#111418] dark:text-white">Olivia Nguyen</div>
+<div class="text-sm text-[#60758a] dark:text-gray-400">Peak Parking Services</div>
+</div>
+</div>
+</td>
+<td class="p-4 align-top">
+<span class="inline-flex items-center rounded-full bg-success/20 px-3 py-1 text-sm font-medium text-success">Active</span>
+</td>
+<td class="p-4 align-top text-right font-medium text-[#111418] dark:text-white">$32,800.75</td>
+<td class="p-4 align-top text-right font-medium text-gray-500 dark:text-gray-400">$20,000.00</td>
+<td class="p-4 align-top text-right font-medium text-warning">$12,800.75</td>
+<td class="p-4 align-top whitespace-nowrap">
+<div class="flex items-center gap-2">
+<button class="text-[#60758a] dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
+<button class="text-[#60758a] dark:text-gray-400 hover:text-primary"><span class="material-symbols-outlined">visibility</span></button>
+<button class="text-[#60758a] dark:text-gray-400 hover:text-danger"><span class="material-symbols-outlined">toggle_off</span></button>
+</div>
 </td>
 </tr>
 </tbody>

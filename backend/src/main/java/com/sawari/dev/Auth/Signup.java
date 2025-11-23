@@ -15,12 +15,12 @@ import com.sawari.dev.repository.UsersRepository;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
-public class UsersController {
+public class Signup {
 
     private final UsersRepository userRepository;
 
     // Dependency Injection (constructor-based)
-    public UsersController(UsersRepository userRepository) {
+    public Signup(UsersRepository userRepository) {
         this.userRepository = userRepository;
     }
 

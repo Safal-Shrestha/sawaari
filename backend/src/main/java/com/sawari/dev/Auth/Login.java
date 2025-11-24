@@ -1,4 +1,4 @@
-package com.sawari.dev.Auth;
+package com.sawari.dev.auth;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sawari.dev.model.Users;
 import com.sawari.dev.repository.UsersRepository;
+import com.sawari.dev.utils.EncryptionUtil;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -37,7 +38,7 @@ public class Login {
             
             Users user = userRepository.findByEmail(loginUser.getEmail());
        
-            if (user != null && EncryptinAndDecryption.decrypt(user.getPassword()).equals(loginUser.getPassword())) {
+            if (user != null && EncryptionUtil.decrypt(user.getPassword()).equals(loginUser.getPassword())) {
                 // Login successful
                 return ResponseEntity.ok("success");
             } 

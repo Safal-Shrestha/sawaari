@@ -1,11 +1,11 @@
-package com.sawari.dev.Auth;
+package com.sawari.dev.utils;
 
 import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-public class EncryptinAndDecryption {
+public class EncryptionUtil {
     private static final String ALGO="AES";
     private static final byte[] KeyValue="1234567890123456".getBytes();
    

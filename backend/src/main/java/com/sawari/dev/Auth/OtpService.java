@@ -1,4 +1,4 @@
-package com.sawari.dev.Auth;
+package com.sawari.dev.auth;
 
 import java.security.SecureRandom;
 import java.util.HashMap;

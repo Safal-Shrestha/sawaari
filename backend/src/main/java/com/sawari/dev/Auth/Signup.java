@@ -1,4 +1,4 @@
-package com.sawari.dev.Auth;
+package com.sawari.dev.auth;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sawari.dev.model.Users;
 import com.sawari.dev.repository.UsersRepository;
+import com.sawari.dev.utils.EncryptionUtil;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
@@ -90,7 +91,7 @@ public class Signup {
                         .body("Password must be 8+ chars, contain uppercase, number and special char");
             }
              
-            newUser.setPassword(EncryptinAndDecryption.encryption(newUser.getPassword()));
+            newUser.setPassword(EncryptionUtil.encryption(newUser.getPassword()));
 
             userRepository.save(newUser);
 

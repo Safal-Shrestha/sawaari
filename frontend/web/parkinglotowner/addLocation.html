@@ -3,7 +3,7 @@
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Add New Parking Location - ParkEasy Owner</title>
+<title>Add New Parking Location - Sawaari Owner</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
@@ -44,11 +44,11 @@
     <div class="flex h-full min-h-[700px] flex-col justify-between p-4">
         <div>
             <div class="flex items-center gap-3 px-3 py-2">
-                <div class="h-8 w-8 text-primary">
-                    <svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill-rule="evenodd"></path></svg>
+                <div class="h-8 w-8">
+                    <img src="../../logoofsawari.jpg" alt="Sawaari logo" class="h-8 w-8 object-contain"/>
                 </div>
                 <div class="flex flex-col">
-                    <h1 class="text-[#111418] dark:text-white text-base font-bold leading-normal">ParkEasy</h1>
+                    <h1 class="text-[#111418] dark:text-white text-base font-bold leading-normal">Sawaari</h1>
                     <p class="text-[#617589] dark:text-gray-400 text-sm font-normal leading-normal">Owner Panel</p>
                 </div>
             </div>
@@ -76,10 +76,10 @@
             </nav>
         </div>
         <div class="flex flex-col gap-1">
-            <a href="login.html" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20">
+            <button type="button" onclick="openOwnerSignOutModal()" class="flex items-center gap-3 px-3 py-2 rounded-lg text-[#617589] dark:text-gray-400 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/20">
                 <span class="material-symbols-outlined">logout</span>
                 <p class="text-sm font-medium leading-normal">Log out</p>
-            </a>
+            </button>
         </div>
     </div>
 </aside>
@@ -134,4 +134,28 @@
 </main>
 </div>
 </div>
+<!-- Owner sign out confirmation modal -->
+<div id="ownerSignOutModal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/40 px-4">
+    <div class="w-full max-w-md bg-white dark:bg-gray-800 rounded-lg p-6">
+        <h3 class="text-[#111418] dark:text-white text-lg font-semibold">Confirm Sign Out</h3>
+        <p class="text-[#617589] dark:text-gray-400 text-sm mt-2">Are you sure you want to sign out?</p>
+        <div class="mt-6 flex justify-end gap-3">
+            <button type="button" onclick="closeOwnerSignOutModal()" class="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 text-[#111418]">Cancel</button>
+            <button type="button" onclick="confirmOwnerSignOut()" class="px-4 py-2 rounded bg-primary text-white">Sign Out</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openOwnerSignOutModal(){
+        const m = document.getElementById('ownerSignOutModal'); if(!m) return; m.classList.remove('hidden'); m.classList.add('flex');
+    }
+    function closeOwnerSignOutModal(){
+        const m = document.getElementById('ownerSignOutModal'); if(!m) return; m.classList.add('hidden'); m.classList.remove('flex');
+    }
+    function confirmOwnerSignOut(){
+        // clear client-side session if needed: localStorage.clear();
+        window.location.href = '../../Auth/index.html';
+    }
+</script>
 </body></html>

@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>ParkEasy - Dashboard</title>
+<title>Sawaari - Dashboard</title>
 <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
@@ -31,14 +31,14 @@
 <div class="flex items-center justify-between h-16">
 <div class="flex items-center gap-8">
 <div class="flex items-center gap-2 text-[var(--text-primary)]">
-<svg class="h-8 w-8 text-[var(--primary-color)]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"> <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path> <polyline points="14 2 14 8 20 8"></polyline> <line x1="16" x2="8" y1="13" y2="13"></line> <line x1="16" x2="8" y1="17" y2="17"></line> <polyline points="10 9 9 9 8 9"></polyline></svg>
-<h1 class="text-xl font-bold">ParkEasy</h1>
+<img src="../../logoofsawari.jpg" alt="Sawaari logo" class="h-8 w-8 object-contain"/>
+<h1 class="text-xl font-bold">Sawaari</h1>
 </div>
 <nav class="hidden md:flex items-center gap-6">
 <a class="text-sm font-medium text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors" href="#">Bookings</a>
 <a class="text-sm font-medium text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors" href="history.html">History</a>
 <a class="text-sm font-medium text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors" href="#">Account</a>
-<a class="text-sm font-medium text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors" href="#">Sign Out</a>
+          <button type="button" onclick="openSignOutModal()" class="text-sm font-medium text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors">Sign Out</button>
 
 </nav>
 </div>
@@ -112,4 +112,33 @@ View Available Slots
 </div>
 </div>
 <script src="js/getParkingDetails.js"></script>
+</main>
+<!-- Sign Out Confirmation Modal -->
+<div id="signoutModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-sm mx-4">
+        <div class="p-6">
+            <h3 class="text-lg font-semibold text-gray-900">Confirm Sign Out</h3>
+            <p class="mt-2 text-sm text-gray-600">Are you sure you want to sign out? You will be redirected to the login page.</p>
+            <div class="mt-6 flex justify-end gap-3">
+                <button type="button" onclick="closeSignOutModal()" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-800 hover:bg-gray-200">Cancel</button>
+                <button type="button" onclick="confirmSignOut()" class="px-4 py-2 rounded-lg bg-[var(--primary-color)] text-white hover:bg-[var(--accent-color)]">Sign Out</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openSignOutModal() {
+        document.getElementById('signoutModal').classList.remove('hidden');
+        document.getElementById('signoutModal').classList.add('flex');
+    }
+    function closeSignOutModal() {
+        document.getElementById('signoutModal').classList.add('hidden');
+        document.getElementById('signoutModal').classList.remove('flex');
+    }
+    function confirmSignOut() {
+        // Optionally clear client-side state here (localStorage/sessionStorage)
+        window.location.href = '../../Auth/index.html';
+    }
+</script>
 </body></html>

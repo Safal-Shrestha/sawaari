@@ -1,43 +1,36 @@
-package com.sawari.dev.auth;
-
-import java.util.List;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+package com.sawari.dev.Auth;
 
 import com.sawari.dev.model.Users;
 import com.sawari.dev.repository.UsersRepository;
-import com.sawari.dev.utils.EncryptionUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class Signup {
 
-    private final UsersRepository userRepository;
+    @Autowired
+    private UsersRepository userRepository;
 
-    // Dependency Injection (constructor-based)
-    public Signup(UsersRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    // GET: Fetch all users
     @GetMapping("/userInfo")
     public List<Users> getAllUsers() {
         return userRepository.findAll();
     }
 
-    
-    @PostMapping("/userInfo")
+    @PostMapping("/signup")
     public ResponseEntity<String> createUser(@RequestBody Users newUser) {
 
         try {
 
-        if (newUser.getFullName() == null || newUser.getFullName().trim().isEmpty()) {// yo chai field lai required garna and leading and ending space lai cancle garna 
+            if (newUser.getFullName() == null || newUser.getFullName().trim().isEmpty()) {
                 return ResponseEntity.badRequest().body("Full name is required");
             }
             if (newUser.getUserName() == null || newUser.getUserName().trim().isEmpty()) {
@@ -81,8 +74,6 @@ public class Signup {
             if (userRepository.existsByEmail(newUser.getEmail())) {
                 return ResponseEntity.badRequest().body("Email already exists");
             }
-        
-        
 
             // Password validation
             String password = newUser.getPassword();
@@ -90,8 +81,8 @@ public class Signup {
                 return ResponseEntity.badRequest()
                         .body("Password must be 8+ chars, contain uppercase, number and special char");
             }
-             
-            newUser.setPassword(EncryptionUtil.encryption(newUser.getPassword()));
+
+            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
             userRepository.save(newUser);
 
@@ -102,8 +93,3 @@ public class Signup {
         }
     }
 }
-     
-
-
-     
-    

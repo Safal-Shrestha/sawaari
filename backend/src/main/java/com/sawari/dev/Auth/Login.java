@@ -1,58 +1,51 @@
-package com.sawari.dev.auth;
+package com.sawari.dev.Auth;
 
+import com.sawari.dev.dto.AuthenticationResponse;
+import com.sawari.dev.jwt.JwtUtil;
+import com.sawari.dev.model.Users;
+import com.sawari.dev.services.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sawari.dev.model.Users;
-import com.sawari.dev.repository.UsersRepository;
-import com.sawari.dev.utils.EncryptionUtil;
-
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class Login {
-    private final UsersRepository userRepository;
 
-    public Login(UsersRepository usersRepository){
-        this.userRepository = usersRepository;
-    }
-    
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
     @PostMapping("/login")
-    public ResponseEntity<String> checkUserForLogin(@RequestBody Users loginUser) {
-         
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody Users authenticationRequest) throws Exception {
+
         try {
-       
-            if (loginUser.getEmail() == null || loginUser.getEmail().trim().isEmpty()) {
-                return ResponseEntity.badRequest().body("Email is required");
-            }
-            
-        
-            if (loginUser.getPassword() == null || loginUser.getPassword().trim().isEmpty()) {
-                return ResponseEntity.badRequest().body("Password is required");
-            }
-            
-            
-            Users user = userRepository.findByEmail(loginUser.getEmail());
-       
-            if (user != null && EncryptionUtil.decrypt(user.getPassword()).equals(loginUser.getPassword())) {
-                // Login successful
-                return ResponseEntity.ok("success");
-            } 
-            else if (user == null) {
-                // if email wrong bhayo bhane 
-                return ResponseEntity.badRequest().body("Email not found");
-            } 
-            else {
-                // Email  cha tara password bigriyo bhane 
-                return ResponseEntity.badRequest().body("Invalid password");// yo bad req cha return matri use garo bhane js la lidaina tai bhayera http response  pathaunu parcha 
-            }
-            
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Server error: " + e.getMessage());
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
+            );
+        } catch (BadCredentialsException e) {
+            throw new Exception("Incorrect username or password", e);
         }
+
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(authenticationRequest.getEmail());
+
+        final String jwt = jwtUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 }

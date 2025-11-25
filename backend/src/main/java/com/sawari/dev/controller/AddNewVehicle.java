@@ -32,8 +32,8 @@ public class AddNewVehicle {
         Vehicle vehicle = new Vehicle();
 
         vehicle.setUserId(uId);
-        vehicle.setVehicleModel(vModel);
-        vehicle.setVehicleId(vId);
+        vehicle.setVModel(vModel);
+        vehicle.setVId(vId);
 
         return vehicleRepository.save(vehicle);
     }

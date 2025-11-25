@@ -30,15 +30,20 @@
 <div class="relative flex size-full min-h-screen flex-col bg-[var(--background-color)] group/design-root overflow-x-hidden">
 <div class="layout-container flex h-full grow flex-col">
 <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 bg-white px-10 py-4 shadow-sm">
-<div class="flex items-center gap-4 text-[var(--text-primary)]">
-<img src="../../logoofsawari.jpg" alt="Sawaari logo" class="h-8 w-8 object-contain"/>
-<h2 class="text-[var(--text-primary)] text-2xl font-bold leading-tight tracking-tight">Sawaari</h2>
-</div>
-<nav class="hidden md:flex flex-1 justify-center items-center gap-8">
-<a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-base font-medium leading-normal transition-colors" href="#">Find Parking</a>
-<a href="history.html" class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-base font-medium leading-normal transition-colors">My Bookings</a>
-<a class="text-[var(--primary-color)] text-base font-semibold leading-normal" href="#">Contact &amp; Support</a>
-</nav>
+  <div class="flex items-center gap-4 text-[var(--text-primary)]">
+    <a href="dashboard.html" class="flex items-center gap-3">
+      <img src="../../logoofsawari.jpg" alt="Sawaari logo" class="h-8 w-8 object-contain"/>
+      <h2 class="text-[var(--text-primary)] text-2xl font-bold leading-tight tracking-tight">Sawaari</h2>
+    </a>
+  </div>
+  <nav class="hidden md:flex flex-1 justify-center items-center gap-8">
+    <a class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-base font-medium leading-normal transition-colors" href="dashboard.html">Find Parking</a>
+    <a href="history.html" class="text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-base font-medium leading-normal transition-colors">My Bookings</a>
+    <a class="text-[var(--primary-color)] text-base font-semibold leading-normal" href="contactus.html">Contact &amp; Support</a>
+  </nav>
+  <div class="hidden md:flex items-center gap-4">
+    <button type="button" onclick="openSignOutModal()" class="text-sm font-medium text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors">Sign Out</button>
+  </div>
 </header>
 <main class="flex-1 px-4 sm:px-6 lg:px-8 py-12">
 <div class="max-w-5xl mx-auto">
@@ -145,4 +150,25 @@
 </main>
 </div>
 </div>
+
+<!-- Sign Out Confirmation Modal -->
+<div id="signoutModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-sm mx-4">
+    <div class="p-6">
+      <h3 class="text-lg font-semibold text-gray-900">Confirm Sign Out</h3>
+      <p class="mt-2 text-sm text-gray-600">Are you sure you want to sign out? You will be redirected to the login page.</p>
+      <div class="mt-6 flex justify-end gap-3">
+        <button type="button" onclick="closeSignOutModal()" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-800 hover:bg-gray-200">Cancel</button>
+        <button type="button" onclick="confirmSignOut()" class="px-4 py-2 rounded-lg bg-[var(--primary-color)] text-white hover:bg-[var(--accent-color)]">Sign Out</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openSignOutModal() { const m = document.getElementById('signoutModal'); if(!m) return; m.classList.remove('hidden'); m.classList.add('flex'); }
+  function closeSignOutModal() { const m = document.getElementById('signoutModal'); if(!m) return; m.classList.add('hidden'); m.classList.remove('flex'); }
+  function confirmSignOut() { window.location.href = '../../Auth/index.html'; }
+</script>
+
 </body></html>

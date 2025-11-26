@@ -1,4 +1,4 @@
-package com.sawari.dev.auth;
+package com.sawari.dev.controller.auth;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

@@ -2,6 +2,7 @@ package com.sawari.dev.model;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sawari.dev.dbtypes.Gender;
 import com.sawari.dev.dbtypes.UserRole;
 
@@ -39,8 +40,11 @@ public class Users {
     private Long contact;
     private String country;
     private String email;
+
+    @JsonIgnore    
     private String password;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private Gender gender;
 

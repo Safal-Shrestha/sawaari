@@ -1,6 +1,7 @@
 package com.sawari.dev.controller.auth;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sawari.dev.jwtimpl.TokenProvider;
+import com.sawari.dev.model.RefreshToken;
 import com.sawari.dev.model.Users;
-import com.sawari.dev.model.dto.AuthToken;
 import com.sawari.dev.model.dto.LoginUser;
+import com.sawari.dev.repository.RefreshTokenRepository;
 import com.sawari.dev.repository.UsersRepository;
+import com.sawari.dev.service.CustomUserDetails;
+import com.sawari.dev.service.RefreshTokenService;
 
 
 @CrossOrigin(origins = "*")
@@ -41,6 +44,12 @@ public class AuthController {
     @Autowired
     private UsersRepository userRepository;
 
+    @Autowired
+    RefreshTokenRepository refreshTokenRepository;
+
+    @Autowired
+    RefreshTokenService refreshTokenService;
+
     @GetMapping("/userInfo")
     public List<Users> getAllUsers() {
         return userRepository.findAll();
@@ -53,7 +62,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException {
+    public Map<String, String> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException {
 
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -61,9 +70,71 @@ public class AuthController {
                         loginUser.getPassword()
                 )
         );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        final String token = jwtTokenUtil.generateToken(authentication);
-        return ResponseEntity.ok(new AuthToken(token));
+
+        CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
+
+        String accessToken = jwtTokenUtil.generateToken(authentication);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(principal.getId());
+
+        return Map.of(
+            "accessToken", accessToken,
+            "refreshToken", refreshToken.getToken()
+        );
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> payload) {
+        String requestToken = payload.get("refreshToken");
+        
+        // Lookup refresh token
+        RefreshToken storedToken = refreshTokenRepository.findByToken(requestToken)
+            .orElse(null);
+
+        if (storedToken == null) {
+            return ResponseEntity.badRequest().body("Invalid refresh token.");
+        }
+
+        // Check expiration
+        if(refreshTokenService.isTokenExpired(storedToken)) {
+            refreshTokenRepository.delete(storedToken);
+            return ResponseEntity.badRequest().body("Refresh token expired. Please login again.");
+        }
+
+        Users user = storedToken.getUser();
+        CustomUserDetails userDetails = new CustomUserDetails(user);
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+            userDetails,
+            null,
+            userDetails.getAuthorities());
+
+        String newAccessToken = jwtTokenUtil.generateToken(authentication);
+
+        refreshTokenRepository.delete(storedToken);
+        RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user.getUserId());
+
+        return ResponseEntity.ok(
+            Map.of(
+                    "accessToken", newAccessToken,
+                    "refreshToken", newRefreshToken.getToken()
+                )
+        );
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(@RequestBody Map<String, String> payload) {
+        String requestToken = payload.get("refreshToken");
+
+        if (requestToken == null || requestToken.isBlank()) {
+            return ResponseEntity.badRequest().body("Refresh token is required.");
+        }
+
+        return refreshTokenRepository.findByToken(requestToken)
+                .map(token -> {
+                    refreshTokenRepository.delete(token);
+                    return ResponseEntity.ok("Logged out successfully.");
+                })
+                .orElse(ResponseEntity.badRequest().body("Invalid refresh token."));
     }
     
     

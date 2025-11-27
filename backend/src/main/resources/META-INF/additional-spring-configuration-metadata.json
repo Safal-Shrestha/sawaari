@@ -23,5 +23,10 @@
     "name": "jwt.header.string",
     "type": "java.lang.String",
     "description": "Jwt Header"
+  },
+  {
+    "name": "jwt.refreshExpirationMs",
+    "type": "java.lang.String",
+    "description": "Jwt Refresh Expiration Time"
   }
 ]}

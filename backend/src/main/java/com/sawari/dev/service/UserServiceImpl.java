@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.sawari.dev.model.Users;
 import com.sawari.dev.repository.UsersRepository;
 
-
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService {
 
@@ -32,16 +31,6 @@ public class UserServiceImpl implements UserDetailsService {
             user.getRole()
         );
     }
-
-    // private Set<SimpleGrantedAuthority> getAuthority(Users user) {
-    //     Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-
-    //     UserRole role = user.getRole();
-    //     if (role != null) {
-    //         authorities.add(new SimpleGrantedAuthority(role.name()));
-    //     }
-    //     return authorities;
-    // }
 
     public List<Users> findAll() {
         List<Users> list = new ArrayList<>();

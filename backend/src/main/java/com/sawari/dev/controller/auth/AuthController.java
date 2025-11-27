@@ -21,6 +21,7 @@ import com.sawari.dev.jwtimpl.TokenProvider;
 import com.sawari.dev.model.RefreshToken;
 import com.sawari.dev.model.Users;
 import com.sawari.dev.model.dto.LoginUser;
+import com.sawari.dev.model.dto.RefreshRequest;
 import com.sawari.dev.repository.RefreshTokenRepository;
 import com.sawari.dev.repository.UsersRepository;
 import com.sawari.dev.service.CustomUserDetails;
@@ -74,7 +75,7 @@ public class AuthController {
         CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
 
         String accessToken = jwtTokenUtil.generateToken(authentication);
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(principal.getId());
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(principal.getId(), loginUser.getDeviceId());
 
         return Map.of(
             "accessToken", accessToken,
@@ -83,12 +84,8 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> payload) {
-        String requestToken = payload.get("refreshToken");
-        
-        // Lookup refresh token
-        RefreshToken storedToken = refreshTokenRepository.findByToken(requestToken)
-            .orElse(null);
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshRequest request) {
+        RefreshToken storedToken = refreshTokenRepository.findByUser_UserIdAndDeviceId(request.getUserId(), request.getDeviceId()).orElse(null);
 
         if (storedToken == null) {
             return ResponseEntity.badRequest().body("Invalid refresh token.");
@@ -111,7 +108,7 @@ public class AuthController {
         String newAccessToken = jwtTokenUtil.generateToken(authentication);
 
         refreshTokenRepository.delete(storedToken);
-        RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user.getUserId());
+        RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user.getUserId(), request.getDeviceId());
 
         return ResponseEntity.ok(
             Map.of(
@@ -136,11 +133,4 @@ public class AuthController {
                 })
                 .orElse(ResponseEntity.badRequest().body("Invalid refresh token."));
     }
-    
-    
 }
-     
-
-
-     
-    

@@ -27,6 +27,6 @@
   {
     "name": "jwt.refreshExpirationMs",
     "type": "java.lang.String",
-    "description": "Jwt Refresh Expiration Time"
+    "description": "A description for 'jwt.refreshExpirationMs'"
   }
 ]}

@@ -1,6 +1,7 @@
 package com.sawari.dev.service;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -23,13 +24,29 @@ public class RefreshTokenService {
         this.userRepository = userRepo;
     }
 
-    public RefreshToken createRefreshToken(Long userId) {
-        var token = new RefreshToken();
-        token.setUser(userRepository.findById(userId).get());
-        token.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
-        token.setToken(UUID.randomUUID().toString());
-        return refreshTokenRepository.save(token);
+    public RefreshToken createRefreshToken(Long userId, String deviceId) {
+        Optional<RefreshToken> existingToken = refreshTokenRepository.findByUser_UserIdAndDeviceId(userId, deviceId);
+
+        if (existingToken.isPresent()) {
+            RefreshToken token = existingToken.get();
+            System.out.println();
+            if (isTokenExpired(token)) {
+                refreshTokenRepository.delete(token);
+            } else {
+                return token;
+            }
+        }
+
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.setUser(userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found")));
+        refreshToken.setDeviceId(deviceId);
+        refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
+        refreshToken.setToken(UUID.randomUUID().toString());
+
+        return refreshTokenRepository.save(refreshToken);
     }
+
+    
 
     public boolean isTokenExpired(RefreshToken token) {
         return token.getExpiryDate().isBefore(Instant.now());

@@ -4,12 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,7 +66,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, String> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException {
+    public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException {
 
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -77,15 +80,26 @@ public class AuthController {
         String accessToken = jwtTokenUtil.generateToken(authentication);
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(principal.getId(), loginUser.getDeviceId());
 
-        return Map.of(
-            "accessToken", accessToken,
-            "refreshToken", refreshToken.getToken()
-        );
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken.getToken())
+            .httpOnly(true)
+            .secure(false)
+            .sameSite("Lax")
+            .path("/api/auth")
+            .maxAge(60 * 60 * 24 * 7)
+            .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body(Map.of("accessToken", accessToken));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@RequestBody RefreshRequest request) {
-        RefreshToken storedToken = refreshTokenRepository.findByUser_UserIdAndDeviceId(request.getUserId(), request.getDeviceId()).orElse(null);
+    public ResponseEntity<?> refreshToken(@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie, @RequestBody RefreshRequest request) {
+        if (refreshTokenCookie == null) {
+            return ResponseEntity.badRequest().body("Missing refresh token.");
+        }
+
+        RefreshToken storedToken = refreshTokenRepository.findByDeviceIdAndToken(request.getDeviceId(), refreshTokenCookie).orElse(null);
 
         if (storedToken == null) {
             return ResponseEntity.badRequest().body("Invalid refresh token.");
@@ -107,27 +121,41 @@ public class AuthController {
 
         String newAccessToken = jwtTokenUtil.generateToken(authentication);
 
-        return ResponseEntity.ok(
-            Map.of(
-                    "accessToken", newAccessToken,
-                    "refreshToken", storedToken.getToken()
-                )
-        );
+        RefreshToken newRefreshToken = refreshTokenService.rotateToken(storedToken);
+
+        ResponseCookie newCookie = ResponseCookie.from("refreshToken", newRefreshToken.getToken())
+            .httpOnly(true)
+            .secure(false)
+            .sameSite("Lax")
+            .path("/api/auth")
+            .maxAge(60 * 60 * 24 * 7)
+            .build();
+
+        return ResponseEntity.ok()
+            .header(HttpHeaders.SET_COOKIE, newCookie.toString())
+            .body(Map.of("accessToken", newAccessToken));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logoutUser(@RequestBody Map<String, String> payload) {
-        String requestToken = payload.get("refreshToken");
-
-        if (requestToken == null || requestToken.isBlank()) {
-            return ResponseEntity.badRequest().body("Refresh token is required.");
+    public ResponseEntity<?> logoutUser(@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie) {
+        
+        if (refreshTokenCookie == null) {
+            return ResponseEntity.badRequest().body("Refresh token not found.");
         }
 
-        return refreshTokenRepository.findByToken(requestToken)
-                .map(token -> {
-                    refreshTokenRepository.delete(token);
-                    return ResponseEntity.ok("Logged out successfully.");
-                })
-                .orElse(ResponseEntity.badRequest().body("Invalid refresh token."));
+        refreshTokenRepository.findByToken(refreshTokenCookie)
+            .ifPresent(refreshTokenRepository::delete);
+
+        ResponseCookie clearCookie = ResponseCookie.from("refreshToken", "")
+            .httpOnly(true)
+            .secure(false)
+            .sameSite("Lax")
+            .path("/api/auth")
+            .maxAge(0)
+            .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, clearCookie.toString())
+                .body("Logged out successfully.");
     }
 }

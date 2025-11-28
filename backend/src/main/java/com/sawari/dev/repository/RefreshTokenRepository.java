@@ -9,5 +9,5 @@ import com.sawari.dev.model.RefreshToken;
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
     Optional<RefreshToken> findByToken(String token);
     Optional<RefreshToken> findByUser_UserIdAndDeviceId(Long userId, String deviceId);
-
+    Optional<RefreshToken> findByDeviceIdAndToken(String deviceId, String storedToken);
 }

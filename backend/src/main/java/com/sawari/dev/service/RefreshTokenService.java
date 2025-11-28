@@ -1,6 +1,7 @@
 package com.sawari.dev.service;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -46,7 +47,12 @@ public class RefreshTokenService {
         return refreshTokenRepository.save(refreshToken);
     }
 
-    
+    public RefreshToken rotateToken(RefreshToken oldToken) {
+        oldToken.setToken(UUID.randomUUID().toString());
+        oldToken.setExpiryDate(Instant.now().plus(7, ChronoUnit.DAYS));
+        return refreshTokenRepository.save(oldToken);
+        
+    }
 
     public boolean isTokenExpired(RefreshToken token) {
         return token.getExpiryDate().isBefore(Instant.now());

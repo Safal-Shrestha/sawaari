@@ -107,13 +107,10 @@ public class AuthController {
 
         String newAccessToken = jwtTokenUtil.generateToken(authentication);
 
-        refreshTokenRepository.delete(storedToken);
-        RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user.getUserId(), request.getDeviceId());
-
         return ResponseEntity.ok(
             Map.of(
                     "accessToken", newAccessToken,
-                    "refreshToken", newRefreshToken.getToken()
+                    "refreshToken", storedToken.getToken()
                 )
         );
     }

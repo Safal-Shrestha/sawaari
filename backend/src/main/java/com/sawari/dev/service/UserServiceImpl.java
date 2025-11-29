@@ -32,6 +32,14 @@ public class UserServiceImpl implements UserDetailsService {
         );
     }
 
+    public UserDetails loadUserByUserId(Long userId) throws UsernameNotFoundException{
+        Users user = usersRepository.findById(userId).orElse(null);
+        if(user == null) {
+            throw new UsernameNotFoundException("Invalid username or password");
+        }
+        return new CustomUserDetails(user);
+    }
+
     public List<Users> findAll() {
         List<Users> list = new ArrayList<>();
         usersRepository.findAll().iterator().forEachRemaining(list::add);

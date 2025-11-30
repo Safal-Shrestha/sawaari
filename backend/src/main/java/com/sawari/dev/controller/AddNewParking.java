@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sawari.dev.model.Parking;
 import com.sawari.dev.repository.ParkingRepository;
+import com.sawari.dev.service.CustomUserDetails;
 
 @RestController
 @RequestMapping("/api")
@@ -42,6 +45,26 @@ public class AddNewParking {
         Map<String, Object> response = new HashMap<>();
 
         try {
+            // Get authenticated user from SecurityContext
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            
+            if (authentication == null || !authentication.isAuthenticated()) {
+                response.put("status", "error");
+                response.put("message", "User not authenticated");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
+
+            // Extract user details from JWT token
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            Long authenticatedUserId = userDetails.getId();
+
+            // Verify that the owner_id matches the authenticated user
+            if (!authenticatedUserId.equals(ownerId)) {
+                response.put("status", "error");
+                response.put("message", "Unauthorized: You can only add parking for yourself");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+            }
+
             if (parkingImage.isEmpty()) {
                 response.put("status", "error");
                 response.put("message", "Image is empty");

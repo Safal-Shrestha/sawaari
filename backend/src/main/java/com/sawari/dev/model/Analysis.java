@@ -37,5 +37,4 @@ public class Analysis {
     private Double fineAmount;
     private Double totalAmount;
     private Timestamp createdAt;
-
 }

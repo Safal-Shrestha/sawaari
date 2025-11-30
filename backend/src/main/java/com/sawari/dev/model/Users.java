@@ -38,9 +38,10 @@ public class Users {
     private Date dob; 
     private Long contact;
     private String country;
-    private String email;
+    private String email;   
     private String password;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private Gender gender;
 

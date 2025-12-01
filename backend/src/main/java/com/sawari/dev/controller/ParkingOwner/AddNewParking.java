@@ -1,4 +1,4 @@
-package com.sawari.dev.controller;
+package com.sawari.dev.controller.ParkingOwner;
 
 import java.io.File;
 import java.io.IOException;

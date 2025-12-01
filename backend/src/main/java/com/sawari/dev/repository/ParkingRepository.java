@@ -11,4 +11,8 @@ public interface ParkingRepository extends JpaRepository<Parking, Long> {// yo p
     List<Parking> findByOwnerId(Long ownerId);
     
     List<Parking> findByOwnerIdAndIsActive(Long ownerId, boolean isActive);
+   
+    
+    // active parking get garna 
+    List<Parking> findByIsActive(boolean isActive);
 }

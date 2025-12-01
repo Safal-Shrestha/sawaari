@@ -45,6 +45,8 @@ public class AddNewParking {
         Map<String, Object> response = new HashMap<>();
 
         try {
+            //"Is this authenticated user allowed to perform THIS specific action?"
+
             // Get authenticated user from SecurityContext
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             

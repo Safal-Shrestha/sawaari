@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sawari.dev.dbtypes.UserRole;
 import com.sawari.dev.model.Parking;
 import com.sawari.dev.repository.ParkingRepository;
 import com.sawari.dev.service.CustomUserDetails;
@@ -34,7 +35,6 @@ public class AddNewParking {
 
     @PostMapping("/addNewParking")
     public ResponseEntity<?> addNewParking(
-            @RequestParam("owner_id") Long ownerId,
             @RequestParam("location") String plocation,
             @RequestParam("address") String paddress,
             @RequestParam("two_wheeler_space_count") int twoWheelerSpaceCount,
@@ -47,21 +47,15 @@ public class AddNewParking {
         try {
             // Get authenticated user from SecurityContext
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            
-            if (authentication == null || !authentication.isAuthenticated()) {
-                response.put("status", "error");
-                response.put("message", "User not authenticated");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-            }
 
             // Extract user details from JWT token
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             Long authenticatedUserId = userDetails.getId();
-
-            // Verify that the owner_id matches the authenticated user
-            if (!authenticatedUserId.equals(ownerId)) {
+            UserRole authenticatedUserRole = userDetails.getRole();
+            
+            if (!authenticatedUserRole.toString().equals("PARKING_OWNER") || !authenticatedUserRole.toString().equals("ADMIN")) {
                 response.put("status", "error");
-                response.put("message", "Unauthorized: You can only add parking for yourself");
+                response.put("message", "Unauthorized");
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
             }
 
@@ -83,7 +77,7 @@ public class AddNewParking {
             parking.setFourWheelerSpaceCount(fourWheelerSpaceCount);
             parking.setTwoWheelerSpaceCount(twoWheelerSpaceCount);
             parking.setLocation(plocation);
-            parking.setOwnerId(ownerId);
+            parking.setOwnerId(authenticatedUserId);
             parking.setImageLink("http://localhost:8080/parking_lot_images/" + imageName);
 
             parkingRepository.save(parking);

@@ -39,7 +39,7 @@ public class ParkingDashboardController {
 
   
     @GetMapping("/parkings")
-    public ResponseEntity<?> getAllParkings() {
+    public ResponseEntity<?> getAllParkings() {// using ? because msg can be succes, error or string msg so using ?
         Map<String, Object> response = new HashMap<>();
         
         try {

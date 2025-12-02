@@ -1,62 +1,140 @@
 package com.sawari.dev.controller;
 
-import com.sawari.dev.model.Booking;
-import com.sawari.dev.service.BookingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import com.sawari.dev.dbtypes.BookingStatus;
+import com.sawari.dev.dbtypes.VehicleModel;
+import com.sawari.dev.model.dto.CreateBookingRequest;
+import com.sawari.dev.model.dto.BookingResponse;
+import com.sawari.dev.service.BookingService;
+import com.sawari.dev.service.CustomUserDetails;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/booking")
-@CrossOrigin(origins = "*")  // Allow frontend to call this API
+@RequestMapping("/api/bookings")
+@RequiredArgsConstructor
 public class BookingController {
 
-    @Autowired
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
-    @PostMapping
-    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) {
-        try {
-            Booking created = bookingService.createBooking(booking);
-            return ResponseEntity.status(HttpStatus.CREATED).body(created);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+  
+    @PostMapping("/create")
+    public ResponseEntity<BookingResponse> createBooking(
+            @Valid @RequestBody CreateBookingRequest request) {
+        
+       
+        Long userId = getCurrentUserId();
+        
+      
+        BookingResponse response = bookingService.createBooking(userId, request);
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Booking>> getAllBookings() {
-        return ResponseEntity.ok(bookingService.getAllBookings());
+   
+    @GetMapping("/my-bookings")
+    public ResponseEntity<List<BookingResponse>> getMyBookings(
+            @RequestParam(required = false) BookingStatus status) {
+        
+        Long userId = getCurrentUserId();
+        
+        List<BookingResponse> bookings = bookingService.getUserBookings(userId, status);
+        
+        return ResponseEntity.ok(bookings);
     }
 
-   @GetMapping("/{id}")
-public ResponseEntity<Booking> getBookingById(@PathVariable Long id) {
-    return bookingService.getBookingById(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
-}
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Booking> updateBooking(@PathVariable Long id, @RequestBody Booking updatedBooking) {
-        try {
-            Booking updated = bookingService.updateBooking(id, updatedBooking);
-            return ResponseEntity.ok(updated);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+   
+    @GetMapping("/{bookingId}")
+    public ResponseEntity<BookingResponse> getBookingById(
+            @PathVariable Long bookingId) {
+        
+        Long userId = getCurrentUserId();
+        
+        BookingResponse booking = bookingService.getBookingById(bookingId, userId);
+        
+        return ResponseEntity.ok(booking);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBooking(@PathVariable Long id) {
-        try {
-            bookingService.deleteBooking(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+    @GetMapping("/available-slots")
+    public ResponseEntity<List<SlotDTO>> getAvailableSlots(
+            @RequestParam Long parkingId,
+            @RequestParam VehicleType vehicleType,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) 
+                LocalDateTime startTime,
+            @RequestParam BigDecimal duration) {
+        
+        List<SlotDTO> availableSlots = bookingService.getAvailableSlots(
+                parkingId, vehicleType, startTime, duration);
+        
+        return ResponseEntity.ok(availableSlots);
+    }
+
+    
+    @GetMapping("/calculate-cost")
+    public ResponseEntity<BigDecimal> calculateCost(
+            @RequestParam Long parkingId,
+            @RequestParam VehicleType vehicleType,
+            @RequestParam BigDecimal duration) {
+        
+        BigDecimal cost = bookingService.calculateCost(parkingId, vehicleType, duration);
+        
+        return ResponseEntity.ok(cost);
+    }
+
+    
+    @PostMapping("/{bookingId}/cancel")
+    public ResponseEntity<String> cancelBooking(@PathVariable Long bookingId) {
+        
+        Long userId = getCurrentUserId();
+        
+        bookingService.cancelBooking(bookingId, userId);
+        
+        return ResponseEntity.ok("Booking cancelled successfully");
+    }
+
+   
+    @PostMapping("/{bookingId}/check-in")
+    public ResponseEntity<BookingResponse> checkIn(@PathVariable Long bookingId) {
+        
+        Long userId = getCurrentUserId();
+        
+        BookingResponse response = bookingService.checkIn(bookingId, userId);
+        
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/{bookingId}/check-out")
+    public ResponseEntity<BookingResponse> checkOut(@PathVariable Long bookingId) {
+        
+        Long userId = getCurrentUserId();
+        
+        BookingResponse response = bookingService.checkOut(bookingId, userId);
+        
+        return ResponseEntity.ok(response);
+    }
+
+    private Long getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("User not authenticated");
         }
+        
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        
+        return userDetails.getId();
     }
 }

@@ -1,59 +1,72 @@
 package com.sawari.dev.model;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-
+import java.time.LocalDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-//Frontend → API → Java Object → JPA/Hibernate → Database Table
-@Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "booking")
-public class Booking {
+import com.sawari.dev.dbtypes.BookingStatus;
 
+@Entity
+@Table(name = "bookings")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Booking {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long booking_id;
-
-    @Column(nullable = false)
-    private Long user_id;
-
-    @Column(nullable = false)
-    private Long parking_id;
-
-    @Column(nullable = false)
-    private Long slot_id;
-
-    @Column(nullable = false)
-    private String vehicle_id;
-
-    @Column(nullable = false)
-    private Timestamp booking_date_time;
-
-    @Column(nullable = false)
-    private Timestamp expected_starting_time;
-
-    @Column(nullable = false)
-    private Timestamp expected_end_time;
-
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal base_price;
-
-    @Column(nullable = true, precision = 10, scale = 2)
-    private BigDecimal fine_amount;
-
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal total_amount;
-
-    @Column(nullable = false, length = 50)
-    private String booking_status;
+    @Column(name = "booking_id")
+    private Long bookingId;
+    
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+    
+    @Column(name = "parking_id", nullable = false)
+    private Long parkingId;
+    
+    @Column(name = "slot_id", nullable = false)
+    private String slotId;
+    
+    @Column(name = "vehicle_id", nullable = false)
+    private Long vehicleId;
+    
+    @Column(name = "booking_date_time", nullable = false)
+    private LocalDateTime bookingDateTime;
+    
+    @Column(name = "expected_starting_time", nullable = false)
+    private LocalDateTime expectedStartingTime;
+    
+    @Column(name = "expected_end_time", nullable = false)
+    private LocalDateTime expectedEndTime;
+    
+    @Column(name = "base_price", nullable = false)
+    private BigDecimal basePrice;
+    
+    @Column(name = "fine_amount")
+    private BigDecimal fineAmount;
+    
+    @Column(name = "total_amount", nullable = false)
+    private BigDecimal totalAmount;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "booking_status", nullable = false)
+    private BookingStatus bookingStatus;
+    
+    @PrePersist
+    protected void onCreate() {
+        if (bookingDateTime == null) {
+            bookingDateTime = LocalDateTime.now();
+        }
+    }
 }

@@ -53,4 +53,4 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
         @Param("startTime") Timestamp startTime,
         @Param("endTime") Timestamp endTime
     );
-}
+}// user id , parking id 

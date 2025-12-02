@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Sawaari - Parking Reservation</title>
+<title>Sawaari - Parking Availability</title>
 <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -27,30 +27,28 @@
 <body class="bg-[var(--background-color)] text-[var(--text-primary)]">
 <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden" x-data="{ open: false }">
 <div class="layout-container flex h-full grow flex-col">
-<header class="flex items-center justify-between whitespace-nowrap border-b border-gray-200 px-10 py-4 bg-white">
-  <div class="flex items-center gap-8">
-    <div class="flex items-center gap-3 text-[var(--text-primary)]">
-      <a href="dashboard.html" class="flex items-center gap-3">
-        <img src="../../logoofsawari.jpg" alt="Sawaari logo" class="h-8 w-8 object-contain"/>
-        <h1 class="text-2xl font-bold">Sawaari</h1>
-      </a>
-    </div>
-    <nav class="hidden md:flex items-center gap-6">
-      <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors" href="dashboard.html">Home</a>
-      <a class="text-sm font-medium text-[var(--primary-color)]" href="#">Reservations</a>
-      <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors" href="history.html">My Bookings</a>
-      <a class="text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors" href="contactus.html">Help</a>
-    </nav>
-  </div>
-  <div class="flex items-center gap-4">
-    <button class="text-[var(--text-secondary)] hover:text-[var(--primary-color)]">
-      <svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"></path>
-      </svg>
-    </button>
-    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-[var(--primary-color)]" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAV0Z0zPGO8EgRlzl4tWMvdH0iddir6nbarAGp-eSm2bPz9LaeqcQwfL9zjkrmxgg8-5_id5UjPQVKoDS-8Hv8kRHnO350BGHKZrSIwrRVP_n8AAUfIJYLP0D27KGUMAVegHl_PleIL5r6bbaHcBkK9j9foU7XXnTJO_tHyU088QWSfLhFSL7vtTfZyWmJGvGvVu3MJizjJYB6h7PF2N7x-YkF2T7MMbRNUC-N2GmvkwXHmxGbDRkDJSq0vzwvRpPuZbcL8sNMH-s0");'></div>
-    <button type="button" onclick="openSignOutModal()" class="ml-2 text-sm font-medium text-[var(--text-primary)] hover:text-[var(--primary-color)]">Sign Out</button>
-  </div>
+<header class="bg-white shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-[var(--text-primary)]">
+<a href="dashboard.html" class="flex items-center gap-2">
+<img src="../../logoofsawari.jpg" alt="Sawaari logo" class="h-8 w-8 object-contain"/>
+<h1 class="text-xl font-bold">Sawaari</h1>
+</a>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors" href="dashboard.html">Home</a>
+<a class="text-sm font-medium text-[var(--primary-color)]" href="availability.html">Find Parkings</a>
+<a class="text-sm font-medium text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors" href="history.html">History</a>
+<button type="button" onclick="openSignOutModal()" class="text-sm font-medium text-[var(--text-primary)] hover:text-[var(--primary-color)] transition-colors">Sign Out</button>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDRpIrQX9fknXmuIjZz-hQzc1V3igfMkUhJMvkeNFck1-Uw0ju5lwxFIe3c-Iu4VxvkER29s9Uarlbbbw_ztYtcxYJ0WcTe6xsZL6GiI0PY4motio4vYqyqM8nEgFCkEvzUyDh7DGGAFLeXiNX4N_zR17Y4Fg97dywk834v20nB6JrkbmW4spKE3NGfVFU3A3tpwRTTy7pmFUmCOrHZ1SE7QEeIsrRPG2aBZKS3Ullxbu6X-NnL1kF0Oi9etB1swNxZ__BXOCw-UpE");'></div>
+</div>
+</div>
+</div>
 </header>
 <main class="flex-1 px-4 sm:px-6 lg:px-8 py-8">
 <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -69,7 +67,7 @@
 </div>
 <div class="flex items-center gap-2">
 <span class="w-3 h-3 rounded-full bg-red-500"></span>
-<span class="text-sm text-[var(--text-secondary)]">Unavailable</span>
+<span class="text-sm text-[var(--text-secondary)]">Booked</span>
 </div>
 <div class="flex items-center gap-2">
 <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
@@ -108,7 +106,7 @@
 </div>
 </div>
 </div>
-<div class="space-y-8" x-data="{ open: false }">
+<div class="space-y-6" x-data="{ open: false }">
 <div class="bg-white rounded-xl shadow-md p-6">
 <h3 class="text-xl font-bold text-[var(--text-primary)] mb-4">Availability</h3>
 <div class="space-y-3">
@@ -120,35 +118,9 @@
 <p class="text-green-600">Available</p>
 <p class="font-bold text-green-600">10</p>
 </div>
-<div class="relative">
-<button @click="open = !open" class="flex justify-between items-center w-full" type="button">
-<p class="text-red-600">Unavailable</p>
-<div class="flex items-center gap-2">
+<div class="flex justify-between items-center">
+<p class="text-red-600">Booked</p>
 <p class="font-bold text-red-600">5</p>
-<svg :class="{ 'rotate-180': open }" class="w-4 h-4 text-red-600 transition-transform" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-<path clip-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" fill-rule="evenodd"></path>
-</svg>
-</div>
-</button>
-<div class="absolute z-10 mt-2 w-full bg-white rounded-md shadow-lg border border-gray-200" x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-end="transform opacity-100 scale-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:leave="transition ease-in duration-75" x-transition:leave-end="transform opacity-0 scale-95" x-transition:leave-start="transform opacity-100 scale-100">
-<div class="py-1">
-<a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="#">
-<span class="font-semibold">A2</span> - 2 hours
-                                        </a>
-<a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="#">
-<span class="font-semibold">B2</span> - 1 hour
-                                        </a>
-<a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="#">
-<span class="font-semibold">B5</span> - 45 mins
-                                        </a>
-<a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="#">
-<span class="font-semibold">C3</span> - 3 hours
-                                        </a>
-<a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" href="#">
-<span class="font-semibold">C6</span> - 1.5 hours
-                                        </a>
-</div>
-</div>
 </div>
 <div class="flex justify-between items-center">
 <p class="text-yellow-600">Partially Booked</p>
@@ -160,21 +132,39 @@
 </div>
 </div>
 <div class="bg-white rounded-xl shadow-md p-6">
-<h3 class="text-xl font-bold text-[var(--text-primary)] mb-4">Your Selection</h3>
-<div class="bg-[var(--secondary-color)] rounded-lg p-4 flex items-center justify-between">
+<h3 class="text-xl font-bold text-[var(--text-primary)] mb-4">Reservation Details</h3>
+<form class="space-y-4">
 <div>
-<p class="font-bold text-[var(--primary-color)] text-lg">Spot A4</p>
-<p class="text-sm text-[var(--text-secondary)]">Section A, Row 4</p>
+<label class="block text-sm font-medium text-[var(--text-secondary)]" for="spot-selection">Parking Spot</label>
+<input class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring focus:ring-[var(--primary-color)] focus:ring-opacity-50" id="spot-selection" readonly="" type="text" value="A4"/>
 </div>
-<button class="text-[var(--text-secondary)] hover:text-red-500 transition-colors">
-<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
-<path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
-</svg>
-</button>
+<div>
+<label class="block text-sm font-medium text-[var(--text-secondary)]" for="vehicle-id">Vehicle ID</label>
+<select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring focus:ring-[var(--primary-color)] focus:ring-opacity-50" id="vehicle-id">
+<option>Toyota Camry - ABC-123</option>
+<option>Honda Civic - XYZ-789</option>
+<option>Add new vehicle...</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-medium text-[var(--text-secondary)]" for="start-time">Starting Time</label>
+<input class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring focus:ring-[var(--primary-color)] focus:ring-opacity-50" id="start-time" type="time" value="14:30"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-[var(--text-secondary)]" for="duration">Expected Duration</label>
+<select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring focus:ring-[var(--primary-color)] focus:ring-opacity-50" id="duration">
+<option>30 minutes</option>
+<option selected="">1 hour</option>
+<option>2 hours</option>
+<option>3 hours</option>
+</select>
+</div>
 </div>
 <button class="w-full mt-6 bg-[var(--primary-color)] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[var(--accent-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50 transition ease-in-out duration-150" id="confirmReservationBtn" type="button">
-                  Confirm Reservation
-                </button>
+                                Confirm Reservation
+                            </button>
+</form>
 </div>
 </div>
 </div>
@@ -185,28 +175,36 @@
 <script>
 document.getElementById('confirmReservationBtn').addEventListener('click', function() {
     if (confirm("Are you sure you want to confirm this reservation?")) {
-      window.location.href = 'DetailsForConfirmation.html';
+        window.location.href = 'confirmation.html';
     }
 });
 </script>
 <!-- Sign Out Confirmation Modal -->
 <div id="signoutModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
-  <div class="bg-white rounded-lg shadow-lg w-full max-w-sm mx-4">
-    <div class="p-6">
-      <h3 class="text-lg font-semibold text-gray-900">Confirm Sign Out</h3>
-      <p class="mt-2 text-sm text-gray-600">Are you sure you want to sign out? You will be redirected to the login page.</p>
-      <div class="mt-6 flex justify-end gap-3">
-        <button type="button" onclick="closeSignOutModal()" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-800 hover:bg-gray-200">Cancel</button>
-        <button type="button" onclick="confirmSignOut()" class="px-4 py-2 rounded-lg bg-[var(--primary-color)] text-white hover:bg-[var(--accent-color)]">Sign Out</button>
-      </div>
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-sm mx-4">
+        <div class="p-6">
+            <h3 class="text-lg font-semibold text-gray-900">Confirm Sign Out</h3>
+            <p class="mt-2 text-sm text-gray-600">Are you sure you want to sign out? You will be redirected to the login page.</p>
+            <div class="mt-6 flex justify-end gap-3">
+                <button type="button" onclick="closeSignOutModal()" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-800 hover:bg-gray-200">Cancel</button>
+                <button type="button" onclick="confirmSignOut()" class="px-4 py-2 rounded-lg bg-[var(--primary-color)] text-white hover:bg-[var(--accent-color)]">Sign Out</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <script>
-  function openSignOutModal() { const m = document.getElementById('signoutModal'); if(!m) return; m.classList.remove('hidden'); m.classList.add('flex'); }
-  function closeSignOutModal() { const m = document.getElementById('signoutModal'); if(!m) return; m.classList.add('hidden'); m.classList.remove('flex'); }
-  function confirmSignOut() { window.location.href = '../../Auth/index.html'; }
+    function openSignOutModal() {
+        document.getElementById('signoutModal').classList.remove('hidden');
+        document.getElementById('signoutModal').classList.add('flex');
+    }
+    function closeSignOutModal() {
+        document.getElementById('signoutModal').classList.add('hidden');
+        document.getElementById('signoutModal').classList.remove('flex');
+    }
+    function confirmSignOut() {
+        window.location.href = '../../Auth/index.html';
+    }
 </script>
 
 </body></html>

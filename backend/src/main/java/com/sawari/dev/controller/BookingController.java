@@ -31,7 +31,8 @@ public class BookingController {
   
     @PostMapping("/create")
     public ResponseEntity<BookingResponse> createBooking(
-            @Valid @RequestBody CreateBookingRequest request) {
+            @Valid // sets a validation rule 
+             @RequestBody CreateBookingRequest request) {
         
        
         Long userId = getCurrentUserId();
@@ -67,14 +68,14 @@ public class BookingController {
     }
 
     @GetMapping("/available-slots")
-    public ResponseEntity<List<SlotDTO>> getAvailableSlots(
+    public ResponseEntity<List<CreateBookingRequest>> getAvailableSlots(
             @RequestParam Long parkingId,
-            @RequestParam VehicleType vehicleType,
+            @RequestParam long vehicleType,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) 
                 LocalDateTime startTime,
             @RequestParam BigDecimal duration) {
         
-        List<SlotDTO> availableSlots = bookingService.getAvailableSlots(
+        List<CreateBookingRequest> availableSlots = bookingService.getAvailableSlots(
                 parkingId, vehicleType, startTime, duration);
         
         return ResponseEntity.ok(availableSlots);
@@ -84,7 +85,7 @@ public class BookingController {
     @GetMapping("/calculate-cost")
     public ResponseEntity<BigDecimal> calculateCost(
             @RequestParam Long parkingId,
-            @RequestParam VehicleType vehicleType,
+            @RequestParam long vehicleType,
             @RequestParam BigDecimal duration) {
         
         BigDecimal cost = bookingService.calculateCost(parkingId, vehicleType, duration);

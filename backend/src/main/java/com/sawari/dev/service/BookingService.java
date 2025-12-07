@@ -2,89 +2,97 @@ package com.sawari.dev.service;
 
 import com.sawari.dev.dbtypes.BookingStatus;
 import com.sawari.dev.model.Booking;
+import com.sawari.dev.model.dto.BookingResponse;
+import com.sawari.dev.model.dto.CreateBookingRequest;
 import com.sawari.dev.repository.BookingRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BookingService {
-
-    @Autowired
-    private BookingRepository bookingRepository;
-
-    // Create a new booking
-   public Booking createBooking(Booking booking) {
-    // 1. VALIDATE required fields
-    if (booking.getUserId() == null) {
-        throw new IllegalArgumentException("User ID is required");
-    }
-    if (booking.getParkingId() == null) {
-        throw new IllegalArgumentException("Parking ID is required");
-    }
-    if (booking.getSlotId() == null) {
-        throw new IllegalArgumentException("Slot ID is required");
-    }
-   if (booking.getVehicleId() == null) {
-    throw new IllegalArgumentException("Vehicle ID is required");
-}
-    if (booking.getExpectedStartingTime() == null) {
-        throw new IllegalArgumentException("Start time is required");
-    }
-    if (booking.getExpectedEndTime() == null) {
-        throw new IllegalArgumentException("End time is required");
-    }
     
-    // 2. VALIDATE time logic
-    if (booking.getExpectedEndTime().isBefore(booking.getExpectedStartingTime())) {
-        throw new IllegalArgumentException("End time must be after start time");
-    }
+    private final BookingRepository bookingRepository;
     
-    // 3. CHECK for conflicts (prevent double booking)
-    List<Booking> conflicts = bookingRepository.findConflictingBookings(
+    @Transactional
+    public BookingResponse createBooking(Long userId, CreateBookingRequest request) {
         
-        booking.getSlotId(),
-        booking.getExpectedStartingTime(),
-        booking.getExpectedEndTime()
+        // Validate time
+        if (request.getExpectedEndTime().isBefore(request.getExpectedStartingTime())) {
+            throw new IllegalArgumentException("End time must be after start time");
+        }
         
-    );
-    
-    if (!conflicts.isEmpty()) {
-        throw new RuntimeException("Slot is already booked for this time period");
-    }
-    
-    // 4. SET default values
-    if (booking.getBookingDateTime() == null) {
-        booking.setBookingDateTime(LocalDateTime.now());
-    }
-    
-if (booking.getBookingStatus() == null) {
-    booking.setBookingStatus(BookingStatus.PENDING);  
-}
-    
-    if (booking.getFineAmount() == null) {
-        booking.setFineAmount(BigDecimal.ZERO);
-    }
-    
-    // 5. CALCULATE total if not provided
-    if (booking.getTotalAmount() == null) {
-        booking.setTotalAmount(
-            booking.getBasePrice().add(booking.getFineAmount())
+        if (request.getExpectedStartingTime().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Start time cannot be in the past");
+        }
+        
+        // Check slot availability
+        List<Booking> conflicts = bookingRepository.findConflictingBookings(
+            request.getSlotId().toString(),
+            request.getExpectedStartingTime(),
+            request.getExpectedEndTime()
         );
-    }
-    
-    // 6. SAVE to database
-    return bookingRepository.save(booking);
+        
+        if (!conflicts.isEmpty()) {
+            throw new RuntimeException("Slot already booked");
+        }
+        
+        // Create booking
+        Booking booking = new Booking();
+        booking.setUserId(userId);
+        booking.setParkingId(request.getParkingId());
+        booking.setSlotId(request.getSlotId().toString());
+        booking.setVehicleId(request.getVehicleId());
+        booking.setExpectedStartingTime(request.getExpectedStartingTime());
+        booking.setExpectedEndTime(request.getExpectedEndTime());
+        booking.setBookingDateTime(LocalDateTime.now());
+        booking.setBookingStatus(BookingStatus.PENDING);
+        booking.setFineAmount(BigDecimal.ZERO);
+        
+        // Calculate price
+        long hours = Duration.between(
+            request.getExpectedStartingTime(), 
+            request.getExpectedEndTime()
+        ).toHours();
+        if (hours < 1) hours = 1;
+        
+        BigDecimal basePrice = BigDecimal.valueOf(50.00).multiply(BigDecimal.valueOf(hours));
+        booking.setBasePrice(basePrice);
+        booking.setTotalAmount(basePrice);
+        
+        // Save
+        Booking saved = bookingRepository.save(booking);
+        
+        // Return response
+        return BookingResponse.builder()
+                .bookingId(saved.getBookingId())
+                .userId(saved.getUserId())
+                .parkingId(saved.getParkingId())
+                .slotId(Long.valueOf(saved.getSlotId()))
+                .vehicleId(saved.getVehicleId())
+                .bookingDateTime(saved.getBookingDateTime())
+                .expectedStartingTime(saved.getExpectedStartingTime())
+                .expectedEndTime(saved.getExpectedEndTime())
+                .bookingStatus(saved.getBookingStatus().name())
+                .basePrice(saved.getBasePrice())
+                .totalAmount(saved.getTotalAmount())
+            .fineAmount(saved.getFineAmount())
+            .build();
 }
 
-    // Get booking by ID
-    public Optional<Booking> getBookingById(Long id) {
+// Get booking by ID
+public Optional<Booking> getBookingById(Long id) {
         return bookingRepository.findById(id);
     }
 
@@ -133,15 +141,29 @@ if (booking.getBookingStatus() == null) {
     }
 }
 
-    // Delete booking
-    public void deleteBooking(Long id) {
-        if (bookingRepository.existsById(id)) {
-            bookingRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("Booking not found with id: " + id);
-        }
+   public void cancelBooking(Long bookingId, Long userId) {
+    // Find the booking
+    Booking booking = bookingRepository.findById(bookingId)
+            .orElseThrow(() -> new RuntimeException("Booking not found with id: " + bookingId));
+    
+    // Verify the booking belongs to the user (SECURITY CHECK)
+    if (!booking.getUserId().equals(userId)) {
+        throw new RuntimeException("You can only cancel your own bookings");
     }
-
+    
+    // Check if booking can be cancelled
+    if (booking.getBookingStatus() == BookingStatus.COMPLETED) {
+        throw new RuntimeException("Cannot cancel a completed booking");
+    }
+    
+    if (booking.getBookingStatus() == BookingStatus.CANCELLED) {
+        throw new RuntimeException("Booking is already cancelled");
+    }
+    
+    // Update status to CANCELLED (don't delete it)
+    booking.setBookingStatus(BookingStatus.CANCELLED);
+    bookingRepository.save(booking);
+}
     // Get bookings by user ID
     public List<Booking> getBookingsByUserId(Long userId) {
         return bookingRepository.findByUserId( userId);
@@ -156,4 +178,103 @@ if (booking.getBookingStatus() == null) {
     public List<Booking> getBookingsByStatus(String status) {
         return bookingRepository.findByBookingStatus(status);
     }
+    
+@Transactional
+public BookingResponse checkIn(Long bookingId, Long userId) {
+    
+    Booking booking = bookingRepository.findById(bookingId)
+            .orElseThrow(() -> new RuntimeException("Booking not found"));
+    
+    if (!booking.getUserId().equals(userId)) {
+        throw new RuntimeException("Not your booking");
+    }
+    
+    if (booking.getBookingStatus() != BookingStatus.CONFIRMED) {
+        throw new RuntimeException("Can't check-in. Status: " + booking.getBookingStatus());
+    }
+    
+    booking.setCheckInTime(LocalDateTime.now());
+    booking.setBookingStatus(BookingStatus.ACTIVE);
+    
+    return convertToResponse(bookingRepository.save(booking));
+}
+
+@Transactional
+public BookingResponse checkOut(Long bookingId, Long userId) {
+    
+    Booking booking = bookingRepository.findById(bookingId)
+            .orElseThrow(() -> new RuntimeException("Booking not found"));
+    
+    if (!booking.getUserId().equals(userId)) {
+        throw new RuntimeException("Not your booking");
+    }
+    
+    if (booking.getBookingStatus() != BookingStatus.ACTIVE) {
+        throw new RuntimeException("Can't check-out. Status: " + booking.getBookingStatus());
+    }
+    
+    LocalDateTime now = LocalDateTime.now();
+    booking.setCheckOutTime(now);
+    booking.setBookingStatus(BookingStatus.COMPLETED);
+    
+    // Calculate late fee if overstayed
+    if (now.isAfter(booking.getExpectedEndTime())) {
+        long lateHours = Duration.between(booking.getExpectedEndTime(), now).toHours() + 1;
+        BigDecimal lateFee = BigDecimal.valueOf(25.00 * lateHours);
+        booking.setFineAmount(lateFee);
+        booking.setTotalAmount(booking.getBasePrice().add(lateFee));
+    }
+    
+    return convertToResponse(bookingRepository.save(booking));
+}
+
+private BookingResponse convertToResponse(Booking booking) {
+    return BookingResponse.builder()
+            .bookingId(booking.getBookingId())
+            .userId(booking.getUserId())
+            .parkingId(booking.getParkingId())
+            .slotId(Long.valueOf(booking.getSlotId()))
+            .vehicleId(booking.getVehicleId())
+            .bookingDateTime(booking.getBookingDateTime())
+            .expectedStartingTime(booking.getExpectedStartingTime())
+            .expectedEndTime(booking.getExpectedEndTime())
+            .bookingStatus(booking.getBookingStatus().name())
+            .basePrice(booking.getBasePrice())
+            .totalAmount(booking.getTotalAmount())
+            .fineAmount(booking.getFineAmount())
+            .build();
+}
+ public BigDecimal calculateCost(Long parkingId, long vehicleType, BigDecimal duration) {
+       return duration.multiply(BigDecimal.valueOf(10));//for now  multiplying by 10
+    }
+   
+
+@Transactional(readOnly = true)
+public List<BookingResponse> getUserBookings(Long userId, BookingStatus status) {
+    List<Booking> bookings = bookingRepository.findByUserIdAndStatus(userId, status);
+    return bookings.stream()
+            .map(this::convertToResponse)
+            .collect(Collectors.toList());
+}
+
+@Transactional(readOnly = true)
+public List<Booking> getAvailableSlots(Long parkingId, long slotId, LocalDateTime startTime, BigDecimal duration) {
+    // Calculate end time based on duration (assuming duration is in minutes)
+    LocalDateTime endTime = startTime.plusMinutes(duration.longValue());
+    
+    // Find conflicting bookings for the slot
+    List<Booking> conflicts = bookingRepository.findConflictingBookings(
+            slotId,
+            Timestamp.valueOf(startTime),
+            Timestamp.valueOf(endTime)
+    );
+    
+    // If no conflicts, the slot is available
+    if (conflicts.isEmpty()) {
+        return List.of(); // Return empty list indicating availability
+    }
+    
+    return conflicts;
+}
+
 }

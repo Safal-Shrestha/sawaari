@@ -53,9 +53,9 @@ public class BookingController {
         List<BookingResponse> bookings = bookingService.getUserBookings(userId, status);
         
         return ResponseEntity.ok(bookings);
-    }
+     } 
 
-   
+   /* 
     @GetMapping("/{bookingId}")
     public ResponseEntity<BookingResponse> getBookingById(
             @PathVariable Long bookingId) {
@@ -65,7 +65,7 @@ public class BookingController {
         BookingResponse booking = bookingService.getBookingById(bookingId, userId);
         
         return ResponseEntity.ok(booking);
-    }
+    }FOR SPECIFIC BOOKING DETAIls*/
 
     @GetMapping("/available-slots")
     public ResponseEntity<List<CreateBookingRequest>> getAvailableSlots(
@@ -75,13 +75,12 @@ public class BookingController {
                 LocalDateTime startTime,
             @RequestParam BigDecimal duration) {
         
-        List<CreateBookingRequest> availableSlots = bookingService.getAvailableSlots(
-                parkingId, vehicleType, startTime, duration);
+        List<CreateBookingRequest> availableSlots = bookingService.getAvailableSlots( parkingId, vehicleType, startTime, duration);
         
         return ResponseEntity.ok(availableSlots);
     }
 
-    
+     
     @GetMapping("/calculate-cost")
     public ResponseEntity<BigDecimal> calculateCost(
             @RequestParam Long parkingId,

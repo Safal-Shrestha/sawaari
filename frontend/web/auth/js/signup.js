@@ -1,3 +1,10 @@
+let devId = localStorage.getItem("deviceId");
+
+if (!devId) {
+  deviceId = crypto.randomUUID();
+  localStorage.setItem("deviceId", deviceId);
+}
+
 async function registerUser() {
     // Get message box element
     const messageBox = document.getElementById('messageBox');
@@ -13,7 +20,6 @@ async function registerUser() {
         { id: 'gender', name: 'Gender' },
         { id: 'contact', name: 'Mobile Number' },
         { id: 'country', name: 'Country' },
-        { id: 'role', name: 'Role' },
         { id: 'email', name: 'Email Address' },
         { id: 'password', name: 'Password' },
         { id: 'confirmPassword', name: 'Confirm Password' }
@@ -51,23 +57,23 @@ async function registerUser() {
         return;
     }
 
-    // Map form fields to match backend expectations (camelCase)
-    const data = {
+    const signupData = {
         fullName: document.getElementById("fullname").value.trim(),
         userName: document.getElementById("username").value.trim(),
         dob: document.getElementById("dob").value,
         gender: document.getElementById("gender").value,
-        contact: parseInt(document.getElementById("contact").value.trim()), // Convert to number
+        contact: parseInt(document.getElementById("contact").value.trim()),
         country: document.getElementById("country").value.trim(),
-        role: document.getElementById("role").value,
+        role: "GENERAL_USER",
         email: document.getElementById("email").value.trim(),
         password: password
     };
 
-    // Debug: Log the data being sent
-    console.log("=== DEBUG INFO ===");
-    console.log("Data being sent to backend:", JSON.stringify(data, null, 2));
-    console.log("==================");
+    const loginData = {
+        username: document.getElementById("email").value.trim(),
+        password: password,
+        deviceId: devId
+    }
 
     // Disable button and show loading state
     const submitBtn = document.querySelector('button[onclick="registerUser()"]');
@@ -76,10 +82,10 @@ async function registerUser() {
     submitBtn.innerHTML = 'Signing up...';
 
     try {
-        let response = await fetch("http://localhost:8080/api/userInfo", {
+        let response = await fetch("http://localhost:8080/api/auth/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
+            body: JSON.stringify(signupData)
         });
 
         // Log response details
@@ -89,12 +95,43 @@ async function registerUser() {
         let message = await response.text();
         console.log("Response message:", message);
 
-        if (response.ok && message === "success") {
+        if (response.ok && message === "Signup Successful") {
             showMessage("User registered successfully! Redirecting to login...", "success");
-            // Redirect to login page after 2 seconds
-            setTimeout(() => {
-                window.location.href = "index.html";
-            }, 2000);
+            try {
+                let response = await fetch("http://localhost:8080/api/auth/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
+                    body: JSON.stringify(loginData)
+                })
+
+                console.log("Response status:", response.status);
+
+                const data = await response.json();
+                const accessToken = data.accessToken;
+
+                sessionStorage.setItem("accessToken", accessToken);
+
+                if(data.role == "ADMIN")  {
+                    setTimeout(() => {
+                        window.location.href = "/frontend/web/admin/landing.html";
+                    }, 10);
+                }
+
+                if(data.role == "GENERAL_USER")  {
+                    setTimeout(() => {
+                        window.location.href = "/frontend/web/user/dashboard.html";
+                    }, 10);
+                }
+
+                if(data.role == "PARKING_OWNER")  {
+                    setTimeout(() => {
+                        window.location.href = "/frontend/web/parkinglotowner/dashboard.html";
+                    }, 10);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
         } else {
             // Show the exact error from backend
             showMessage(message, "error");
@@ -104,7 +141,7 @@ async function registerUser() {
 
     } catch (error) {
         console.error("Error:", error);
-        showMessage("Failed to connect to server! Please check if the backend is running.", "error");
+        showMessage("Failed to connect to server!", "error");
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
     }

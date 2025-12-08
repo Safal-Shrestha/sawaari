@@ -13,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,8 +29,6 @@ import com.sawari.dev.repository.UsersRepository;
 import com.sawari.dev.service.CustomUserDetails;
 import com.sawari.dev.service.RefreshTokenService;
 
-
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -60,13 +57,16 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public Users saveUser(@RequestBody Users user){
+    public ResponseEntity<?> saveUser(@RequestBody Users user){
         user.setPassword(encoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        userRepository.save(user);
+        return ResponseEntity.ok()
+                .body("Signup Successful");
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException {
+        loginUser.getDeviceId();
 
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -79,6 +79,7 @@ public class AuthController {
 
         String accessToken = jwtTokenUtil.generateToken(authentication);
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(principal.getId(), loginUser.getDeviceId());
+        String role = principal.getAuthorities().iterator().next().getAuthority();
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken.getToken())
             .httpOnly(true)
@@ -90,7 +91,10 @@ public class AuthController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(Map.of("accessToken", accessToken));
+                .body(Map.of(
+                    "accessToken", accessToken,
+                    "role", role
+                ));
     }
 
     @PostMapping("/refresh")

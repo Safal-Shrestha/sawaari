@@ -1,7 +1,12 @@
+let devId = localStorage.getItem("deviceId");
+
+if (!devId) {
+  deviceId = crypto.randomUUID();
+  localStorage.setItem("deviceId", deviceId);
+}
+
 async function loginUser(event) {
     event.preventDefault();
-    
-    console.log("Login function called!"); // Debug line
     
     // Get message box element
     const messageBox = document.getElementById('messageBox');
@@ -31,8 +36,9 @@ async function loginUser(event) {
     
     // Prepare login data
     const loginData = {
-        email: email,
-        password: password
+        username: email,
+        password: password,
+        deviceId: devId
     };
     
     // Debug: Log the data being sent
@@ -47,9 +53,10 @@ async function loginUser(event) {
     submitBtn.innerHTML = 'Logging in...';
     
     try {
-        let response = await fetch("http://localhost:8080/api/login", {
+        let response = await fetch("http://localhost:8080/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify(loginData)
         });
         
@@ -57,19 +64,32 @@ async function loginUser(event) {
         console.log("Response status:", response.status);
         console.log("Response ok:", response.ok);
         
-        let message = await response.text();
-        console.log("Response message:", message);
-        
-        if (response.ok && message === "success") {
+        if (response.ok) {
             showMessage("Login successful! Redirecting to dashboard...", "success");
             
-            // Store user email in sessionStorage (optional)
-            sessionStorage.setItem('userEmail', email);
             
-            // Redirect to dashboard after 1.5 seconds
-            setTimeout(() => {
-                window.location.href = "dashboard.html";
-            }, 1500);
+            const data = await response.json();
+            const accessToken = data.accessToken;
+
+            sessionStorage.setItem("accessToken", accessToken);
+
+            if(data.role == "ADMIN")  {
+                setTimeout(() => {
+                    window.location.href = "/frontend/web/admin/landing.html";
+                }, 10);
+            }
+
+            if(data.role == "GENERAL_USER")  {
+                setTimeout(() => {
+                    window.location.href = "/frontend/web/user/dashboard.html";
+                }, 10);
+            }
+
+            if(data.role == "PARKING_OWNER")  {
+                setTimeout(() => {
+                    window.location.href = "/frontend/web/parkinglotowner/dashboard.html";
+                }, 10);
+            }
         } else {
             // Show the exact error from backend
             showMessage(message, "error");
@@ -148,12 +168,10 @@ function togglePassword(inputId, iconId) {
 
 // Initialize form handler when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM loaded, initializing login form...");
     
     const loginForm = document.getElementById('loginForm');
     
     if (loginForm) {
-        console.log("Login form found!");
         loginForm.addEventListener('submit', loginUser);
     } else {
         console.error("Login form not found!");

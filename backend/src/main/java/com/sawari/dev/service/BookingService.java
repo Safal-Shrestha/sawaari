@@ -4,6 +4,7 @@ import com.sawari.dev.dbtypes.BookingStatus;
 import com.sawari.dev.model.Booking;
 import com.sawari.dev.model.dto.BookingResponse;
 import com.sawari.dev.model.dto.CreateBookingRequest;
+import com.sawari.dev.model.dto.BookingResponse;
 import com.sawari.dev.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import com.sawari.dev.model.Slot;
 
 @Service
 @RequiredArgsConstructor
@@ -256,25 +258,32 @@ public List<BookingResponse> getUserBookings(Long userId, BookingStatus status) 
             .map(this::convertToResponse)
             .collect(Collectors.toList());
 }
-
-@Transactional(readOnly = true)
-public List<Booking> getAvailableSlots(Long parkingId, long slotId, LocalDateTime startTime, BigDecimal duration) {
-    // Calculate end time based on duration (assuming duration is in minutes)
-    LocalDateTime endTime = startTime.plusMinutes(duration.longValue());
-    
-    // Find conflicting bookings for the slot
-    List<Booking> conflicts = bookingRepository.findConflictingBookings(
-            slotId,
-            Timestamp.valueOf(startTime),
-            Timestamp.valueOf(endTime)
-    );
-    
-    // If no conflicts, the slot is available
-    if (conflicts.isEmpty()) {
-        return List.of(); // Return empty list indicating availability
+  public List<CreateBookingRequest> getAvailableSlots(
+            Long parkingId, 
+            long vehicleType, 
+            LocalDateTime startTime, 
+            BigDecimal duration) {
+        
+        // Calculate end time based on duration (in hours)
+        LocalDateTime endTime = startTime.plusHours(duration.longValue());
+        
+        // Use the existing query to find available slots
+        List<Slot> availableSlots = bookingRepository.findAvailableSlots(
+            parkingId, 
+            vehicleType, 
+            startTime, 
+            endTime
+        );
+        
+        // Convert Slot entities to CreateBookingRequest DTOs
+        return availableSlots.stream()
+            .map(slot -> new CreateBookingRequest(
+                parkingId,
+                slot.getSlotId(),  // Assuming Slot has getSlotId() method
+                null,  // vehicleId - not set yet as it's an available slot
+                startTime,
+                endTime
+            ))
+            .collect(Collectors.toList());
     }
-    
-    return conflicts;
-}
-
 }

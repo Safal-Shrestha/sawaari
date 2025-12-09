@@ -69,4 +69,25 @@ public class Booking {
             bookingDateTime = LocalDateTime.now();
         }
     }
+    
+    
+private LocalDateTime checkOutTime;
+private LocalDateTime checkInTime;
+
+public LocalDateTime getCheckOutTime() {
+    return checkOutTime;
+}
+
+public void setCheckOutTime(LocalDateTime checkOutTime) {
+    this.checkOutTime = checkOutTime;
+}
+
+public LocalDateTime getCheckInTime() {
+    return checkInTime;
+}
+
+public void setCheckInTime(LocalDateTime checkInTime) {
+    this.checkInTime = checkInTime;
+}
+
 }

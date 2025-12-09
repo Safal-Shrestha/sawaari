@@ -1,56 +1,65 @@
 package com.sawari.dev.repository;
-
-import com.sawari.dev.model.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
+import com.sawari.dev.dbtypes.BookingStatus;
+import com.sawari.dev.model.Booking;
+import com.sawari.dev.model.Slot;
+import com.sawari.dev.model.dto.BookingResponse;
+
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     
-    // Find bookings by user ID
-    List<Booking> findByUser_id(Long userId);
-    
-    // Convenience method matching camelCase naming used in service
-    @Query("SELECT b FROM Booking b WHERE b.user_id = :userId")
-    List<Booking> findByUserId(@Param("userId") Long userId);
+    // Find all bookings for a specific user
+    List<Booking> findByUserId(Long userId);
     
     // Find bookings by vehicle ID
-    List<Booking> findByVehicleid(String vehicleId);
-
-    @Query("SELECT b FROM Booking b WHERE b.vehicle_id = :vehicleId")
-    List<Booking> findByVehicleId(@Param("vehicleId") String vehicleId);
+    List<Booking> findByVehicleId(String vehicleId);
     
-    // Find bookings by parking ID
-    List<Booking> findByParkingid(Long parkingId);
-
-    @Query("SELECT b FROM Booking b WHERE b.parking_id = :parkingId")
-    List<Booking> findByParkingId(@Param("parkingId") Long parkingId);
+    // Find bookings by status (PENDING, CONFIRMED, etc.)
+    List<Booking> findByBookingStatus(String status);
     
-    // Find bookings by slot ID
-    List<Booking> findBySlotid(Long slotId);
-
-    @Query("SELECT b FROM Booking b WHERE b.slot_id = :slotId")
-    List<Booking> findBySlotId(@Param("slotId") Long slotId);
+    // Find user's bookings sorted by date (newest first)
+    List<Booking> findByUserIdOrderByBookingDateTimeDesc(Long userId);
     
-    // Find bookings by booking status
-    List<Booking> findByBookingstatus(String bookingStatus);
-
-    @Query("SELECT b FROM Booking b WHERE b.booking_status = :bookingStatus")
-    List<Booking> findByBookingStatus(@Param("bookingStatus") String bookingStatus);
+    // Find user's bookings with specific status
+    List<Booking> findByUserIdAndStatus(Long userId, BookingStatus status);
     
-    // Check for conflicting bookings (prevent double-booking)
-    @Query("SELECT b FROM Booking b WHERE b.slot_id = :slotId " +
-           "AND b.booking_status IN ('CONFIRMED', 'PENDING', 'ACTIVE') " +
-           "AND b.expected_starting_time < :endTime " +
-           "AND b.expected_end_time > :startTime")
+    // Find a specific booking for a user (for security - user can only access their own)
+    Optional<Booking> findByBookingIdAndUserId(Long bookingId, Long userId);
+
+    @Query("SELECT b FROM Booking b WHERE b.slotId = :slotId " +
+           "AND b.bookingStatus != com.sawari.dev.dbtypes.BookingStatus.CANCELLED " +
+           "AND ((b.expectedStartingTime < :endTime AND b.expectedEndTime > :startTime))")
     List<Booking> findConflictingBookings(
-        @Param("slotId") Long slotId,
-        @Param("startTime") Timestamp startTime,
-        @Param("endTime") Timestamp endTime
+        @Param("slotId") String slotId,
+        @Param("startTime") LocalDateTime startTime,
+        @Param("endTime") LocalDateTime endTime
     );
-}// user id , parking id 
+
+    @Query("SELECT s FROM Slot s " +
+           "WHERE s.parkingId = :parkingId " +
+           "AND s.vehicleType = :vehicleType " +
+           "AND NOT EXISTS (" +
+           "  SELECT b FROM Booking b " +
+           "  WHERE b.slotId = s.slotId " +
+           "  AND b.bookingStatus IN (com.sawari.dev.dbtypes.BookingStatus.CONFIRMED, " +
+           "                          com.sawari.dev.dbtypes.BookingStatus.ACTIVE) " +
+           "  AND b.expectedStartingTime < :endTime " +
+           "  AND b.expectedEndTime > :startTime" +
+           ")")
+    List<Slot> findAvailableSlots(
+        @Param("parkingId") Long parkingId,
+        @Param("vehicleType") long vehicleType,
+        @Param("startTime") LocalDateTime startTime,
+        @Param("endTime") LocalDateTime endTime
+    );
+        List<BookingResponse> getUserBookings(Long userId, BookingStatus status);
+
+}

@@ -1,28 +1,20 @@
 package com.sawari.dev.model.dto;
+
 import jakarta.validation.constraints.NotNull;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class CreateBookingRequest {
- 
-     @NotNull(message = "Parking ID is required")
+    @NotNull
     private Long parkingId;
-    
-    @NotNull(message = "Slot ID is required")
-    private Long slotId;
-    
-    @NotNull(message = "Vehicle ID is required")
-    private Long vehicleId;
-    
-    @NotNull(message = "Start time is required")
-    private LocalDateTime expectedStartingTime;
-    
-    @NotNull(message = "End time is required")
-    private LocalDateTime expectedEndTime;
+
+    // license plate (string) kept in Booking; frontend still passes vehicle id (string)
+    @NotNull
+    private String vehicleId;
+
+    @NotNull
+    private String expectedStart; // ISO datetime, e.g. 2025-12-09T15:00:00
+
+    @NotNull
+    private String expectedEnd;
 }

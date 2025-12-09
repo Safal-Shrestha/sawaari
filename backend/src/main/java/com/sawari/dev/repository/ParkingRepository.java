@@ -15,4 +15,5 @@ public interface ParkingRepository extends JpaRepository<Parking, Long> {// yo p
     
     // active parking get garna 
     List<Parking> findByIsActive(boolean isActive);
+    
 }

@@ -2,6 +2,9 @@ package com.sawari.dev.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import com.sawari.dev.dbtypes.BookingStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,12 +13,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.sawari.dev.dbtypes.BookingStatus;
 
 @Entity
 @Table(name = "bookings")
@@ -35,11 +36,13 @@ public class Booking {
     @Column(name = "parking_id", nullable = false)
     private Long parkingId;
     
+    // numeric DB id -> Long
     @Column(name = "slot_id", nullable = false)
-    private String slotId;
+    private Long slotId;
     
+    // license plate / external vehicle id -> String
     @Column(name = "vehicle_id", nullable = false)
-    private Long vehicleId;
+    private String vehicleId;
     
     @Column(name = "booking_date_time", nullable = false)
     private LocalDateTime bookingDateTime;
@@ -50,13 +53,13 @@ public class Booking {
     @Column(name = "expected_end_time", nullable = false)
     private LocalDateTime expectedEndTime;
     
-    @Column(name = "base_price", nullable = false)
+    @Column(name = "base_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal basePrice;
     
-    @Column(name = "fine_amount")
+    @Column(name = "fine_amount", precision = 10, scale = 2)
     private BigDecimal fineAmount;
     
-    @Column(name = "total_amount", nullable = false)
+    @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalAmount;
     
     @Enumerated(EnumType.STRING)
@@ -68,26 +71,8 @@ public class Booking {
         if (bookingDateTime == null) {
             bookingDateTime = LocalDateTime.now();
         }
+        if (fineAmount == null) {
+            fineAmount = BigDecimal.ZERO;
+        }
     }
-    
-    
-private LocalDateTime checkOutTime;
-private LocalDateTime checkInTime;
-
-public LocalDateTime getCheckOutTime() {
-    return checkOutTime;
-}
-
-public void setCheckOutTime(LocalDateTime checkOutTime) {
-    this.checkOutTime = checkOutTime;
-}
-
-public LocalDateTime getCheckInTime() {
-    return checkInTime;
-}
-
-public void setCheckInTime(LocalDateTime checkInTime) {
-    this.checkInTime = checkInTime;
-}
-
 }

@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -104,11 +105,11 @@ public class BookingService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot book in the past");
         }
 
-        // Find available slots for the SPECIFIC time period
+        // 🔧 FIX: Find available slots using corrected query that checks for overlapping bookings
         List<Slot> availableSlots = slotRepository.findAvailableSlotsForTimePeriod(
                 request.getParkingId(), 
                 vehicle.getVModel(), 
-                startTime, // Use LocalDateTime for DB query
+                startTime,
                 endTime);
 
         if (availableSlots.isEmpty()) {
@@ -117,21 +118,44 @@ public class BookingService {
                     " during the requested time period: " + startTime + " to " + endTime);
         }
 
-        // CONCURRENT BOOKING FIX: Double-check slot isn't reserved
+        // 🔧 FIX: Use pessimistic locking to prevent concurrent bookings
         Slot slot = null;
         for (Slot s : availableSlots) {
-            Slot freshSlot = slotRepository.findById(s.getSlotId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Slot not found"));
+            // Acquire pessimistic write lock on the slot (locks the database row)
+            Optional<Slot> lockedSlot = slotRepository.findByIdWithLock(s.getSlotId());
             
-            if (!freshSlot.getIsReserved() && !freshSlot.getIsOccupied()) {
-                slot = freshSlot;
-                break;
+            if (lockedSlot.isEmpty()) {
+                logger.warn("Slot {} not found during lock acquisition", s.getSlotId());
+                continue;
             }
+            
+            Slot freshSlot = lockedSlot.get();
+            
+            // Double-check: slot should not be occupied
+            if (freshSlot.getIsOccupied()) {
+                logger.warn("Slot {} is occupied, skipping", freshSlot.getSlotId());
+                continue;
+            }
+            
+            // 🔧 FIX: Final validation - check for any conflicting bookings
+            // This prevents race conditions where another transaction might have created a booking
+            List<Booking> conflictingBookings = bookingRepository.findOverlappingBookingsForSlot(
+                    freshSlot.getSlotId(), startTime, endTime);
+            
+            if (!conflictingBookings.isEmpty()) {
+                logger.warn("Slot {} has {} conflicting bookings, skipping", 
+                        freshSlot.getSlotId(), conflictingBookings.size());
+                continue;
+            }
+            
+            // Slot is truly available - we have the lock and verified no conflicts
+            slot = freshSlot;
+            break;
         }
         
         if (slot == null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, 
-                    "Slot was just reserved by another user. Please try another slot.");
+                    "All slots were reserved by other users during processing. Please try again.");
         }
 
         // Calculate price
@@ -396,7 +420,7 @@ public class BookingService {
                     "End time must be after start time");
         }
 
-        // Use the time-based query to find available slots
+        // Use the corrected time-based query to find available slots
         return slotRepository.findAvailableSlotsForTimePeriod(
                 parkingId, vehicleModel, startTime, endTime);
     }

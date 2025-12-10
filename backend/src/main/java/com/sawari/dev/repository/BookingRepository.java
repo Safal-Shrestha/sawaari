@@ -20,23 +20,39 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     
     // Find bookings that are active now or in the future for a specific slot
     @Query("SELECT b FROM Booking b " +
-           "WHERE b.slotId = :slotId " +
-           "AND b.bookingStatus IN ('CONFIRMED', 'CHECKED_IN') " +
-           "AND b.expectedEndTime > :now " +
-           "AND b.expectedStartingTime > :now")
-    List<Booking> findUpcomingBookingsForSlot(
-            @Param("slotId") Long slotId,
-            @Param("now") LocalDateTime now);
+       "WHERE b.slotId = :slotId " +
+       "AND b.bookingStatus IN ('CONFIRMED', 'CHECKED_IN') " +
+       "AND b.expectedEndTime > :now " +  // ✅ Keep bookings that haven't ended
+       "ORDER BY b.expectedStartingTime ASC")
+List<Booking> findUpcomingBookingsForSlot(
+        @Param("slotId") Long slotId,
+        @Param("now") LocalDateTime now);
     
-    // Find overlapping bookings for a specific slot
+    // 🔧 FIX: Properly check for overlapping bookings
+    // Two time ranges overlap if: range1.start < range2.end AND range1.end > range2.start
+    // A booking overlaps with our requested time if:
+    // - The booking starts before our end time AND
+    // - The booking ends after our start time
     @Query("SELECT b FROM Booking b " +
            "WHERE b.slotId = :slotId " +
            "AND b.bookingStatus IN ('CONFIRMED', 'CHECKED_IN') " +
-           "AND (" +
-           "    (b.expectedStartingTime < :endTime AND b.expectedEndTime > :startTime) " +
-           ")")
+           "AND b.expectedStartingTime < :endTime " +
+           "AND b.expectedEndTime > :startTime")
     List<Booking> findOverlappingBookingsForSlot(
             @Param("slotId") Long slotId,
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime);
+    
+    // 🔧 FIX: Added method to find conflicting bookings for multiple slots at once
+    // This is more efficient for checking availability across multiple slots
+    // Uses the same overlap logic as above
+    @Query("SELECT b FROM Booking b " +
+           "WHERE b.slotId IN :slotIds " +
+           "AND b.bookingStatus IN ('CONFIRMED', 'CHECKED_IN') " +
+           "AND b.expectedStartingTime < :endTime " +
+           "AND b.expectedEndTime > :startTime")
+    List<Booking> findConflictingBookings(
+            @Param("slotIds") List<Long> slotIds,
             @Param("startTime") LocalDateTime startTime,
             @Param("endTime") LocalDateTime endTime);
     

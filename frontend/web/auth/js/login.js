@@ -41,11 +41,6 @@ async function loginUser(event) {
         deviceId: devId
     };
     
-    // Debug: Log the data being sent
-    console.log("=== LOGIN DEBUG INFO ===");
-    console.log("Data being sent to backend:", JSON.stringify(loginData, null, 2));
-    console.log("========================");
-    
     // Disable button and show loading state
     const submitBtn = document.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;

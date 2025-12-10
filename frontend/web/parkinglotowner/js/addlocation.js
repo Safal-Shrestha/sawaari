@@ -41,8 +41,6 @@ document.getElementById("locationForm").addEventListener("submit", async functio
 
         const result = await response.json();
 
-        // console.log(formData.getAll());
-
         if (result.status === "success") {
             alert(result.message);
             document.getElementById("locationForm").reset();

@@ -39,7 +39,9 @@ function distanceInMeters(lat1, lon1, lat2, lon2) {
 
 
 async function loadParkingInfo() {
-    try {
+  try {
+        const current = await getCurrentLocation();
+
         const res = await fetch("http://127.0.0.1:8080/api/parkingInfo", {
             method: "GET",
             headers: {
@@ -95,6 +97,16 @@ async function loadParkingInfo() {
 
         data.forEach(p => {
             const card = document.createElement("div");
+            const placeLat = p.latitude;
+            const placeLon = p.longitude;
+            const distance = distanceInMeters(
+              current.lat,
+              current.lon,
+              placeLat,
+              placeLon
+            );
+
+            // console.log(current.lat);
             card.className =
                 "bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 group";
 
@@ -105,7 +117,7 @@ async function loadParkingInfo() {
                 </div>
                 <div class="p-4">
                 <h4 class="text-lg font-semibold text-[var(--text-primary)] truncate">${p.location}</h4>
-                <p class="text-sm text-[var(--text-secondary)] mt-1">1.2 miles away</p>
+                <p class="text-sm text-[var(--text-secondary)] mt-1">${(distance/1000).toFixed(2)} kms away</p>
                 <div class="flex justify-between items-center mt-3">
                 <div>
                     <p class="text-lg font-bold text-[var(--primary-color)]">🚴Rs.${p.twoWheelerRatePerHour}<span class="text-sm font-normal text-[var(--text-secondary)]">/day</span></p>

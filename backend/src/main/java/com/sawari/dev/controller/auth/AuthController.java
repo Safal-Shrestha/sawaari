@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -66,8 +67,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> generateToken(@RequestBody LoginUser loginUser) throws AuthenticationException {
-        loginUser.getDeviceId();
-
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginUser.getUsername(),
@@ -86,11 +85,20 @@ public class AuthController {
             .secure(false)
             .sameSite("Lax")
             .path("/api/auth")
-            .maxAge(60 * 60 * 24 * 7)
+            .maxAge(7*24*60*60)
             .build();
+
+        ResponseCookie deviceCookie = ResponseCookie.from("deviceId", loginUser.getDeviceId())
+        .httpOnly(true)
+        .secure(false)
+        .sameSite("Lax")
+        .path("/api/auth")
+        .maxAge(7*24*60*60)
+        .build();
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .header(HttpHeaders.SET_COOKIE, deviceCookie.toString())
                 .body(Map.of(
                     "accessToken", accessToken,
                     "role", role
@@ -98,21 +106,23 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@CookieValue(value = "refreshToken", required = false) String refreshTokenCookie, @RequestBody RefreshRequest request) {
-        if (refreshTokenCookie == null) {
-            return ResponseEntity.badRequest().body("Missing refresh token.");
+    public ResponseEntity<?> refreshToken(
+        @CookieValue(value = "deviceId", required = false) String deviceId,
+        @CookieValue(value = "refreshToken", required = false) String refreshTokenCookie) {
+        if (refreshTokenCookie == null || deviceId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        RefreshToken storedToken = refreshTokenRepository.findByDeviceIdAndToken(request.getDeviceId(), refreshTokenCookie).orElse(null);
+        RefreshToken storedToken = refreshTokenRepository.findByDeviceIdAndToken(deviceId, refreshTokenCookie).orElse(null);
 
         if (storedToken == null) {
-            return ResponseEntity.badRequest().body("Invalid refresh token.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         // Check expiration
         if(refreshTokenService.isTokenExpired(storedToken)) {
             refreshTokenRepository.delete(storedToken);
-            return ResponseEntity.badRequest().body("Refresh token expired. Please login again.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         Users user = storedToken.getUser();
@@ -133,7 +143,7 @@ public class AuthController {
             .sameSite("Lax")
             .path("/api/auth")
             .maxAge(60 * 60 * 24 * 7)
-            .build();
+            .build();            
 
         return ResponseEntity.ok()
             .header(HttpHeaders.SET_COOKIE, newCookie.toString())
@@ -158,8 +168,18 @@ public class AuthController {
             .maxAge(0)
             .build();
 
+
+        ResponseCookie clearDeviceId = ResponseCookie.from("deviceId", "")
+            .httpOnly(true)
+            .secure(false)
+            .sameSite("lax")
+            .path("/api/auth")
+            .maxAge(0)
+            .build();
+
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, clearCookie.toString())
+                .header(HttpHeaders.SET_COOKIE, clearDeviceId.toString())
                 .body("Logged out successfully.");
     }
 }

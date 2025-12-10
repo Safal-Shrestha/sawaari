@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RefreshRequest {
     private Long userId;
-    private String deviceId;
     private String refreshToken;
 }

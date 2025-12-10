@@ -59,7 +59,7 @@
                     <div>
                         <div class="flex items-center gap-3 px-3 py-2">
                             <div class="h-8 w-8">
-                                <img src="../../logoofsawari.jpg" alt="Sawaari logo" class="h-8 w-8 object-contain"/>
+                                <img src="../logoofsawari.jpg" alt="Sawaari logo" class="h-8 w-8 object-contain"/>
                             </div>
                             <div class="flex flex-col">
                                 <h1 class="text-[#111418] dark:text-white text-base font-bold leading-normal">Sawaari</h1>
@@ -75,7 +75,7 @@
                                 <span class="material-symbols-outlined">calendar_month</span>
                                 <p class="text-sm font-medium leading-normal">Bookings</p>
                             </a>
-                            <a href="addLocation.html" class="flex items-center gap-3 px-3 py-2 rounded-lg active-nav-item text-primary">
+                            <a href="js/addLocation.html" class="flex items-center gap-3 px-3 py-2 rounded-lg active-nav-item text-primary">
                                 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_location_alt</span>
                                 <p class="text-sm font-medium leading-normal">Add Location</p>
                             </a>
@@ -178,6 +178,46 @@
                                 </div>
                             </div>
 
+                            <!-- Divider -->
+                            <hr class="my-8 border-t border-[#dbe0e6] dark:border-gray-700"/>
+                             
+                            <!-- Parking Rates -->
+                            <div>
+                                <h2 class="text-[#111418] dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-5">Parking Rates</h2>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <label class="flex flex-col col-span-1">
+                                        <p class="text-[#111418] dark:text-gray-200 text-base font-medium leading-normal pb-2">Car's Rate</p>
+                                        <input id="carRate" name="carRate" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-background-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-700 bg-white focus:border-primary h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal" placeholder="e.g., Rs. 50" required type="number" step="0.001" min="0" value=""/>
+                                        <div id="carRateError" class="form-error hidden">Please enter valid rate</div>
+                                    </label>
+                                    <label class="flex flex-col col-span-1">
+                                        <p class="text-[#111418] dark:text-gray-200 text-base font-medium leading-normal pb-2">Bike's Rate</p>
+                                        <input id="bikeRate" name="bikeRate" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-background-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-700 bg-white focus:border-primary h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal" placeholder="e.g., Rs. 20" required type="number" step="0.001" min="0" value=""/>
+                                        <div id="bikeRateError" class="form-error hidden">Please enter valid rate</div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Divider -->
+                            <hr class="my-8 border-t border-[#dbe0e6] dark:border-gray-700"/>
+                             
+                            <!-- Coordinates -->
+                            <div>
+                                <h2 class="text-[#111418] dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-5">Coordinates</h2>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <label class="flex flex-col col-span-1">
+                                        <p class="text-[#111418] dark:text-gray-200 text-base font-medium leading-normal pb-2">Latitude</p>
+                                        <input id="latitude" name="latitude" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-background-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-700 bg-white focus:border-primary h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal" placeholder="e.g., 27.717245379" required type="number" step="0.000001" min="0" value=""/>
+                                        <div id="latitudeError" class="form-error hidden">Please enter valid latitude</div>
+                                    </label>
+                                    <label class="flex flex-col col-span-1">
+                                        <p class="text-[#111418] dark:text-gray-200 text-base font-medium leading-normal pb-2">Longitude</p>
+                                        <input id="longitude" name="longitude" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-[#111418] dark:text-white dark:bg-background-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-[#dbe0e6] dark:border-gray-700 bg-white focus:border-primary h-14 placeholder:text-[#617589] p-[15px] text-base font-normal leading-normal" placeholder="e.g., 85.324032941" required type="number" step="0.000001" min="0" value=""/>
+                                        <div id="longitudeError" class="form-error hidden">Please enter valid longitude</div>
+                                    </label>
+                                </div>
+                            </div>
+
                             <!-- Form Actions -->
                             <div class="flex justify-end gap-4 mt-10">
                                 <button type="button" class="flex items-center justify-center rounded-lg px-6 py-3.5 text-base font-semibold leading-normal text-[#111418] dark:text-white bg-[#f0f2f4] dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">Cancel</button>
@@ -204,7 +244,7 @@
     </div>
 
     
-    <script src="addLocation.js"></script>
+    <script src="js/addLocation.js"></script>
 
 </body>
 </html>

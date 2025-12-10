@@ -2,6 +2,7 @@ package com.sawari.dev.controller.ParkingOwner;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -39,7 +40,8 @@ public class AddNewParking {
         this.slotRepository = slotRepository;
     }
 
-    @PostMapping("/addNewParking")
+    @PostMapping(value = "/addNewParking",
+    consumes = "multipart/form-data")
     @Transactional
     public ResponseEntity<?> addNewParking(
             @RequestParam("location") String plocation,
@@ -47,6 +49,10 @@ public class AddNewParking {
             @RequestParam("two_wheeler_space_count") int twoWheelerSpaceCount,
             @RequestParam("four_wheeler_space_count") int fourWheelerSpaceCount,
             @RequestParam("is_active") boolean isActive,
+            @RequestParam("latitude") String latitude,
+            @RequestParam("longitude") String longitude,
+            @RequestParam("bike_rate") String bikeRate,
+            @RequestParam("car_rate") String carRate,
             @RequestParam("image") MultipartFile parkingImage
     ) {
         Map<String, Object> response = new HashMap<>();
@@ -59,7 +65,6 @@ public class AddNewParking {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             Long authenticatedUserId = userDetails.getId();
             UserRole authenticatedUserRole = userDetails.getRole();
-            
         
             if (!authenticatedUserRole.toString().equals("PARKING_OWNER") && !authenticatedUserRole.toString().equals("ADMIN")) {
                 response.put("status", "error");
@@ -74,11 +79,10 @@ public class AddNewParking {
             }
 
             String imageName = UUID.randomUUID() + "_" + parkingImage.getOriginalFilename();
-            String uploadDir = new File("src/main/resources/static/parking_lot_images").getAbsolutePath();
+            String uploadDir = new File("backend/src/main/resources/static/parking_lot_images").getAbsolutePath();
 
             File destinationFile = new File(uploadDir + File.separator + imageName);
             parkingImage.transferTo(destinationFile);
-
           
             Parking parking = new Parking();
             parking.setActive(isActive);
@@ -88,8 +92,17 @@ public class AddNewParking {
             parking.setLocation(plocation);
             parking.setOwnerId(authenticatedUserId);
             parking.setImageLink("http://localhost:8080/parking_lot_images/" + imageName);
+            BigDecimal lat = new BigDecimal(latitude);
+            BigDecimal lon = new BigDecimal(longitude);
+            parking.setLatitude(lat);
+            parking.setLongitude(lon);
+            Double twoWheelerRate = Double.valueOf(bikeRate);
+            Double fourWheelerRate = Double.valueOf(carRate);
+            parking.setTwoWheelerRatePerHour(twoWheelerRate);
+            parking.setFourWheelerRatePerHour(fourWheelerRate);
 
-            Parking savedParking = parkingRepository.save(parking);
+            Parking savedParking;
+            savedParking = parkingRepository.save(parking);
 
             // slots create garna 
             for (int i = 1; i <= twoWheelerSpaceCount; i++) {

@@ -1,40 +1,40 @@
 package com.sawari.dev.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
+import org.hibernate.annotations.Immutable;
+
+import com.sawari.dev.dbtypes.BookingStatus;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Entity
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Immutable
 @Table(name = "analysis")
 public class Analysis {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long analysisId;
-
-    @Column(nullable = false)
     private Long bookingId;
+
     private Long userId;
     private Long parkingId;
     private Long slotId;
     private String vehicleId;
-    private Timestamp entryTime;
-    private Timestamp exitTime;
-    private String fineReason;
-    private int  durationMinutes;
-    private Double basePrice;
+    private LocalDateTime bookingDateTime;
+    private LocalDateTime expectedStartingTime;
+    private LocalDateTime expectedEndTime;
     private Double fineAmount;
     private Double totalAmount;
-    private Timestamp createdAt;
+
+    @Enumerated(EnumType.STRING)
+    private BookingStatus bookingStatus;
 }

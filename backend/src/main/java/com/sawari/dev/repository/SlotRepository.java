@@ -21,5 +21,8 @@ public interface SlotRepository extends JpaRepository<Slot, Long>{
     // Count reserved slots
     @Query("SELECT COUNT(s) FROM Slot s WHERE s.parkingId = :parkingId AND s.isReserved = true")
     int countReservedSlotsByParkingId(@Param("parkingId") Long parkingId);
+
+    @Query("SELECT COUNT(s) FROM Slot s WHERE s.isOccupied = true OR s.isReserved = true")
+    int countBookedSlots();
     
 }

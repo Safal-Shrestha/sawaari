@@ -26,7 +26,6 @@ public class Analysis {
     private Long bookingId;
 
     private Long userId;
-    private Long parkingId;
     private Long slotId;
     private String vehicleId;
     private LocalDateTime bookingDateTime;

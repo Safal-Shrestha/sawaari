@@ -56,23 +56,23 @@
 <dl class="divide-y divide-gray-200">
 <div class="py-5 sm:grid sm:grid-cols-3 sm:gap-4">
 <dt class="text-sm font-medium text-[var(--text-secondary)]">Location</dt>
-<dd class="mt-1 text-sm text-[var(--text-primary)] sm:col-span-2 sm:mt-0 font-semibold">Central Parking Garage, Downtown</dd>
+<dd id="location" class="mt-1 text-sm text-[var(--text-primary)] sm:col-span-2 sm:mt-0 font-semibold">Central </dd>
 </div>
 <div class="py-5 sm:grid sm:grid-cols-3 sm:gap-4">
 <dt class="text-sm font-medium text-[var(--text-secondary)]">Slot</dt>
-<dd class="mt-1 text-sm text-[var(--text-primary)] sm:col-span-2 sm:mt-0 font-semibold">Slot #34B</dd>
+<dd id="slot-number" class="mt-1 text-sm text-[var(--text-primary)] sm:col-span-2 sm:mt-0 font-semibold"></dd>
 </div>
 <div class="py-5 sm:grid sm:grid-cols-3 sm:gap-4">
 <dt class="text-sm font-medium text-[var(--text-secondary)]">Date &amp; Time</dt>
-<dd class="mt-1 text-sm text-[var(--text-primary)] sm:col-span-2 sm:mt-0 font-semibold">July 20, 2024, 10:00 AM - 2:00 PM</dd>
+<dd id="time" class="mt-1 text-sm text-[var(--text-primary)] sm:col-span-2 sm:mt-0 font-semibold">July 20, 2024, 10:00 AM - 2:00 PM</dd>
 </div>
 <div class="py-5 sm:grid sm:grid-cols-3 sm:gap-4">
 <dt class="text-sm font-medium text-[var(--text-secondary)]">Duration</dt>
-<dd class="mt-1 text-sm text-[var(--text-primary)] sm:col-span-2 sm:mt-0 font-semibold">4 hours</dd>
+<dd id="duration" class="mt-1 text-sm text-[var(--text-primary)] sm:col-span-2 sm:mt-0 font-semibold">4 hours</dd>
 </div>
 <div class="py-5 sm:grid sm:grid-cols-3 sm:gap-4 items-center">
 <dt class="text-sm font-medium text-[var(--text-secondary)]">Total Price</dt>
-<dd class="mt-1 text-xl font-bold text-[var(--text-primary)] sm:col-span-2 sm:mt-0">$20.00</dd>
+<dd id="total-price" class="mt-1 text-xl font-bold text-[var(--text-primary)] sm:col-span-2 sm:mt-0">$20.00</dd>
 </div>
 </dl>
 </div>
@@ -105,7 +105,7 @@
     </div>
   </div>
 </div>
-
+<script type="module" src="js/confirmation.js"></script>
 <script>
   function openSignOutModal() { const m = document.getElementById('signoutModal'); if(!m) return; m.classList.remove('hidden'); m.classList.add('flex'); }
   function closeSignOutModal() { const m = document.getElementById('signoutModal'); if(!m) return; m.classList.add('hidden'); m.classList.remove('flex'); }

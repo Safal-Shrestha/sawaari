@@ -9,7 +9,7 @@ const parkingId = parseInt(value, 10);
 async function loadParkingDetails() {
     try{
         const parkingByIdResponse = await refreshTokenService.get("/api/parkingById/"+parkingId);
-        const parkingData = await parkingByIdResponse.data;
+        const parkingData = parkingByIdResponse.data;
 
         const slotByParkingIdResponse = await refreshTokenService.get("/api/slotByParkingId/"+parkingId);
         const slotData = slotByParkingIdResponse.data;
@@ -137,8 +137,12 @@ async function submitReservation() {
     try{
         const slotId = document.getElementById("spot-id").value;
         const vehicleId = document.getElementById("vehicle-id").value;
-        const startTime = document.getElementById("start-time").value;
         const durationText = document.getElementById("duration").value;
+
+        const startTimeInput = document.getElementById("start-time").value;
+        const today = new Date().toISOString().split("T")[0];
+        const startTime = `${today}T${startTimeInput}:00`;
+
 
         let durationMinutes = 60;
         if (durationText.includes("30")) durationMinutes = 30;
@@ -156,21 +160,16 @@ async function submitReservation() {
         }
 
         const payload = {
-            slotId: parseInt(slotId),
+            slotId: Number(slotId),
             vehicleId: vehicleId,
             startTime: startTime,
             durationMinutes: durationMinutes
         };
 
-        console.log("Payload going to backend:", payload);
+        const res = await refreshTokenService.post("/api/bookSlot", payload);
 
-        // const res = await refreshTokenService.post("/api/bookSlot", payload);
-
-        // window.location.href = 'confirmation.html';
-
-
-        console.log("Backend response:", res.data);
-        alert("Reservation confirmed!");
+        localStorage.setItem("bookingDetails", JSON.stringify(res.data));
+        window.location.href = 'confirmation.html';
     }catch(err) {}
 }
 

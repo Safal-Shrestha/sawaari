@@ -75,7 +75,7 @@ public class GetParkingDetails {
 
     @GetMapping("/slotByParkingId/{id}")
     public List<Slot> getSlotDetails(@PathVariable Long id) {
-        return slotRepository.findByParkingId(id);
+        return slotRepository.findByParking_ParkingId(id);
     }
     
 }

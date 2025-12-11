@@ -32,9 +32,6 @@ public class Booking {
     @Column(name = "user_id", nullable = false)
     private Long userId;
     
-    @Column(name = "parking_id", nullable = false)
-    private Long parkingId;
-    
     // numeric DB id -> Long
     @Column(name = "slot_id", nullable = false)
     private Long slotId;

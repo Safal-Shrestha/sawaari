@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sawaari OTP Entry</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+      }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#136dec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101822",
+            },
+            fontFamily: {
+              "display": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+
+<body class="font-display">
+<div class="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark text-[#0d131b] dark:text-slate-50">
+<!-- Main Content Card -->
+<div class="w-full max-w-md rounded-xl bg-white dark:bg-[#1C2939] p-8 shadow-sm">
+<!-- Logo and Brand -->
+<div class="flex items-center justify-center gap-3 mb-6">
+<div class="size-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-[#0d131b] dark:text-slate-50 text-2xl font-bold leading-tight tracking-[-0.015em]">Sawaari</h2>
+</div>
+<!-- Headline -->
+<h1 class="text-[#0d131b] dark:text-slate-50 tracking-tight text-2xl font-bold leading-tight text-center pb-2 pt-4">Verify Your Account</h1>
+<!-- Body Text -->
+<p class="text-gray-600 dark:text-gray-400 text-base font-normal leading-normal pb-6 pt-1 text-center">We've sent a 6-digit code to <span class="font-medium text-[#0d131b] dark:text-slate-50">Your Email ID</span></p>
+<!-- Confirmation Code Inputs -->
+<div class="flex justify-center py-3">
+<fieldset class="relative flex gap-3 sm:gap-4">
+  <input class="flex h-14 w-12 text-center text-lg font-bold [appearance:textfield] focus:outline-0 focus:ring-2 focus:ring-primary dark:bg-background-dark dark:text-slate-50 dark:border-gray-600 dark:focus:border-primary rounded-lg border border-gray-300 [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" max="9" maxlength="1" min="0" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(this.value.length > 0 && this.nextElementSibling) { this.nextElementSibling.focus(); }" type="text" value="" />
+  <input class="flex h-14 w-12 text-center text-lg font-bold [appearance:textfield] focus:outline-0 focus:ring-2 focus:ring-primary dark:bg-background-dark dark:text-slate-50 dark:border-gray-600 dark:focus:border-primary rounded-lg border border-gray-300 [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" max="9" maxlength="1" min="0" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(this.value.length > 0 && this.nextElementSibling) { this.nextElementSibling.focus(); }" onkeydown="if(event.key === 'Backspace' && this.value === '') { this.previousElementSibling.focus(); }" type="text" value="" />
+  <input class="flex h-14 w-12 text-center text-lg font-bold [appearance:textfield] focus:outline-0 focus:ring-2 focus:ring-primary dark:bg-background-dark dark:text-slate-50 dark:border-gray-600 dark:focus:border-primary rounded-lg border border-gray-300 [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" max="9" maxlength="1" min="0" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(this.value.length > 0 && this.nextElementSibling) { this.nextElementSibling.focus(); }" onkeydown="if(event.key === 'Backspace' && this.value === '') { this.previousElementSibling.focus(); }" type="text" value="" />
+  <input class="flex h-14 w-12 text-center text-lg font-bold [appearance:textfield] focus:outline-0 focus:ring-2 focus:ring-primary dark:bg-background-dark dark:text-slate-50 dark:border-gray-600 dark:focus:border-primary rounded-lg border border-gray-300 [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" max="9" maxlength="1" min="0" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(this.value.length > 0 && this.nextElementSibling) { this.nextElementSibling.focus(); }" onkeydown="if(event.key === 'Backspace' && this.value === '') { this.previousElementSibling.focus(); }" type="text" value="" />
+  <input class="flex h-14 w-12 text-center text-lg font-bold [appearance:textfield] focus:outline-0 focus:ring-2 focus:ring-primary dark:bg-background-dark dark:text-slate-50 dark:border-gray-600 dark:focus:border-primary rounded-lg border border-gray-300 [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" max="9" maxlength="1" min="0" oninput="this.value=this.value.replace(/[^0-9]/g,''); if(this.value.length > 0 && this.nextElementSibling) { this.nextElementSibling.focus(); }" onkeydown="if(event.key === 'Backspace' && this.value === '') { this.previousElementSibling.focus(); }" type="text" value="" />
+  <input class="flex h-14 w-12 text-center text-lg font-bold [appearance:textfield] focus:outline-0 focus:ring-2 focus:ring-primary dark:bg-background-dark dark:text-slate-50 dark:border-gray-600 dark:focus:border-primary rounded-lg border border-gray-300 [&amp;::-webkit-inner-spin-button]:appearance-none [&amp;::-webkit-outer-spin-button]:appearance-none" max="9" maxlength="1" min="0" oninput="this.value=this.value.replace(/[^0-9]/g,'');" onkeydown="if(event.key === 'Backspace' && this.value === '') { this.previousElementSibling.focus(); }" type="text" value="" />
+</fieldset>
+</div>
+<!-- Primary Button -->
+<div class="flex justify-center py-3 pt-6">
+<button class="flex w-full min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-slate-50 text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 focus:ring-4 focus:ring-primary/40">
+<span class="truncate">Verify Code</span>
+</button>
+</div>
+<!-- Secondary Actions -->
+<div class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
+<p>Didn't receive the code? <a class="font-semibold text-primary hover:underline" href="#">Resend Code</a></p>
+</div>
+</div>
+</div>
+<script src="OTP.js"></script>
+
+</body></html>

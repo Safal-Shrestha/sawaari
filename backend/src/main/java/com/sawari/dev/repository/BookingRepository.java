@@ -43,7 +43,7 @@ List<Booking> findUpcomingBookingsForSlot(
             @Param("startTime") LocalDateTime startTime,
             @Param("endTime") LocalDateTime endTime);
     
-    // 🔧 FIX: Added method to find conflicting bookings for multiple slots at once
+    //  FIX: Added method to find conflicting bookings for multiple slots at once
     // This is more efficient for checking availability across multiple slots
     // Uses the same overlap logic as above
     @Query("SELECT b FROM Booking b " +

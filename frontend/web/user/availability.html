@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Sawaari - Parking Reservation</title>
+<title>Sawaari - Parking Availability</title>
 <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -88,7 +88,7 @@
 </div>
 </div>
 </div>
-<div class="space-y-8" x-data="{ open: false }">
+<div class="space-y-6" x-data="{ open: false }">
 <div class="bg-white rounded-xl shadow-md p-6">
 <h3 class="text-xl font-bold text-[var(--text-primary)] mb-4">Availability</h3>
 <div class="space-y-3">
@@ -139,21 +139,39 @@
 </div>
 </div>
 <div class="bg-white rounded-xl shadow-md p-6">
-<h3 class="text-xl font-bold text-[var(--text-primary)] mb-4">Your Selection</h3>
-<div class="bg-[var(--secondary-color)] rounded-lg p-4 flex items-center justify-between">
+<h3 class="text-xl font-bold text-[var(--text-primary)] mb-4">Reservation Details</h3>
+<form class="space-y-4">
 <div>
-<p class="font-bold text-[var(--primary-color)] text-lg">Spot A4</p>
-<p class="text-sm text-[var(--text-secondary)]">Section A, Row 4</p>
+<label class="block text-sm font-medium text-[var(--text-secondary)]" for="spot-selection">Parking Spot</label>
+<input class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring focus:ring-[var(--primary-color)] focus:ring-opacity-50" id="spot-selection" readonly="" type="text" value="A4"/>
 </div>
-<button class="text-[var(--text-secondary)] hover:text-red-500 transition-colors">
-<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
-<path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
-</svg>
-</button>
+<div>
+<label class="block text-sm font-medium text-[var(--text-secondary)]" for="vehicle-id">Vehicle ID</label>
+<select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring focus:ring-[var(--primary-color)] focus:ring-opacity-50" id="vehicle-id">
+<option>Toyota Camry - ABC-123</option>
+<option>Honda Civic - XYZ-789</option>
+<option>Add new vehicle...</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-medium text-[var(--text-secondary)]" for="start-time">Starting Time</label>
+<input class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring focus:ring-[var(--primary-color)] focus:ring-opacity-50" id="start-time" type="time" value="14:30"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-[var(--text-secondary)]" for="duration">Expected Duration</label>
+<select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring focus:ring-[var(--primary-color)] focus:ring-opacity-50" id="duration">
+<option>30 minutes</option>
+<option selected="">1 hour</option>
+<option>2 hours</option>
+<option>3 hours</option>
+</select>
+</div>
 </div>
 <button class="w-full mt-6 bg-[var(--primary-color)] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[var(--accent-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50 transition ease-in-out duration-150" id="confirmReservationBtn" type="button">
-                  Confirm Reservation
-                </button>
+                                Confirm Reservation
+                            </button>
+</form>
 </div>
 </div>
 </div>
@@ -170,24 +188,32 @@ document.getElementById('confirmReservationBtn').addEventListener('click', funct
 </script>
 <!-- Sign Out Confirmation Modal -->
 <div id="signoutModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
-  <div class="bg-white rounded-lg shadow-lg w-full max-w-sm mx-4">
-    <div class="p-6">
-      <h3 class="text-lg font-semibold text-gray-900">Confirm Sign Out</h3>
-      <p class="mt-2 text-sm text-gray-600">Are you sure you want to sign out? You will be redirected to the login page.</p>
-      <div class="mt-6 flex justify-end gap-3">
-        <button type="button" onclick="closeSignOutModal()" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-800 hover:bg-gray-200">Cancel</button>
-        <button type="button" onclick="confirmSignOut()" class="px-4 py-2 rounded-lg bg-[var(--primary-color)] text-white hover:bg-[var(--accent-color)]">Sign Out</button>
-      </div>
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-sm mx-4">
+        <div class="p-6">
+            <h3 class="text-lg font-semibold text-gray-900">Confirm Sign Out</h3>
+            <p class="mt-2 text-sm text-gray-600">Are you sure you want to sign out? You will be redirected to the login page.</p>
+            <div class="mt-6 flex justify-end gap-3">
+                <button type="button" onclick="closeSignOutModal()" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-800 hover:bg-gray-200">Cancel</button>
+                <button type="button" onclick="confirmSignOut()" class="px-4 py-2 rounded-lg bg-[var(--primary-color)] text-white hover:bg-[var(--accent-color)]">Sign Out</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <script type="module" src="js/individualParkingDetail.js"></script>
 
 <script>
-  function openSignOutModal() { const m = document.getElementById('signoutModal'); if(!m) return; m.classList.remove('hidden'); m.classList.add('flex'); }
-  function closeSignOutModal() { const m = document.getElementById('signoutModal'); if(!m) return; m.classList.add('hidden'); m.classList.remove('flex'); }
-  function confirmSignOut() { window.location.href = '../../Auth/index.html'; }
+    function openSignOutModal() {
+        document.getElementById('signoutModal').classList.remove('hidden');
+        document.getElementById('signoutModal').classList.add('flex');
+    }
+    function closeSignOutModal() {
+        document.getElementById('signoutModal').classList.add('hidden');
+        document.getElementById('signoutModal').classList.remove('flex');
+    }
+    function confirmSignOut() {
+        window.location.href = '../../Auth/index.html';
+    }
 </script>
 
 </body></html>

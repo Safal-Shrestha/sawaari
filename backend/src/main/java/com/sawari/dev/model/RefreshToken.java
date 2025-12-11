@@ -1,7 +1,8 @@
 package com.sawari.dev.model;
 
-import java.time.Instant;
 
+
+import java.time.Instant;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

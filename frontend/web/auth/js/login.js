@@ -62,10 +62,6 @@ async function loginUser(event) {
         if (response.ok) {
             showMessage("Login successful! Redirecting to dashboard...", "success");
             
-<<<<<<< HEAD
-=======
-            
->>>>>>> origin/master
             const data = await response.json();
             const accessToken = data.accessToken;
 

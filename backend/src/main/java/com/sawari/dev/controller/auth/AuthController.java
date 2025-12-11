@@ -24,7 +24,6 @@ import com.sawari.dev.jwtimpl.TokenProvider;
 import com.sawari.dev.model.RefreshToken;
 import com.sawari.dev.model.Users;
 import com.sawari.dev.model.dto.LoginUser;
-import com.sawari.dev.model.dto.RefreshRequest;
 import com.sawari.dev.repository.RefreshTokenRepository;
 import com.sawari.dev.repository.UsersRepository;
 import com.sawari.dev.service.CustomUserDetails;

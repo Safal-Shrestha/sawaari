@@ -29,7 +29,6 @@ import com.sawari.dev.service.CustomUserDetails;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*")
 public class AddNewParking {
 
     private final ParkingRepository parkingRepository;

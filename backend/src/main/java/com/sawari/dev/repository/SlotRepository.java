@@ -1,15 +1,17 @@
 package com.sawari.dev.repository;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import java.time.LocalDateTime;
-import java.util.Optional;
-import org.springframework.data.jpa.repository.Lock;
 
 import com.sawari.dev.dbtypes.VehicleModel;
 import com.sawari.dev.model.Slot;
+
+import jakarta.persistence.LockModeType;
 
 public interface SlotRepository extends JpaRepository<Slot, Long>{
     List<Slot> findByParkingId(Long parkingId);
@@ -29,8 +31,6 @@ public interface SlotRepository extends JpaRepository<Slot, Long>{
     @Query("SELECT COUNT(s) FROM Slot s WHERE s.isOccupied = true OR s.isReserved = true")
     int countBookedSlots();
     
-    List<Slot> findByParkingId(Long parkingId);
-    
     // Find slots by parking and type that are not occupied or reserved
     List<Slot> findByParkingIdAndSlotTypeAndIsOccupiedFalseAndIsReservedFalse(
             Long parkingId, VehicleModel slotType);
@@ -43,18 +43,6 @@ public interface SlotRepository extends JpaRepository<Slot, Long>{
     
     // Find slots by ID list that are not reserved
     List<Slot> findBySlotIdInAndIsReservedFalse(List<Long> slotIds);
-    
-    // Count available slots for a parking
-    @Query("SELECT COUNT(s) FROM Slot s WHERE s.parkingId = :parkingId AND s.isOccupied = false AND s.isReserved = false")
-    int countAvailableSlotsByParkingId(@Param("parkingId") Long parkingId);
-    
-    // Count occupied slots
-    @Query("SELECT COUNT(s) FROM Slot s WHERE s.parkingId = :parkingId AND s.isOccupied = true")
-    int countOccupiedSlotsByParkingId(@Param("parkingId") Long parkingId);
-    
-    // Count reserved slots
-    @Query("SELECT COUNT(s) FROM Slot s WHERE s.parkingId = :parkingId AND s.isReserved = true")
-    int countReservedSlotsByParkingId(@Param("parkingId") Long parkingId);
     
     // Time-based availability query - excludes slots with overlapping bookings
     @Query("SELECT s FROM Slot s " +

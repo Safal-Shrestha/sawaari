@@ -1,6 +1,5 @@
 package com.sawari.dev.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.sawari.dev.dbtypes.BookingStatus;
@@ -53,14 +52,11 @@ public class Booking {
     @Column(name = "expected_end_time", nullable = false)
     private LocalDateTime expectedEndTime;
     
-    @Column(name = "base_price", nullable = false, precision = 10, scale = 2)
-    private BigDecimal basePrice;
+    @Column(name = "fine_amount")
+    private Double fineAmount;
     
-    @Column(name = "fine_amount", precision = 10, scale = 2)
-    private BigDecimal fineAmount;
-    
-    @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
-    private BigDecimal totalAmount;
+    @Column(name = "total_amount", nullable = false)
+    private Double totalAmount;
     
     @Enumerated(EnumType.STRING)
     @Column(name = "booking_status", nullable = false)
@@ -72,7 +68,7 @@ public class Booking {
             bookingDateTime = LocalDateTime.now();
         }
         if (fineAmount == null) {
-            fineAmount = BigDecimal.ZERO;
+            fineAmount = 0D;
         }
     }
 }

@@ -1,4 +1,4 @@
-const accessToken = sessionStorage.getItem("accessToken");
+import refreshTokenService from "../../auth/js/refreshtoken.js";
 
 function getCurrentLocation() {
   return new Promise((resolve, reject) => {
@@ -42,32 +42,17 @@ async function loadParkingInfo() {
   try {
         const current = await getCurrentLocation();
 
-        const res = await fetch("http://127.0.0.1:8080/api/parkingInfo", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${accessToken}`
-            }
-        });
+        const res = await refreshTokenService.get("/api/parkingInfo");
 
-        const data = await res.json();
+        const data = await res.data;
 
-        const slotResponse = await fetch("http://127.0.0.1:8080/api/slotInfo", {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${accessToken}`
-            }
-        });
+        const slotResponse = await refreshTokenService.get("/api/slotInfo");
 
-        const slotData = await slotResponse.json();
+        const slotData = await slotResponse.data;
 
-        const monthlySpendingResponse = await fetch("http://127.0.0.1:8080/api/monthlySpending", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${accessToken}`
-            }
-        });
+        const monthlySpendingResponse = await refreshTokenService.post("http://127.0.0.1:8080/api/monthlySpending");
 
-        const monthlySpendingData = await monthlySpendingResponse.json();
+        const monthlySpendingData = await monthlySpendingResponse.data;
 
         // Overview elements
         const availableLocationsEl = document.getElementById("availableLocations");
@@ -106,7 +91,6 @@ async function loadParkingInfo() {
               placeLon
             );
 
-            // console.log(current.lat);
             card.className =
                 "bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 group";
 
@@ -123,7 +107,7 @@ async function loadParkingInfo() {
                     <p class="text-lg font-bold text-[var(--primary-color)]">🚴Rs.${p.twoWheelerRatePerHour}<span class="text-sm font-normal text-[var(--text-secondary)]">/day</span></p>
                     <p class="text-lg font-bold text-[var(--primary-color)]">🚘Rs.${p.fourWheelerRatePerHour}<span class="text-sm font-normal text-[var(--text-secondary)]">/day</span></p>
                 </div>
-                <a class="bg-[var(--primary-color)] text-white px-4 py-2 text-sm font-semibold rounded-lg hover:bg-[var(--accent-color)]/80 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50 transition ease-in-out duration-150" href="availability.html">View Slots</a>
+                <a class="bg-[var(--primary-color)] text-white px-4 py-2 text-sm font-semibold rounded-lg hover:bg-[var(--accent-color)]/80 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-opacity-50 transition ease-in-out duration-150" href="availability.html?id=${p.parkingId}">View Slots</a>
                 </div>
                 </div>
             `;

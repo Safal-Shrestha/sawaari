@@ -1,3 +1,5 @@
+import refreshTokenService from "../../auth/js/refreshtoken.js";
+
 const accessToken = sessionStorage.getItem("accessToken");
 
 document.getElementById("locationImage").addEventListener("change", function () {
@@ -31,12 +33,10 @@ document.getElementById("locationForm").addEventListener("submit", async functio
     formData.append("image", document.getElementById("locationImage").files[0]);
 
     try {
-        const response = await fetch("http://localhost:8080/api/addNewParking", {
-            method: "POST",
+        const response = await refreshTokenService.post("/api/addNewParking", formData, {
             headers: {
                 "Authorization": `Bearer ${accessToken}`
-            },
-            body: formData
+            }
         });
 
         const result = await response.json();

@@ -1,9 +1,11 @@
+import refreshTokenService from "../../auth/js/refreshtoken.js";
+
 async function fetchOwnerParking() {
     try {
         // Hard-coded owner_id for now
         const ownerId = 7;
 
-        const response = await fetch(`http://localhost:8080/api/ownerParking?owner_id=${ownerId}`);
+        const response = await refreshTokenService.post(`/api/ownerParking?owner_id=${ownerId}`);
         const result = await response.json();
 
         const container = document.getElementById("ownerParkingContainer");

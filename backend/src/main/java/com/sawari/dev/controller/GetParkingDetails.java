@@ -8,7 +8,6 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sawari.dev.model.Parking;
+import com.sawari.dev.model.Slot;
 import com.sawari.dev.repository.AnalysisRepository;
 import com.sawari.dev.repository.ParkingRepository;
 import com.sawari.dev.repository.SlotRepository;
@@ -23,7 +23,7 @@ import com.sawari.dev.service.CustomUserDetails;
 
 import lombok.AllArgsConstructor;
 
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api")
@@ -72,4 +72,10 @@ public class GetParkingDetails {
 
         return ResponseEntity.ok(parkingInfo);
     }
+
+    @GetMapping("/slotByParkingId/{id}")
+    public List<Slot> getSlotDetails(@PathVariable Long id) {
+        return slotRepository.findByParkingId(id);
+    }
+    
 }

@@ -59,8 +59,8 @@
 <div class="p-6">
 <div class="flex flex-col md:flex-row md:items-center md:justify-between">
 <div>
-<h2 class="text-3xl font-bold text-[var(--text-primary)]">Parking Lot A</h2>
-<p class="text-[var(--text-secondary)] mt-1">123 Main Street, Anytown</p>
+<h2 id="parkingName" class="text-3xl font-bold text-[var(--text-primary)]">Parking Lot A</h2>
+<p id="parkingAddress" class="text-[var(--text-secondary)] mt-1">123 Main Street, Anytown</p>
 </div>
 <div class="flex items-center gap-4 mt-4 md:mt-0 flex-wrap">
 <div class="flex items-center gap-2">
@@ -69,11 +69,11 @@
 </div>
 <div class="flex items-center gap-2">
 <span class="w-3 h-3 rounded-full bg-red-500"></span>
-<span class="text-sm text-[var(--text-secondary)]">Unavailable</span>
+<span class="text-sm text-[var(--text-secondary)]">Occupied</span>
 </div>
 <div class="flex items-center gap-2">
 <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
-<span class="text-sm text-[var(--text-secondary)]">Partially Booked</span>
+<span class="text-sm text-[var(--text-secondary)]">Reserved</span>
 </div>
 <div class="flex items-center gap-2">
 <span class="w-3 h-3 rounded-full bg-blue-500"></span>
@@ -83,27 +83,7 @@
 </div>
 </div>
 <div class="p-6 bg-gray-50">
-<div class="grid grid-cols-8 gap-4">
-<div class="bg-green-100 border-2 border-green-500 rounded-lg flex items-center justify-center aspect-square text-green-700 font-bold cursor-pointer hover:bg-green-200 transition">A1</div>
-<div class="bg-red-100 border-2 border-red-500 rounded-lg flex items-center justify-center aspect-square text-red-700 font-bold">A2</div>
-<div class="bg-green-100 border-2 border-green-500 rounded-lg flex items-center justify-center aspect-square text-green-700 font-bold cursor-pointer hover:bg-green-200 transition">A3</div>
-<div class="bg-blue-100 border-2 border-blue-500 rounded-lg flex items-center justify-center aspect-square text-blue-700 font-bold cursor-pointer hover:bg-blue-200 transition">A4</div>
-<div class="col-span-2 flex items-center justify-center bg-gray-200 rounded-lg font-semibold text-gray-500">ENTRANCE</div>
-<div class="bg-green-100 border-2 border-green-500 rounded-lg flex items-center justify-center aspect-square text-green-700 font-bold cursor-pointer hover:bg-green-200 transition">A5</div>
-<div class="bg-green-100 border-2 border-green-500 rounded-lg flex items-center justify-center aspect-square text-green-700 font-bold cursor-pointer hover:bg-green-200 transition">A6</div>
-<div class="bg-green-100 border-2 border-green-500 rounded-lg flex items-center justify-center aspect-square text-green-700 font-bold cursor-pointer hover:bg-green-200 transition">B1</div>
-<div class="bg-red-100 border-2 border-red-500 rounded-lg flex items-center justify-center aspect-square text-red-700 font-bold">B2</div>
-<div class="bg-yellow-100 border-2 border-yellow-400 rounded-lg flex items-center justify-center aspect-square text-yellow-700 font-bold cursor-pointer hover:bg-yellow-200 transition">B3</div>
-<div class="bg-green-100 border-2 border-green-500 rounded-lg flex items-center justify-center aspect-square text-green-700 font-bold cursor-pointer hover:bg-green-200 transition">B4</div>
-<div class="bg-red-100 border-2 border-red-500 rounded-lg flex items-center justify-center aspect-square text-red-700 font-bold">B5</div>
-<div class="bg-green-100 border-2 border-green-500 rounded-lg flex items-center justify-center aspect-square text-green-700 font-bold cursor-pointer hover:bg-green-200 transition">B6</div>
-<div class="bg-yellow-100 border-2 border-yellow-400 rounded-lg flex items-center justify-center aspect-square text-yellow-700 font-bold cursor-pointer hover:bg-yellow-200 transition">C1</div>
-<div class="bg-green-100 border-2 border-green-500 rounded-lg flex items-center justify-center aspect-square text-green-700 font-bold cursor-pointer hover:bg-green-200 transition">C2</div>
-<div class="bg-red-100 border-2 border-red-500 rounded-lg flex items-center justify-center aspect-square text-red-700 font-bold">C3</div>
-<div class="bg-green-100 border-2 border-green-500 rounded-lg flex items-center justify-center aspect-square text-green-700 font-bold cursor-pointer hover:bg-green-200 transition">C4</div>
-<div class="col-span-2 flex items-center justify-center bg-gray-200 rounded-lg font-semibold text-gray-500">EXIT</div>
-<div class="bg-green-100 border-2 border-green-500 rounded-lg flex items-center justify-center aspect-square text-green-700 font-bold cursor-pointer hover:bg-green-200 transition">C5</div>
-<div class="bg-red-100 border-2 border-red-500 rounded-lg flex items-center justify-center aspect-square text-red-700 font-bold">C6</div>
+<div id="slot-list" class="grid grid-cols-8 gap-4">
 </div>
 </div>
 </div>
@@ -114,17 +94,17 @@
 <div class="space-y-3">
 <div class="flex justify-between items-center">
 <p class="text-[var(--text-secondary)]">Total Spots</p>
-<p class="font-bold text-[var(--text-primary)]">18</p>
+<p id="totalSlots" class="font-bold text-[var(--text-primary)]">18</p>
 </div>
 <div class="flex justify-between items-center">
 <p class="text-green-600">Available</p>
-<p class="font-bold text-green-600">10</p>
+<p id="availableSlots" class="font-bold text-green-600">10</p>
 </div>
 <div class="relative">
 <button @click="open = !open" class="flex justify-between items-center w-full" type="button">
-<p class="text-red-600">Unavailable</p>
+<p class="text-red-600">Occupied</p>
 <div class="flex items-center gap-2">
-<p class="font-bold text-red-600">5</p>
+<p id="bookedSlots" class="font-bold text-red-600">5</p>
 <svg :class="{ 'rotate-180': open }" class="w-4 h-4 text-red-600 transition-transform" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
 <path clip-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" fill-rule="evenodd"></path>
 </svg>
@@ -151,12 +131,11 @@
 </div>
 </div>
 <div class="flex justify-between items-center">
-<p class="text-yellow-600">Partially Booked</p>
-<p class="font-bold text-yellow-600">2</p>
+<p class="text-yellow-600">Reserved</p>
+<p id="reservedSlots" class="font-bold text-yellow-600">2</p>
 </div>
 </div>
-<div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
-<div class="bg-green-500 h-2.5 rounded-full" style="width: 55%"></div>
+<div id="availabilityBar" class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
 </div>
 </div>
 <div class="bg-white rounded-xl shadow-md p-6">
@@ -202,6 +181,8 @@ document.getElementById('confirmReservationBtn').addEventListener('click', funct
     </div>
   </div>
 </div>
+
+<script type="module" src="js/individualParkingDetail.js"></script>
 
 <script>
   function openSignOutModal() { const m = document.getElementById('signoutModal'); if(!m) return; m.classList.remove('hidden'); m.classList.add('flex'); }

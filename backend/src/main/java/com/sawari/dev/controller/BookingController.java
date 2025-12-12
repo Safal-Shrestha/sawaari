@@ -46,7 +46,7 @@ public class BookingController {
         LocalDateTime endTime = request.getStartTime().plusMinutes(request.getDurationMinutes());
 
         Double basePrice = slotRepository.findBasePriceBySlotId(request.getSlotId());
-        Double totalPrice = basePrice*(request.getDurationMinutes()/60.0);
+        Double totalPrice = basePrice * (request.getDurationMinutes() / 60.0);
 
         Booking newBooking = new Booking();
         newBooking.setUserId(authenticatedUserId);
@@ -66,7 +66,7 @@ public class BookingController {
         String formattedEnd = newBooking.getExpectedEndTime().format(DateTimeFormatter.ofPattern("hh:mm a"));
 
         Map<String, Object> response = new HashMap<>();
-        
+
         response.put("location", slotRepository.getParkingNameBySlotId(request.getSlotId()));
         response.put("slotNumber", request.getSlotId());
         response.put("time", formattedStart + " - " + formattedEnd);

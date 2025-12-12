@@ -1,4 +1,11 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.project.referencedLibraries": {
+        "include": ["lib/**/*.jar"],
+        "exclude": ["lib/excluded-library.jar"]
+    },
+    "[java]": {
+        "editor.defaultFormatter": "redhat.java",
+        "editor.formatOnSave": true
+    },
     "java.compile.nullAnalysis.mode": "automatic"
 }
